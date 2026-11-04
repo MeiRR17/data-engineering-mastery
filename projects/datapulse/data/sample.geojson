@@ -1,0 +1,9 @@
+{
+  "type": "FeatureCollection",
+  "metadata": {"title": "Synthetic USGS-shaped training fixture; not real events", "count": 3},
+  "features": [
+    {"type":"Feature","id":"demo-a1","properties":{"type":"earthquake","time":1793628000000,"updated":1793628300000,"mag":4.6,"place":"Demo: Northern Region","url":"https://earthquake.usgs.gov/earthquakes/eventpage/demo-a1"},"geometry":{"type":"Point","coordinates":[-122.2,38.2,8.1]}},
+    {"type":"Feature","id":"demo-b2","properties":{"type":"earthquake","time":1793638000000,"updated":1793638300000,"mag":3.2,"place":"Demo: Coastal Region","url":"https://earthquake.usgs.gov/earthquakes/eventpage/demo-b2"},"geometry":{"type":"Point","coordinates":[142.3,36.1,12.7]}},
+    {"type":"Feature","id":"demo-c3","properties":{"type":"earthquake","time":1793648000000,"updated":1793648300000,"mag":null,"place":"Demo: Central Region","url":"https://earthquake.usgs.gov/earthquakes/eventpage/demo-c3"},"geometry":{"type":"Point","coordinates":[-71.3,-33.6,18.2]}}
+  ]
+}

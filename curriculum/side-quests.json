@@ -1,0 +1,114 @@
+[
+  {
+    "stage": "00",
+    "title": "הבלש של המחשב",
+    "hook": "למה צריך RAM כדי להריץ Kafka?",
+    "challenge": "הסבר כיצד מערכת הפעלה, זיכרון ודיסק מגבילים Pipeline; השווה לדרישות מקומיות",
+    "cs": "operating-systems",
+    "minutes": 15
+  },
+  {
+    "stage": "01",
+    "title": "המירוץ נגד האינדקס",
+    "hook": "100,000 שורות: למה query איטי?",
+    "challenge": "השווה EXPLAIN לפני ואחרי אינדקס וציין מחיר כתיבה",
+    "cs": "algorithms",
+    "minutes": 20
+  },
+  {
+    "stage": "02",
+    "title": "פיצוץ השעון",
+    "hook": "אירוע ב-UTC משנה יום לפי אזור זמן",
+    "challenge": "בדוק אזורי זמן ושינוי שעון במסד נתונים",
+    "cs": "databases",
+    "minutes": 15
+  },
+  {
+    "stage": "03",
+    "title": "הכפיל המסתורי",
+    "hook": "אותו אירוע מגיע שלוש פעמים",
+    "challenge": "שבור idempotency, צור בדיקה אדומה ואז תקן",
+    "cs": "distributed-systems",
+    "minutes": 20
+  },
+  {
+    "stage": "04",
+    "title": "האורח האנונימי",
+    "hook": "האם מפתח ציבורי מסוגל לקרוא הכל?",
+    "challenge": "תכנן negative RLS test בסביבה נפרדת",
+    "cs": "security",
+    "minutes": 20
+  },
+  {
+    "stage": "05",
+    "title": "מסע בזמן",
+    "hook": "אתמול הלקוח היה בארץ אחרת — מה מציג הדוח?",
+    "challenge": "מודל היסטוריה SCD2 ו-as-of query",
+    "cs": "databases",
+    "minutes": 20
+  },
+  {
+    "stage": "06",
+    "title": "ה־DAG הלא אפשרי",
+    "hook": "משימה A תלויה ב-B ולהפך",
+    "challenge": "אתר cycle במבנה גרף",
+    "cs": "algorithms",
+    "minutes": 15
+  },
+  {
+    "stage": "07",
+    "title": "סטטיסטיקה משקרת?",
+    "hook": "חוק איכות מסמן 20% מהמידע כחריג",
+    "challenge": "מדוד false positive והגדר threshold מתוקן",
+    "cs": "statistics",
+    "minutes": 20
+  },
+  {
+    "stage": "08",
+    "title": "מדד אחד — שתי תשובות",
+    "hook": "דשבורדים שונים מציגים מספרים שונים",
+    "challenge": "הגדר metric contract ובדוק grain",
+    "cs": "architecture",
+    "minutes": 15
+  },
+  {
+    "stage": "09",
+    "title": "פריסה ששברה הכל",
+    "hook": "מיגרציה עבדה מקומית ונכשלה בענן",
+    "challenge": "נתח backwards-compatible migration ו-rollback",
+    "cs": "architecture",
+    "minutes": 20
+  },
+  {
+    "stage": "10",
+    "title": "הענק האיטי",
+    "hook": "למה Spark איטי יותר מ-DuckDB על קובץ קטן?",
+    "challenge": "השווה זמן startup / IO / computation",
+    "cs": "operating-systems",
+    "minutes": 20
+  },
+  {
+    "stage": "11",
+    "title": "הודעה מהעבר",
+    "hook": "אירוע עתיק הגיע אחרי האירוע החדש",
+    "challenge": "הדגם ordering ו-watermark",
+    "cs": "distributed-systems",
+    "minutes": 20
+  },
+  {
+    "stage": "12",
+    "title": "חמש דקות ל-SLO",
+    "hook": "הפייפליין איחר אבל הנתונים נכונים",
+    "challenge": "חשב freshness error budget והצע alert",
+    "cs": "statistics",
+    "minutes": 20
+  },
+  {
+    "stage": "13",
+    "title": "אתגר הראיון",
+    "hook": "המראיין אומר פי 100 נתונים מחר",
+    "challenge": "נמק 3 פתרונות לפי latency, cost ו-ops",
+    "cs": "architecture",
+    "minutes": 20
+  }
+]

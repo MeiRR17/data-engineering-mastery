@@ -1,0 +1,31 @@
+name: Learning stage
+about: Track a learning module in your own repository
+labels: [learning]
+body:
+  - type: input
+    id: stage
+    attributes:
+      label: Stage ID
+      placeholder: '03 — Batch ETL'
+    validations:
+      required: true
+  - type: textarea
+    id: goal
+    attributes:
+      label: Goal and practical output
+      description: What can you demonstrate independently?
+    validations:
+      required: true
+  - type: textarea
+    id: cs
+    attributes:
+      label: Computer Science bridge + optional side quest
+  - type: textarea
+    id: done
+    attributes:
+      label: Definition of Done / assessment evidence
+      value: '- [ ] Tests pass
+- [ ] I can explain the design without AI
+- [ ] Secrets and private information are excluded'
+    validations:
+      required: true

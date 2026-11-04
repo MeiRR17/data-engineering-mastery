@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="DataPulse — פרויקט Data Engineering מעשי עם USGS, Python ו-Supabase" />
+    <title>DataPulse | Global Seismic Data</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <script defer src="./config.local.js"></script>
+    <script defer src="./app.js"></script>
+  </head>
+  <body>
+    <div class="shell">
+      <header class="topbar">
+        <div class="brand"><div class="brand-icon">◈</div><div><strong>DataPulse</strong><small>GLOBAL SEISMIC DATA · SUPABASE</small></div></div>
+        <div class="actions"><span class="source-label">מקור: USGS</span><button id="refresh" type="button">↻ רענן נתונים</button></div>
+      </header>
+      <main>
+        <section class="intro">
+          <div class="eyebrow">DATA ENGINEERING · LIVE ANALYTICS</div>
+          <h1>מה קורה מתחת לפני השטח?</h1>
+          <p>מידע על פעילות סייסמית בעולם. נתונים שנאספים אוטומטית, עוברים בדיקות איכות ונשמרים ב־Supabase PostgreSQL.</p>
+          <div class="status"><span id="dot" class="dot"></span><span id="status" role="status" aria-live="polite">טוען נתונים…</span></div>
+        </section>
+        <section class="kpis" aria-label="מדדים מרכזיים">
+          <article class="metric"><span>אירועים ב־14 הימים המוצגים</span><strong id="event-count">—</strong><small>בהתאם לימי הנתונים הזמינים</small></article>
+          <article class="metric"><span>עוצמה מרבית</span><strong id="max-mag">—</strong><small>Magnitude</small></article>
+          <article class="metric"><span>ממוצע עוצמה</span><strong id="avg-mag">—</strong><small>באירועים עם עוצמה מדווחת</small></article>
+          <article class="metric"><span>רשומה אחרונה</span><strong id="last-event">—</strong><small>שעון UTC</small></article>
+        </section>
+        <section class="panels">
+          <article class="panel chart-panel"><div class="panel-head"><div><div class="eyebrow">TIME SERIES</div><h2>מספר אירועים לפי יום</h2></div><span class="subtle">UTC</span></div><div id="chart" class="bar-chart" aria-label="גרף אירועים לפי יום"></div></article>
+          <article class="panel about-panel"><div class="panel-head"><div><div class="eyebrow">THE PIPELINE</div><h2>איך המידע מגיע לכאן?</h2></div></div>
+            <ol class="steps">
+              <li><span>01</span><div><b>Extract</b><p>שליפת GeoJSON מ־USGS באמצעות Python.</p></div></li>
+              <li><span>02</span><div><b>Validate</b><p>סכמות, מיקום, זמנים, כפילויות ו־Checksums.</p></div></li>
+              <li><span>03</span><div><b>Load</b><p>כתיבה אטומית ל־Raw ולנתונים מעובדים.</p></div></li>
+              <li><span>04</span><div><b>Serve</b><p>PostgreSQL View מאובטח וממשק REST.</p></div></li>
+            </ol>
+          </article>
+        </section>
+        <section class="panel table-panel"><div class="panel-head"><div><div class="eyebrow">LATEST RECORDS</div><h2>אירועים אחרונים</h2></div><input id="filter" type="search" placeholder="סנן לפי אזור…" aria-label="סנן אירועים לפי אזור" /></div>
+          <div class="table-wrap"><table><thead><tr><th>זמן (UTC)</th><th>אזור</th><th>עוצמה</th><th>עומק (ק״מ)</th></tr></thead><tbody id="rows"><tr><td colspan="4">טוען נתונים…</td></tr></tbody></table></div>
+          <p class="table-note">המפה והנתונים נועדו להדגמת Data Engineering, ואינם מערכת התרעה על רעידות אדמה.</p>
+        </section>
+      </main>
+      <footer><span>DataPulse v0.1.0 · Python + PostgreSQL + Supabase</span><a href="https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php" target="_blank" rel="noopener noreferrer">Data source: USGS</a></footer>
+    </div>
+  </body>
+</html>

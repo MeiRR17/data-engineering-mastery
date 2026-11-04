@@ -1,0 +1,7 @@
+# Optional notebook runtime, tested with Python 3.13 on 2026-11-04.
+# Use a dedicated virtual environment. No cloud credentials needed.
+jupyterlab==4.5.3
+ipykernel==7.2.0
+matplotlib==3.10.8
+nbformat==5.10.4
+nbclient==0.10.4

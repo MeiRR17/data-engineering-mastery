@@ -1,0 +1,32 @@
+name: Learning repository checks
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate learning content
+        run: python3 scripts/validate_repo.py
+      - name: Tutor tool tests
+        run: python3 -m unittest discover -s tests -v
+      - name: DataPulse tests
+        run: python3 -m unittest discover -s projects/datapulse/tests -v
+        env:
+          PYTHONPATH: projects/datapulse/src
+      - name: DataPulse local dry-run
+        run: python3 -m datapulse.ingest --fixture projects/datapulse/data/sample.geojson --dry-run
+        env:
+          PYTHONPATH: projects/datapulse/src

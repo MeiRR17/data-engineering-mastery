@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+*.egg-info/
+dist/
+build/
+# Secrets, credentials and local state
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.sqlite3
+*.db
+learner/progress.json
+# Supabase local secrets/cache
+supabase/.temp/
+supabase/.branches/
+**/supabase/.temp/
+**/supabase/.branches/
+# OS and editor
+.DS_Store
+.vscode/settings.json
+# Artifacts
+coverage/
+*.log
+learner/system-profile.local.json
+# Temporary local learning files
+learner/*.local.json
+
+# Jupyter local checkpoints
+.ipynb_checkpoints/

@@ -1,0 +1,28 @@
+name: Scheduled USGS ingestion
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 * * * *'
+permissions:
+  contents: read
+concurrency:
+  group: datapulse-ingest
+  cancel-in-progress: false
+jobs:
+  ingest:
+    # The job is disabled until you deliberately configure the repository variable.
+    if: vars.DATAPULSE_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Collect and load
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SECRET_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
+        run: PYTHONPATH=projects/datapulse/src python -m datapulse.ingest --feed day
