@@ -64,3 +64,41 @@ jobs:
           python-version: '3.12'
       - name: Stage 05 disposable PostgreSQL dimensional modeling
         run: python3 labs/05-modeling/run_lab.py --reference
+
+  dbt-stage05:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    permissions:
+      contents: read
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_PASSWORD: disposable-ci-only
+          POSTGRES_DB: learning
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d learning"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dbt versions pinned for teaching
+        run: python3 -m pip install "dbt-core==1.11.16" "dbt-postgres==1.11.0"
+      - name: Reproduce dbt seed and model tests twice
+        env:
+          DBT_PG_PASSWORD: disposable-ci-only
+        run: |
+          dbt debug --project-dir labs/05-modeling/dbt --profiles-dir labs/05-modeling/dbt
+          dbt seed --project-dir labs/05-modeling/dbt --profiles-dir labs/05-modeling/dbt
+          dbt build --project-dir labs/05-modeling/dbt --profiles-dir labs/05-modeling/dbt
+          dbt build --project-dir labs/05-modeling/dbt --profiles-dir labs/05-modeling/dbt

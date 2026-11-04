@@ -90,3 +90,7 @@ python3 labs/05-modeling/run_lab.py --answers path/to/my_model.sql
 קובץ הפתרון בתוך **instructor/reference.sql** משמש את ה־CI לאימות הבודק. הוא ציבורי לצורכי ביקורת ושחזור, אבל מומלץ ללומד לא לפתוח אותו לפני ניסיון עצמאי.
 
 **תיחום:** Stage 05 כעת מכסה בסיס Star Schema, SCD Type 2, Reconciliation ו־Replay על PostgreSQL. פרויקט dbt מלא, SCD2 ingestion אוטומטי, Lakehouse ו־Benchmark של Parquet עדיין אינם ממומשים; אין לסמן את כל ה־Stage כמוכן להסמכה לפני הוספתם או הגדרת חלופות מאומתות.
+
+## Stage 05b — dbt Core
+
+Run a second independent lab with CSV seeds, staging views, a fact model, an analytical mart, and dbt generic/custom tests: [dbt/README.md](dbt/README.md). It is CI-tested in a dedicated PostgreSQL service, not in Supabase.
