@@ -48,7 +48,7 @@ jobs:
       - name: Stage 04 disposable PostgreSQL integration
         run: python3 labs/04-postgres/run_lab.py --reference
 
-postgres-stage05:
+  postgres-stage05:
     runs-on: ubuntu-latest
     timeout-minutes: 12
     permissions:
