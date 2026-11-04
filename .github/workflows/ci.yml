@@ -48,3 +48,19 @@ jobs:
       - name: Stage 04 disposable PostgreSQL integration
         run: python3 labs/04-postgres/run_lab.py --reference
 
+postgres-stage05:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Stage 05 disposable PostgreSQL dimensional modeling
+        run: python3 labs/05-modeling/run_lab.py --reference
