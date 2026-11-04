@@ -15,3 +15,7 @@
 | v1.0 | Fully implemented end-to-end curriculum | external review + comprehensive CI + audited docs |
 
 **פיתוח קהילתי:** פתחו Issue עבור תרגיל חדש, ציינו רמת קושי, מטרות, test oracle, dataset provenance, privacy, resource requirements ו־failure cases; לאחר מכן PR אחד עם fixture קטן, הבדיקות, פתרון למדריך בנפרד (לא בנתיב שהלומד אמור לראות) וקישור תיעוד. אין להעלות סרטונים או חומרים מוגנים שהועתקו. גם לגרסה ציבורית 'מושלמת' יש תחזוקה מתמדת, כי כלים ותיעוד משתנים.
+
+### Foundation-labs increment
+
+The Stage 01–03 offline SQL/Python/ETL reference graders and learner starters are under development on a feature branch; **v0.3 is not complete** until notebook 04–07, SQL/PostgreSQL coverage and release gates are implemented and independently reviewed.

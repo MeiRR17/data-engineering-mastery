@@ -1,5 +1,12 @@
 # Changelog
 
+## [Unreleased] — foundational labs (not a completed v0.3 release)
+
+- Added self-paced SQL, Python and SQLite ETL labs with student starters and separate maintainer reference graders.
+- Test coverage includes duplicate IDs, stale updates, malformed rows, atomic rollback and deterministic replay.
+- Added Hebrew instructions, independent mastery gates and offline CI regression checks.
+- Supabase cloud deployment, complete stage 04–13 labs and formal certification remain outstanding.
+
 ## [0.2.0] — 2026-11-04
 
 - Expanded Hebrew README into start-to-end learner navigation, documented 10-step onboarding and milestones.

@@ -15,3 +15,6 @@ Always begin by reading `README.md`, `prompts/MASTER-AGENT.he.md`, `docs/ASSESSM
 10. The public upstream project is a template; never append learners' private progress, machine profiles or secrets to it.
 
 For the full teaching and assessment protocol, use `prompts/MASTER-AGENT.he.md` (or the English version).
+
+## Foundational assessment (01–03)
+For stages 01–03 read `docs/FOUNDATIONS-LABS.he.md` and the matching `labs/*/README.md`. Student commands without `--reference` deliberately fail until the student implements the exercise; `--reference` is for maintainer CI only. Never mark student competence from reference tests. Run both the stage grader and an unseen transfer exercise, then review original student work. Do not expose instructor reference before the initial attempt unless specifically requested.

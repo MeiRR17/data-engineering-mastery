@@ -19,6 +19,10 @@
 | 12 | Reliability/Governance | מתקדם | incident drill, backup/restore |
 | 13 | Capstone/Career | תיק עבודות | demo, ADR, PR review, mock interview |
 
+## הערכת שלבי יסודות באמצעות קוד
+
+[Foundations Labs לשלבים 01–03](FOUNDATIONS-LABS.he.md) מאפשרים לבדוק קוד של הלומד באמצעות grader. כל Stage דורש גם הסבר עצמאי ופתרון Transfer חדש; הצלחה בגריידר אינה הסמכה מקצועית.
+
 ## שלוש שכבות בכל שלב
 
 1. **Engineering:** בניית מערכת נתונים מדידה ושחזורית עם בדיקות.
