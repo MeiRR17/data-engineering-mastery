@@ -1,0 +1,17 @@
+-- YOUR EXERCISE: the file is intentionally incomplete, so checks initially fail.
+-- Never copy the instructor solution without first attempting the exercise.
+--
+-- 1. Populate analytics.fact_earthquake with ONE row per public.earthquakes.event_id.
+--    Join analytics.event_region_map and analytics.dim_region using region_code
+--    AND the event observation timestamp in [valid_from,valid_to).
+--    A NULL valid_to means the version is current. Use UTC for day_utc.
+-- 2. Make the query safely rerunnable with ON CONFLICT(event_id) DO UPDATE.
+--    A newer source revision should refresh fact measures without duplicating rows.
+-- 3. Create analytics.daily_region_metrics WITH (security_invoker = true):
+--      day_utc DATE, region_name TEXT, total_events BIGINT,
+--      known_magnitude_events BIGINT, avg_magnitude NUMERIC.
+--    Group by UTC day AND the historically correct region version.
+--    NULL magnitude must NOT be treated as zero in AVG.
+-- 4. Revoke all default view privileges from PUBLIC, anon, authenticated.
+-- 5. Run python3 labs/05-modeling/run_lab.py and examine the first failing check.
+
