@@ -31,6 +31,9 @@ jobs:
         env:
           PYTHONPATH: projects/datapulse/src
 
+      - name: Stage 06 orchestration grader (reference)
+        run: python3 labs/06-orchestration/grade.py --reference
+
   postgres-stage04:
     runs-on: ubuntu-latest
     timeout-minutes: 12

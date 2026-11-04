@@ -171,6 +171,10 @@ python3 scripts/session_plan.py --style investigator --level intermediate --minu
 
 ב־Jupyter אפשר להציג YouTube באמצעות נגן מוטמע, אם הרשת/הסביבה מאפשרות זאת. **ב־GitHub preview אין להסתמך על נגן מוטמע**: לכל מחברת יש קישור צפייה רגיל כדי שהלומד לא ייתקע. הסרטונים שייכים ליוצריהם, ואינם מועתקים לריפו. [כל ההוראות והקישורים](docs/VIDEO-LEARNING.he.md).
 
+## Stage 06 — תזמור ושחזור טעינות
+
+[**מעבדת Orchestration, Retries & Backfills**](labs/06-orchestration/README.md) מתרגלת תלויות DAG, תכנון חלונות, Retry מוגבל, מניעת כפילויות, Rollback והתאוששות לאחר אובדן אישור Commit. היא פועלת באופן מקומי ב־Python ו־SQLite. קובץ התרגול מתחיל לא פתור, והבדיקות הן חלק מתהליך הלמידה.
+
 ## הפרויקט המרכזי — DataPulse
 
 [DataPulse](projects/datapulse/README.md) קולט אירועי רעידות אדמה מ־USGS, מבצע Validation, טוען נתונים ושולח ל־Dashboard. מתחילים ב־Fixture סינתטי, אחר כך SQLite/SQL, בהמשך Supabase, Orchestration, QA, Monitoring, פריסה ו־Recovery. **כל הרחבה היא PR נפרד עם Definition of Done**. ראו [מפת הפרויקטים](docs/PROJECT-LADDER.he.md).
