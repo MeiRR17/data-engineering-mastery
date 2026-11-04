@@ -1,0 +1,5 @@
+region_code,region_name,valid_from,valid_to
+N,North Ridge,2025-01-01T00:00:00Z,
+E,East Sector,2025-01-01T00:00:00Z,2026-01-02T00:00:00Z
+E,East District,2026-01-02T00:00:00Z,
+W,West Sector,2025-01-01T00:00:00Z,
