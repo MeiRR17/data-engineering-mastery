@@ -8,7 +8,7 @@
 flowchart LR
   A[Stage 01 SQL: What is an event?] --> B[Stage 02 Python: What is valid?]
   B --> C[Stage 03 ETL: What survives a crash?]
-  C --> D[Stage 04 Cloud: Supabase — future work]
+  C --> D[Stage 04 PostgreSQL — new isolated lab]
   E[Algorithms, types, ACID, network failures] -. explains .-> B
   E -. explains .-> C
 ```

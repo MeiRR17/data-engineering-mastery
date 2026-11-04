@@ -39,6 +39,10 @@ python3 labs/03-etl/grade.py
 
 להערכת המערכת (CI בלבד), פקודות אלה עם `--reference` אמורות לעבור. נתונים אמיתיים ופריסת Supabase מגיעים בשלבים הבאים, לאחר בניית היסודות.
 
+## Stage 04 — PostgreSQL אמיתי לפני Supabase
+
+[מעבדת PostgreSQL](labs/04-postgres/README.md) מריצה בדיקות רלוונטיות על בסיס נתונים זמני ללא חשבון ענן. התחל עם פקודת הייחוס: python3 labs/04-postgres/run_lab.py --reference. לאחר מכן נסה את תרגיל הלומד: python3 labs/04-postgres/run_lab.py, שייכשל בתחילה בכוונה. [פריסה לענן](docs/STAGE-04-SUPABASE-DEPLOY.he.md) היא שלב נפרד ואינה מאומתת עדיין.
+
 ## מה עושים עכשיו? בדיוק 10 צעדים
 
 1. **יוצרים ריפו אישי:** כשמאגר זה יתפרסם כ־GitHub Template, לחצו **Use this template → Create a new repository**. אפשר להתחיל בריפו פרטי; אין חובה לפרסם את ההתקדמות האישית. אם קיבלתם ZIP, חילצו אותו ופתחו את התיקייה ב־VS Code. [הסבר](docs/GITHUB-MCP-SETUP.he.md).
