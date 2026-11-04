@@ -99,7 +99,7 @@
       "experiment": "בנה DAG קטן כ-dict, בצע topological sort והוסף cycle מכוון.",
       "evidence": "סדר ריצה תקין, זיהוי cycle והסבר תלות",
       "transfer": "מה תעשה כשהשלב האחרון נכשל ויש לבצע רק את התלויים בו?",
-      "requirements": "Python בלבד"
+      "requirements": "Python סטנדרטי בלבד, ללא רשת או שירות ענן"
     },
     {
       "id": "Q08",
