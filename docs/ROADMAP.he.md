@@ -25,6 +25,10 @@
 2. **Computer Science:** `curriculum/cs-bridges/` — מדוע הפתרון עובד, לא רק כיצד להעתיק קוד.
 3. **Side Quest:** הסתעפות מעניינת ומוגבלת בזמן מתוך `curriculum/side-quests.json`.
 
+## מסלול רוחב מקביל (Foundations Passport)
+
+בכל Stage מצטרף ניסוי קטן ממדעי המחשב או מתחום טכנולוגי משיק. 12 משימות חקר מכסות את 14 השלבים; המטרה היא יכולת להתמודד עם בעיות לא מוכרות, לא השלמת רשימת טכנולוגיות. [מפת הרוחב וכללי הביטחון](BREADTH-FOUNDATIONS.he.md) · `python3 scripts/breadth_quest.py recommend --stage 03`.
+
 ## הערכת זמן גמישה
 
 - 5–7 שעות בשבוע: כ-15–24+ חודשים עד Capstone, מותנה ברקע ונגישות ציוד/ענן.
