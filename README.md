@@ -2,7 +2,7 @@
 
 **מתואר בהנדסת תוכנה ועד Data Engineer שמסוגל לתכנן, לפתח, לפרוס, לאבטח ולתפעל תשתית נתונים מקצה לקצה.**
 
-[English](README.en.md) · [מסלול מלא](docs/ROADMAP.he.md) · [מדריך הלומד](docs/LEARNER-HANDBOOK.he.md) · [וידאו ומחברות](docs/VIDEO-LEARNING.he.md) · [מנטור ChatGPT](prompts/MASTER-AGENT.he.md) · [GitHub/MCP](docs/GITHUB-MCP-SETUP.he.md)
+[סטטוס מוכנות ופעולות בעל הריפו](docs/RELEASE-READINESS.he.md) · [English](README.en.md) · [מסלול מלא](docs/ROADMAP.he.md) · [מדריך הלומד](docs/LEARNER-HANDBOOK.he.md) · [וידאו ומחברות](docs/VIDEO-LEARNING.he.md) · [מנטור ChatGPT](prompts/MASTER-AGENT.he.md) · [GitHub/MCP](docs/GITHUB-MCP-SETUP.he.md)
 
 ![Data Engineering Mastery — from raw data to reliable systems](assets/hero.svg)
 
