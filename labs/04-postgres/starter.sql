@@ -1,0 +1,5 @@
+-- Stage 04 exercise: intentionally unfinished. Do not read instructor/reference.sql until attempting.
+-- Create public.stage04_magnitude_summary with columns band text, total_events bigint.
+-- magnitude IS NULL -> unknown; <2 minor; <5 moderate; >=5 strong.
+-- Use security_invoker=true, revoke PUBLIC/anon/authenticated grants, grant SELECT only to anon.
+-- Then run: python3 labs/04-postgres/run_lab.py
