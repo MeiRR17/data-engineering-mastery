@@ -2,6 +2,24 @@
   "version": "2.0.0",
   "tasks": [
     {
+      "label": "Course: Qualify this Mac (full local CI)",
+      "detail": "On this Mac only: install and verify VS Code extensions, execute all 14 Jupyter notebooks, run repository tests and show local proof",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "scripts/mac-qualification.sh"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": [],
+      "group": "test",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
       "label": "Course: Set up and verify this computer",
       "detail": "One-click install, create .venv, execute real notebooks, run local tests",
       "type": "shell",
