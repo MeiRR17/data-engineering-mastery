@@ -1,107 +1,103 @@
-# Stage 08 — Data Serving, Read-only API & Quality-aware Dashboard
+# Stage 08 — Read-only Data Serving API and Quality-aware Dashboard
 
-[מסלול Stage 08](../../curriculum/modules/08.md) · [Stage 07 — Data Quality](../07-quality/README.md) · [DataPulse](../../projects/datapulse/README.md)
+[Stage 08 syllabus](../../curriculum/modules/08.md) · [Stage 07 quality](../07-quality/README.md) · [DataPulse](../../projects/datapulse/README.md) · [Notebook](../../notebooks/08_readonly_serving.ipynb)
 
-## מטרת המעבדה
+## Goal
 
-בשלב 07 בנינו מערכת Data Quality שיודעת **לחסום Batch שאינו עומד בספים** ולשמור עקיבות אחרי נתונים שנכנסו. בשלב הזה הופכים את הנתונים המאושרים למוצר צריכה: API עם **GET בלבד**, מדדים בעלי הגדרה מפורשת ודשבורד שגלוי למשתמש כאשר המידע ישן או ההרצה האחרונה נחסמה.
+Stage 07 created a quality gate that can **reject an invalid batch** while preserving a safe audit trail. Stage 08 turns approved data into a **read-only data product** with precisely defined metrics and a dashboard that reports stale data and the status of the latest quality run.
 
-**המעבדה ניתנת להרצה ב־Python סטנדרטי בלבד** — ללא Docker, ענן, Supabase או מפתחות API. השרת מאזין ל־`127.0.0.1` בלבד ואינו אמור להיות חשוף מחוץ למחשב. הוא אינו מחליף תשתית Serving ארגונית.
-
-## מסלול המידע
+This lab uses only **Python's standard library**, synthetic SQLite records and a server bound to **127.0.0.1**. It does not require Docker, Supabase, cloud keys or paid services. It is an educational demonstration, **not a production API** and must not be exposed to the public internet.
 
 ~~~mermaid
 flowchart LR
-  A[Stage 07 Data Contract] --> B{Quality Gate}
+  A[Stage 07 data contract] --> B{Quality gate}
   B -->|passed| C[(Curated SQLite)]
   B -->|blocked| Q[(Safe quality audit)]
-  C --> D[SQLite read-only connection]
+  C --> D[Read-only SQLite connection]
   D --> E[Allowlisted GET API]
   Q --> E
-  E --> F[RTL Dashboard]
-  F --> G[Freshness warning + quality indicators]
+  E --> F[English dashboard]
+  F --> G[Freshness and quality warnings]
 ~~~
 
-## הדלקת הדמו
+## Run the demonstration
 
-פתח Terminal בתיקיית שורש הריפו:
+From the repository root:
 
 ~~~bash
 python3 labs/08-serving/grade.py
 python3 labs/08-serving/serve.py
 ~~~
 
-הפקודה הראשונה מריצה **24 בדיקות אינטגרציה, API ואבטחה** מול HTTP מקומי. השנייה יוצרת SQLite סינתטי זמני בתיקיית מערכת, מריצה Batch אחד שעבר, ולאחריו Batch שנחסם בשער האיכות, ופותחת שרת מקומי.
+The first command runs **24 HTTP, API and security tests** against a loopback server. The second creates a temporary SQLite dataset, processes one valid batch followed by one blocked batch and launches the local dashboard.
 
-בפעם הראשונה, פתח בדפדפן:
+Open **http://127.0.0.1:8765** in a browser. Click **Refresh metrics**, inspect the charts and filter events by ID or region. Press **Ctrl+C** to stop.
 
-**http://127.0.0.1:8765**
+**Expected teaching behavior:** the historical fixture was observed on **January 3, 2026**, so the dashboard will normally display a **stale data warning** on today's date. This is deliberate: a dashboard must never pretend historical data is a live stream.
 
-לחץ על רענון מדדים, בדוק את הטבלה וסנן לפי מזהה אירוע או אזור. לעצירה השתמש ב־Ctrl+C.
+### Privacy boundary
 
-נתוני המקור בדוגמה מתוארכים ל־3 בינואר 2026. לכן בזמן אמת הדשבורד צפוי להציג **אזהרת מידע מיושן**. זה בכוונה: אסור למערכת להציג מידע היסטורי כאילו הוא מתעדכן עכשיו.
+Without `--database`, the app creates a synthetic, temporary SQLite file that is removed on normal exit. You may pass an existing Stage 07 teaching database using `--database /path/to/file.sqlite`; it is opened **read-only**. Do not point this unauthenticated training app at real personal, customer or other sensitive records.
 
-**הערת פרטיות:** ללא `--database` נוצר קובץ SQLite זמני בלבד, שנמחק ביציאה תקינה. אפשר לחבר קובץ Stage 07 קיים עם `--database /path/to/file.sqlite`, ובמקרה כזה הוא נפתח לקריאה בלבד ואינו משתנה. אין להצביע על נתוני משתמשים אמיתיים או מידע רגיש; הדוגמה אינה כוללת אימות משתמשים או הפרדת דיירים.
+## Public API contract
 
-## API: חוזה ההחזרה
+| Endpoint | Exposed fields | Bounds |
+| --- | --- | --- |
+| `GET /api/v1/health` | Local fixture database availability | No private data |
+| `GET /api/v1/overview` | Event count, mean, denominator, freshness and quality | No raw payload or digest |
+| `GET /api/v1/daily?limit=14` | Aggregates by UTC date | 1–50 groups |
+| `GET /api/v1/events?limit=20&offset=0` | Allowlisted curated events | `limit` 1–50; `offset` 0–1000 |
+| `GET /api/v1/quality?limit=5` | Quality-run counts, statuses and reason codes | No raw records or source hashes |
 
-| נתיב | מידע שמוחזר | גבולות |
-|---|---|---|
-| `GET /api/v1/health` | זמינות מסד הדוגמה | ללא מידע פרטי |
-| `GET /api/v1/overview` | סך אירועים, ממוצע, מכנה, עדכניות וסטטוס איכות | אין סכומי נתונים גולמיים |
-| `GET /api/v1/daily?limit=14` | סיכום אירועים וממוצעים לפי יום UTC | 1–50 ימים בתוצאה |
-| `GET /api/v1/events?limit=20&offset=0` | אירועים מאושרים בלבד | `limit` 1–50, `offset` 0–1000 |
-| `GET /api/v1/quality?limit=5` | Audit של הרצות עם ספירות וסיבות חסימה | בלי Payload או Hash של רשומה |
+SQL and exposed fields are fixed in source code. There is **no endpoint accepting arbitrary SQL or table names**. POST, PUT, PATCH, DELETE and HEAD are rejected, and invalid pagination input returns a client error.
 
-כל השאילתות משתמשות בשדות וב־SQL מוגדרים מראש; אין Endpoint שמקבל SQL מהמשתמש. POST, PUT, PATCH, DELETE ו־HEAD נחסמים. כל קלט Pagination שלא עומד בחוזה נדחה.
+The browser uses plain JavaScript with `textContent` instead of `innerHTML`, alongside Content Security Policy and other HTTP safety headers. These checks **do not replace** a complete threat model or penetration test.
 
-הדשבורד משתמש ב־JavaScript ללא ספריות חיצוניות, מציג נתונים דרך `textContent` ולא `innerHTML`, כולל CSP וכותרות אבטחה. **בדיקות אלה אינן תחליף ל־Threat Model או ל־Penetration Test מלא.**
+## Quality and freshness are different signals
 
-## ההבחנה החשובה — Quality לעומת Freshness
+An incoming batch with an unknown schema field may be **blocked entirely** by the quality gate. Previously approved data can remain visible, but the latest run must be clearly marked blocked.
 
-אם Batch של 4 רשומות כולל שדה שלא תואם את החוזה, ייתכן ששער האיכות יחסום את *כל* פרסום ה־Batch. הדשבורד עדיין יציג את הנתונים המאושרים מהריצה הקודמת, אך יראה שההרצה האחרונה נחסמה.
+Freshness compares the most recent **event timestamp** with a UTC-aware clock. Data can be historically correct but unsuitable for decisions requiring real-time updates. Empty and API-error states must show explicit messages instead of zero-looking or stale KPI values.
 
-בנפרד, הוא מחשב את הזמן שחלף מהאירוע האחרון. **נתונים ישנים יכולים להיות מדויקים מבחינה היסטורית אבל לא מתאימים להחלטה בזמן אמת**. במקרה שאין נתונים, הנתונים אינם מוצגים כתקינים; ובמקרה של שגיאת API, המשתמש רואה הודעת תקלה במקום מספרים לא מעודכנים.
+## Independent Regional KPI challenge — 11 graded tests
 
-## תרגיל אישי עם בודק אוטומטי — Regional KPI Challenge
+In addition to the ready-to-run API demo, the student must implement `region_summary` in [learner/starter.py](learner/starter.py); it begins as `NotImplementedError`.
 
-בנוסף למעבדת השרת המוכנה, יש תרגיל שחייבים **לכתוב בעצמך**. הפונקציה `region_summary` בקובץ [learner/starter.py](learner/starter.py) מתחילה עם `NotImplementedError` במכוון.
-
-המשימה: לקרוא את נתוני ה־Curated מתוך SQLite **במצב קריאה בלבד**, ולהחזיר סיכום לפי אזור עם ספירת אירועים, ספירת ערכי Magnitude ידועים וממוצע שאינו מחשיב NULL. יש למיין לפי מספר אירועים יורד ואז קוד אזור עולה, ולהגביל `limit` למספר שלם בטווח 1–20. אסור לחשוף מזהי אירועים או Hashes בתשובה, לדרוס את קובץ המקור או להקים מסד חדש כשהקובץ חסר.
+Return **one row per region** with total event count, count of known magnitudes and a mean excluding NULL. Sort by descending event count then ascending region code. Accept only integer `limit` values in the range **1–20**. Never expose event IDs, hashes or raw payload, overwrite the source DB or silently create a missing database.
 
 ~~~bash
-# הבודק עצמו — חייב לעבור מול פתרון הייחוס
+# Validate the grader's instructor reference
 python3 labs/08-serving/learner/grade.py --reference
 
-# הבודק האישי — ייכשל עד שתכתוב את הפתרון
+# Grade student code — intentionally fails before implementation
 python3 labs/08-serving/learner/grade.py
 
-# ניתן לעבוד בקובץ נפרד ב־PR האישי
+# Or grade a separate personal solution file
 python3 labs/08-serving/learner/grade.py --answers path/to/region_report.py
 ~~~
 
-הבודק כולל **11 מבחנים**: קלט שגוי, נתון NULL, חישוב ממוצע משוקלל נכון, הגבלת שורות, מניעת דליפת שדות ושמירה על קובץ מסד הנתונים ללא שינוי. אחרי שכל המבחנים עוברים, נסה להוסיף את הפונקציה כנתיב `GET /api/v1/regions` בשרת, עם מבחן HTTP שלילי וחיובי משלך. החלק האחרון הוא משימת הרחבה שטרם מכוסה אוטומטית בבדיקות המובנות.
+The 11 scenarios include invalid inputs, NULL handling, correct grouping/averages, bounded rows, output allowlisting and no source-file modifications.
 
-## מה הלומד צריך לעשות?
+After passing, optionally add a new `GET /api/v1/regions` route and write at least one positive and one negative **HTTP** test. This route is an extension task, not already implemented by the starter grader.
 
-1. פתח את `service.py` ושרטט את גבול האבטחה: SQLite read-only → SQL קבוע → JSON → דפדפן. מה לא עובר את הגבול?
-2. הסבר מה ההבדל בין `total_events` לבין `known_magnitude_events` ומדוע השני הוא המכנה הנכון לממוצע.
-3. שנה זמנית *בענף אישי בלבד* את `FRESHNESS_HOURS` ל־1 והסבר מה השתנה בסטטוס מול שעון קבוע.
-4. כתוב מבחן לנתיב חדש שמסכם אירועים לפי `region_code`; ממש אותו בשאילתה קבועה עם `LIMIT` מתאים, בלי לקבל SQL מהמשתמש.
-5. הוסף בדיקה שמוודאת שנתיב חדש לא חושף `source_sha256`, `quarantine_records` או פרטי מקור גולמיים.
-6. גרום לשגיאת API מכוונת במעבדת בדיקה (למשל באמצעות קובץ DB חסר) והראה שהדשבורד מציג שגיאה ללא נתונים מטעים.
-7. כתוב ADR קצר: למה בקצה הציבורי לא משתמשים ב־Service Role, למה אין כאן CORS פתוח, ומתי צריך Auth, Rate Limiting, Reverse Proxy ו־TLS.
+## Required learner tasks
 
-## מבחן מעבר ללא AI
+1. Draw the trust boundary: SQLite read-only → fixed SQL → bounded JSON → browser. What does **not** cross it?
+2. Explain `total_events` vs `known_magnitude_events` and why the latter is the denominator for the magnitude mean.
+3. Change `FRESHNESS_HOURS` to one in your practice branch and predict the status against a fixed clock.
+4. Implement a regional summary query with fixed SQL and a parameterized LIMIT.
+5. Test that the new route cannot expose `source_sha256`, `quarantine_records` or raw upstream metadata.
+6. Simulate a missing database or API error and prove the dashboard shows a failure, not misleading values.
+7. Write an ADR covering service-role credentials, CORS, authentication, authorization, rate limiting, reverse proxy and TLS.
 
-- מתי `AVG(magnitude)` יכול להיות תקין מתמטית אבל מטעה עסקית?
-- כיצד יש לחשב Status אם ה־Pipeline כשל אך הנתונים האחרונים עדיין זמינים?
-- מה ההבדל בין הרשאת `SELECT` במסד לבין RLS, ומתי שני מנגנונים נדרשים יחד?
-- מדוע URL חופשי שמכיל שם טבלה מסוכן גם אם הקוד מבצע `SELECT` בלבד?
-- כיצד תוסיף Pagination שלא חוזר על רשומות כאשר תוצאות משתנות בין בקשות?
+## No-AI exit questions
 
-**Exit Gate:** קוד ותיעוד מקורי של הלומד, הרצת 24 מבחני API, נתיב נוסף עם מבחן חיובי ושלילי, תצוגת Empty/Error/Stale, וקוד PR שנבדק ידנית. זהו Stage מקומי. אין בו Auth אמיתי, Supabase Data API בענן, בדיקות דפדפן חוצות־מערכות או Deploy.
+- When can `AVG(magnitude)` be mathematically correct but misleading to a stakeholder?
+- How should the UI behave if ingestion failed while the last published data remains queryable?
+- How do database SELECT permissions and row-level security differ?
+- Why is an unrestricted SELECT endpoint unsafe even without write statements?
+- How would you paginate a changing data set without duplicating or skipping records?
 
-## מה עוד חסר להכשרה הראשונית?
+**Exit gate:** original learner code, 24 API tests, 11 learner KPI tests, one new positive/negative HTTP test, correct Empty/Error/Stale display, a safety ADR and a reviewed PR.
 
-שרת הפרודקשן צריך TLS, Authentication/Authorization, Rate Limiting, ניטור, שרידות, טיפול בסודות והפרדה בין ארגונים. Stage 09 והלאה יטפלו ב־CI/CD, פריסה ובדיקות תפעול. **אין לפרסם את השרת הזה לרשת האינטרנט**.
+**Not verified:** production authentication, TLS, Supabase cloud access, browser E2E across systems, multi-tenant permissions, operational monitoring or a cloud deployment. Do not publish this local teaching server to the internet.
