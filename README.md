@@ -40,8 +40,6 @@ The installation is **optional and user-initiated**. The repository cannot insta
 
 ## What you will learn
 
-<escape><!-- The course is competency-based: finishing a file does not prove mastery. --></escape>
-
 | Stage | Topic | Practice | Notebook |
 | --- | --- | --- | --- |
 | [00](curriculum/modules/00.md) | Environment, Git and data flow | Readiness, safe paths and DAG reasoning | [Open](notebooks/00_data_journey.ipynb) |

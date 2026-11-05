@@ -1,28 +1,21 @@
-# Data Engineering Mastery
+# Data Engineering Mastery — English entry point
 
-A public, forkable, **project-first** path from software engineering graduate to production-oriented data engineering. Start with SQL, Python and batch ETL; continue through Supabase/PostgreSQL, modeling, orchestration, quality, cloud, Spark, Kafka and a capstone. Each stage has tasks, acceptance criteria, a practical deliverable and a review gate.
+The full course documentation now lives in the **[English-first README](README.md)**. This compatibility entry point remains so existing links to `README.en.md` continue working.
 
-**Start here:** [Hebrew README](README.md) · [English quickstart](docs/QUICKSTART.en.md) · [Full roadmap](docs/ROADMAP.he.md) · [Mentor prompt (English)](prompts/MASTER-AGENT.en.md)
+**Start visually:** [VS Code Markdown and Jupyter setup](docs/VS-CODE-LEARNING-SETUP.md) · [English quickstart](docs/QUICKSTART.en.md) · [14-stage course roadmap](docs/ROADMAP.he.md) · [Interactive notebooks](notebooks/README.md)
 
-Run without accounts or cloud costs:
+The program contains a synthetic DataPulse capstone, 14 stages, independently graded student exercises, maintainer reference solutions and an examination framework. **Passing instructor CI does not certify learners or establish cloud production readiness.**
 
-```bash
-python3 scripts/roadmap.py init --alias learner
-python3 scripts/roadmap.py status
-PYTHONPATH=projects/datapulse/src python3 -m unittest discover -s projects/datapulse/tests -v
-PYTHONPATH=projects/datapulse/src python3 -m datapulse.ingest --fixture projects/datapulse/data/sample.geojson --dry-run
-```
+~~~bash
+# In macOS/Linux/WSL with the VS Code CLI installed:
+bash scripts/install-vscode-extensions.sh
 
-Cloud deployments are separate, opt-in, and may cost money. The starter is **not already deployed**; its example dataset is synthetic. Always verify secrets and access permissions before making any endpoint public.
+# Test the course structure and English content:
+python3 scripts/validate_repo.py
+python3 scripts/check_english_content.py
+python3 -m unittest discover -s tests -v
+~~~
 
-For a personal journey, create a repository from the template on your own GitHub account, then connect your own ChatGPT GitHub plugin and/or the official GitHub MCP Server to a supported IDE. Authentication is **never performed by copying credentials into prompts**.
+The VS Code extension script is opt-in: it installs **Python**, **Jupyter**, **Markdown All in One** and **Markdown Preview Enhanced** on your computer if you choose to run it. Opening `.md` files in Markdown Preview or `.ipynb` files in the Jupyter Notebook editor makes the lessons visual, with formatted text, diagrams, executable cells and plots.
 
-License: MIT. PRs improving accessibility, translations and exercises are welcome.
-
-## Guided learning, notebooks, videos
-
-For the complete step-by-step onboarding and troubleshooting guide (currently in Hebrew), see [Learner Handbook](docs/LEARNER-HANDBOOK.he.md), [Notebook + YouTube guide](docs/VIDEO-LEARNING.he.md), [Mastery Matrix](docs/MASTERY-MATRIX.he.md), and [Notebooks](notebooks/README.md). The repository contains four runnable offline notebooks; videos remain on their original platforms. This is learning infrastructure, not verified cloud deployment or a certificate.
-
-## Complete 14-stage curriculum implementation
-
-The integrated curriculum now includes code labs for stages 00–12, an end-to-end Stage 13 capstone, 14 guided notebooks, independent transfer-exam variants, a five-dimension rubric and an evidence structure validator. CI exercises instructor references including isolated PostgreSQL/dbt, local PySpark and a disposable single-node Kafka broker. This does **not** certify any individual learner, verify multi-node performance, or prove production/cloud readiness. Read [the readiness ledger](docs/PROGRAM-READINESS.he.md) and [the complete learner plan](docs/TEACHING-PLAN.he.md). No external credential or cloud deployment was issued; main integration does not establish learner proficiency.
+[Assessment](docs/FINAL-ASSESSMENT.he.md) · [Safe GitHub setup](docs/GITHUB-MCP-SETUP.he.md) · [Security policy](SECURITY.md).
