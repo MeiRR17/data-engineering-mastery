@@ -27,3 +27,7 @@ A standalone PostgreSQL 17 modeling exercise now covers event-grain fact data, v
 ### Stage 08 development increment (Draft PR)
 
 A local, standard-library HTTP/SQLite read-only serving lab with synthetic Stage 07 data, overview/daily/events/quality JSON routes, safe pagination, stale and blocked-run UX, security headers and black-box loopback tests is available for review. It is not a deployed cloud dashboard, not a production API and not a substitute for real Supabase Auth/RLS verification.
+
+### Stage 09 — Release simulator in the consolidated RC
+
+The offline Stage 09 lesson implements reproducible versioned ZIP bundles, integrity verification, separate simulated environment pointers, health-gated atomic promotion and verified rollback. A dedicated CI job runs the instructor's 26 fault scenarios and end-to-end demo. It does **not** publish a GitHub Release, deploy to real infrastructure, handle real secrets or run irreversible PostgreSQL migrations; those remain explicit acceptance gates for a genuine delivery milestone.

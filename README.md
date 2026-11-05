@@ -183,6 +183,10 @@ python3 scripts/session_plan.py --style investigator --level intermediate --minu
 
 [**DataPulse Observatory — API לקריאה בלבד ודשבורד עם מדדי איכות**](labs/08-serving/README.md). שרת Python מקומי משרת מדדים מקובץ SQLite סינתטי, מציג אזהרות Freshness, מידע על ריצות חסומות, ומונע גישה לנתונים גולמיים ולפעולות כתיבה. נתיב ההפעלה: `python3 labs/08-serving/serve.py`. זו הדגמה מקומית ולא שירות Production.
 
+## Stage 09 — Build, CI/CD ו־Rollback
+
+[**מעבדת Stage 09 — Release Reproducibility & Recovery**](labs/09-cicd/README.md) מלמדת לבנות Artifact שחזורי, לאמת SHA-256, להפריד סביבות, לבצע Health Gate לפני Promotion ולבצע Rollback בטוח באמצעות 26 בדיקות. הסימולציה פועלת ללא שרת, ענן או סודות: `python3 labs/09-cicd/demo.py`. ב־CI נבדק פתרון הייחוס; קוד הלומד מתחיל לא פתור.
+
 ## הפרויקט המרכזי — DataPulse
 
 [DataPulse](projects/datapulse/README.md) קולט אירועי רעידות אדמה מ־USGS, מבצע Validation, טוען נתונים ושולח ל־Dashboard. מתחילים ב־Fixture סינתטי, אחר כך SQLite/SQL, בהמשך Supabase, Orchestration, QA, Monitoring, פריסה ו־Recovery. **כל הרחבה היא PR נפרד עם Definition of Done**. ראו [מפת הפרויקטים](docs/PROJECT-LADDER.he.md).

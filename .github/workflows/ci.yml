@@ -114,3 +114,23 @@ jobs:
           dbt seed --project-dir labs/05-modeling/dbt --profiles-dir labs/05-modeling/dbt
           dbt build --project-dir labs/05-modeling/dbt --profiles-dir labs/05-modeling/dbt
           dbt build --project-dir labs/05-modeling/dbt --profiles-dir labs/05-modeling/dbt
+
+
+  release-simulation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout no persistent credentials
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run 26 Stage 09 delivery and rollback scenarios
+        run: python3 labs/09-cicd/grade.py --reference
+      - name: Perform offline promotion and rollback demonstration
+        run: python3 labs/09-cicd/demo.py
