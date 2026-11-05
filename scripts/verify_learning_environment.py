@@ -128,7 +128,14 @@ def execute_notebooks(mode: str) -> tuple[list[str], list[str]]:
             if errors:
                 raise RuntimeError("Notebook code cell returned an error output")
         except Exception as error:
-            # Error class only, not potentially private cell contents or file paths.
+            # Public CI runs only our allowlisted synthetic source notebooks.
+            # Print a bounded tail of the real cell exception for debugging,
+            # never write the exception into the private local readiness report.
+            if os.environ.get("GITHUB_ACTIONS") == "true":
+                detail = str(error)
+                print(f"CI_NOTEBOOK_DIAGNOSTIC:{path.name}:"
+                      f"{type(error).__name__}:"
+                      + detail[-1700:], file=sys.stderr, flush=True)
             issues.append(f"NOTEBOOK_FAILED:{path.name}:{type(error).__name__}")
         else:
             completed.append(path.name)
