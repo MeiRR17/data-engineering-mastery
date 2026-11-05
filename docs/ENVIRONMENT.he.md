@@ -1,32 +1,39 @@
-# סביבת עבודה, אבחון מחשב ופרטיות
+# Working environment, resource guidance and privacy
 
-## מי מפעיל מה?
+## Who runs which commands?
 
-הלומד מפעיל **מקומית** במחשב שלו, מתוך Terminal שהוא שולט בו. המורה AI אינו יכול להכיר מפרט חומרה אם לא הועבר לו מידע או אם אין לו גישה מורשית לסביבת המחשב.
+The learner runs tools **locally** in a terminal they control. An AI tutor cannot know a user's hardware inventory unless the user shares it or grants an authorized tool access.
 
-```bash
+~~~bash
 python3 --version
 python3 scripts/system_profile.py
 python3 scripts/system_profile.py --write-local
-```
+~~~
 
-הסקריפט מציג סוג מערכת ההפעלה, architecture, מספר logical CPUs, זיכרון RAM משוער, מקום פנוי בפרויקט, וזמינות Python/Git/Docker. אין גישת רשת, אין הרשאות root, אין סריקת תוכן הדיסק, אין מידע על משתמש או מספר סידורי. קובץ `learner/system-profile.local.json` מקומי ומוגן ב-`.gitignore`.
+The optional script summarizes operating-system class, architecture, logical CPU count, estimated RAM, free project storage and availability of Python/Git/Docker. It does not need network access, root privileges, disk-content scans, username or device serial number. Its saved `learner/system-profile.local.json` is private and gitignored.
 
-**אל תעלה את קובץ הפרופיל המקורי ל-GitHub ציבורי**. אפשר לשתף עם המנטור רק אחת משלוש הקטגוריות `light/moderate/full`, או גרסה מסוננת ללא מזהים, אם בוחרים בכך.
+**Do not upload the complete hardware profile to public GitHub.** Sharing only the `light` / `moderate` / `full` category is usually sufficient for selecting a suitable exercise.
 
-### כיצד לפרש את התוצאה
+## Resource modes
 
-- `light`: RAM או מקום פנוי מוגבלים / לא ידועים; התחל עם SQLite, DuckDB וקובצי דוגמה.
-- `moderate`: אפשר לנסות Docker/PostgreSQL מקומי, אך בדוק עומס בפועל והיה מוכן לעצור.
-- `full`: אפשר לשקול Spark/Kafka מקומיים עם מגבלות משאבים; לא חובה.
+| Tier | Recommended exercises | Caution |
+| --- | --- | --- |
+| `light` | SQLite, small synthetic fixtures, Python, optional DuckDB | Memory/storage limited or unknown |
+| `moderate` | Local Docker/PostgreSQL/dbt as the machine permits | Stop if memory pressure becomes excessive |
+| `full` | Optional local PySpark and single-node Kafka | Still use explicit CPU/memory limits; not mandatory |
 
-אלה **המלצות שמרניות**, לא בדיקת תאימות רשמית. ארכיטקטורה/OS וגרסאות כלי פיתוח משפיעים על ההיתכנות. Supabase local stack דורש תמיכת Docker ואפשר שיצרוך הרבה משאבים; Supabase hosted יכול לפשט זאת אם יש הסכמה לעלות ולהרשאות.
+These are **conservative suggestions**, not official compatibility results. OS, architecture, Java version and Docker configuration matter. Do not interpret insufficient hardware as a knowledge failure: use Light mode, then document the full-mode lab as *deferred*.
 
-### פרופיל המחשב לא מתאים?
+## Learning progress versus system inventory
 
-אפשר להחליף תוצאות באופן ידני וללמוד ב-fixtures קטנים או בענן מוגבל. אל תשתמש ב-'חומרה חלשה' כסיבה לדלג על מושגי Spark ו-Streaming, אלא להחליף אופן ניסוי.
+The private `learner/progress.json` contains personal reflection and evidence and stays on the learner's computer. You can explicitly create a **sanitized** progress summary:
 
+~~~bash
+python3 scripts/roadmap.py export-summary
+~~~
 
-## סנכרון מצב הלמידה לעומת מפרט החומרה
+Review `learner/learning-status.md` before optionally committing it in your own repository. A connected GitHub tool can access that public summary **only if authorized**; it should not receive the private system profile.
 
-`learner/progress.json` נשאר במחשב ומכיל Evidence/Reflection שלא צריך לצאת. אפשר ליצור **קובץ סטטוס מסונן** עם `python3 scripts/roadmap.py export-summary`, לבדוק את `learner/learning-status.md`, ולהחליט אם לפרסם אותו ב-commit לריפו האישי. ChatGPT המחובר ל-GitHub יוכל לקרוא את קובץ הסיכום *אם יש לו הרשאה לריפו*, אך לא יראה את ההערות או פרטי המחשב הפרטיים. אין להעלות `system-profile.local.json`.
+## Visual editor and notebook setup
+
+Use [the VS Code setup guide](VS-CODE-LEARNING-SETUP.md) for recommended Markdown/Jupyter extensions, preview shortcuts, Python environments and kernel selection. Installing an extension, creating a virtual environment or using a cloud account requires your own deliberate action.

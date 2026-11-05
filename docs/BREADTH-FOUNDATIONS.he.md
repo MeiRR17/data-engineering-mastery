@@ -1,101 +1,96 @@
-# מסלול רוחב וביטחון הנדסי — Foundations Passport
+# Foundations Passport — broad technical confidence
 
-[חזרה ל-README](../README.md) · [מפת Data Engineering](ROADMAP.he.md) · [מטריצת שליטה](MASTERY-MATRIX.he.md)
+[Home](../README.md) · [Roadmap](ROADMAP.he.md) · [Mastery matrix](MASTERY-MATRIX.he.md)
 
-## למה מסלול נוסף?
-מטרת הריפו היא להכשיר Data Engineer, אבל בוגר הנדסת תוכנה זקוק גם **למפת עולם טכנולוגית רחבה** כדי להבין בעיות חדשות, לבחור כלים ולדבר בביטחון עם צוותי Backend, SRE, Security, Analytics ו-AI.
+Data Engineering depends on more than memorizing pipeline tools. Software engineers need enough **computer science and adjacent-domain breadth** to reason with backend, SRE, security, analytics, product and AI teams.
 
-**העיקרון:** עומק מקצועי ב-Data Engineering + רוחב מוכח במקצועות משיקים. לא לומדים 12 מסלולים מקבילים, לא מתחילים מחדש תואר שלם, ולא טוענים שידע בסרטון שווה ניסיון מעשי.
+The strategy is **professional depth in Data Engineering + evidence of breadth in related disciplines**. It is not twelve simultaneous courses, a second university degree or a claim that watching a video is the same as building software.
 
-```mermaid
+~~~mermaid
 flowchart TD
-    A[שאלת Data Engineering] --> B[בנה משהו עובד]
-    B --> C[פתח חלון למדעי המחשב או תחום משיק]
-    C --> D[נבא מה יקרה]
-    D --> E[בדוק במחשב באופן מקומי]
-    E --> F[הסבר בלי AI]
-    F --> G[העבר לבעיה חדשה]
-    G --> H[תעד ראיה ובחר משימת המשך]
-```
+  A[Data Engineering question] --> B[Build a working example]
+  B --> C[Explore a related CS concept]
+  C --> D[Predict the behavior]
+  D --> E[Test with synthetic data]
+  E --> F[Explain without AI]
+  F --> G[Apply to a new problem]
+  G --> H[Record safe evidence and the next step]
+~~~
 
-## איך משלבים רוחב בלי לאבד מומחיות?
-ברירת המחדל ל-10 שעות שבועיות: **7 שעות לליבת Data Engineering, שעתיים למסלול רוחב משיק, שעה לסיכום/חזרה/תרגול ללא AI**. בלוח זמנים של 5 שעות: כ-3.5 שעות ליבה, שעה רוחב וחצי שעה חזרה. אלה יחסי תכנון, לא דרישה להתקדם לפי שעון.
+## How to fit breadth into a focused curriculum
 
-לכל Stage מתאימה לפחות משימת רוחב אחת. משימת הרוחב **אינה תנאי מעבר אוטומטי**; היא הופכת לחובה רק כאשר אבחון גילה חוסר ידע המונע משימה בטוחה או נכונה. מחסור ב-GPU, בענן או ב-RAM לא מונע התקדמות תאורטית עם סימולציה.
+For a 10-hour study week, a practical default is seven hours of Data Engineering, two hours of adjacent Computer Science and one hour of revision and no-AI transfer practice. For five hours, use approximately 3.5 / 1 / 0.5. These are planning ratios, **not automatic promotion criteria**.
 
-## דרכון הרוחב — 12 תחומים
-| תחום | למה הוא חשוב ל-Data Engineer | תחנת תרגול |
-|---|---|---|
-| חומרה ומערכות הפעלה | זיכרון, דיסק, תהליכים, CPU מול I/O | 00 |
-| אלגוריתמים ומבני נתונים | אינדקסים, סיבוכיות, תכנון שאילתות | 01 |
-| הנדסת תוכנה ובדיקות | קוד אמין, חוזים, דיבוג ורגרסיות | 02 |
-| רשתות ו-HTTP | APIs, timeouts, retries, backpressure | 03 |
-| אבטחת מידע | IAM, RLS, מפתחות ועיקרון מינימום הרשאות | 04 |
-| מתמטיקה וסטטיסטיקה | הטיות, מדדים, אוכלוסייה, איכות | 05/07 |
-| גרפים, תזמון ותורת המערכות | DAGs, state, תלויות וכשלים | 06 |
-| אתיקה ו-Data Governance | פרטיות, provenance, רישיונות ו-retention | 07/12 |
-| מוצר, UX והגדרת מדדים | שימושיות, חוזי מדדים, תקשורת עם צוות | 08 |
-| Cloud Economics ו-FinOps | עלויות, חלופות, אחריות תפעולית | 09 |
-| מערכות מבוזרות | סדר אירועים, replay, סמנטיקות מסירה | 10/11 |
-| אוריינות AI ותקשורת טכנית | אימות מקורות, Benchmark וכתיבת Case Study | 13 |
+Each stage has an optional quest. A quest becomes required only when an assessed knowledge gap blocks safe or correct work. Missing hardware is a reason to use a simulation, not to claim full hands-on competence.
 
-בנוסף, לאחר Capstone ניתן לבחור חקר קצר ברובוטיקה, Embedded, Computer Vision, פיתוח מובייל, חישוב מקבילי או אבטחת ענן — **לא כחלק משערי ההסמכה של Data Engineering**, אלא כדרך לפתוח תחומי עניין.
+## The 12-domain passport
 
-## ביצוע מעשי — במחשב של הלומד
-```bash
+| Domain | Why it matters | Suggested stage |
+| --- | --- | --- |
+| Hardware and operating systems | Memory, disk, processes and CPU vs I/O | 00 |
+| Algorithms and data structures | Indexes, complexity and query planning | 01 |
+| Software engineering and testing | Contracts, regression, debugging | 02 |
+| Networks and HTTP | API failures, timeouts, retries, backpressure | 03 |
+| Information security | IAM, RLS, keys and least privilege | 04 |
+| Mathematics and statistics | Bias, metrics and quality thresholds | 05/07 |
+| Graphs and scheduling | DAG dependencies and failure domains | 06 |
+| Ethics and data governance | Licensing, provenance, privacy, retention | 07/12 |
+| Product and analytics UX | Metric definitions, stakeholder questions | 08 |
+| Cloud economics and FinOps | Costs, trade-offs and ongoing operations | 09 |
+| Distributed systems | Event order, replay and delivery semantics | 10/11 |
+| AI literacy and communication | Source verification and case-study writing | 13 |
+
+After the capstone, learners may explore robotics, embedded development, computer vision, mobile apps or cloud security independently. Those are **electives**, not hidden Data Engineering graduation gates.
+
+## Use the offline quest explorer
+
+~~~bash
 python3 scripts/breadth_quest.py list
 python3 scripts/breadth_quest.py recommend --stage 03
 python3 scripts/breadth_quest.py show Q04
 python3 scripts/breadth_quest.py check
-```
+~~~
 
-הסקריפט אינו סורק חומרה, אינו מתחבר לענן, אינו שולח טלמטריה ואינו משנה את ההתקדמות האישית. הוא מציע משימות מובנות לפי Stage מתוך `curriculum/breadth-quests.json`. המנטור יכול לבחור חלופה אם זה נכון ללומד.
+The explorer reads [12 structured breadth quests](../curriculum/breadth-quests.json). It does not inspect hardware, call a cloud service, upload telemetry or modify private progress.
 
-### פרוטוקול מעבדה בן 30–45 דקות
-1. **ניבוי:** כתוב מה אתה חושב שיקרה ולמה.
-2. **ניסוי קטן:** הרץ קוד או בדיקה על קלט סינתטי או מקומי; אם אין חומרה מתאימה, בצע סימולציה אמינה.
-3. **תיעוד:** שמור פקודה, פלט נקי מסודות, תוצאה וגרסה של הכלי.
-4. **הסבר עצמאי:** מה גרם לתוצאה, מה היו ההנחות ומה יכול להשתבש?
-5. **Transfer:** פתר בעיה דומה אך לא זהה ללא רמזי AI.
-6. **Confidence Evidence:** תאר מה אתה יודע לעשות עכשיו, לא רק עד כמה אתה מרגיש בטוח.
+## A 30–45-minute quest protocol
 
-## סולם ביטחון מבוסס יכולת
-- **0 — לא נחשפתי:** איני מזהה את המושג.
-- **1 — מסביר:** יודע להסביר בשפה פשוטה ובדוגמה.
-- **2 — מבצע עם עזרה:** משלים ניסוי באמצעות תיעוד או רמזים.
-- **3 — מבצע לבד:** מתקן כשל חדש, מריץ בדיקות ומסביר את התוצאה.
-- **4 — מעביר ידע:** מצדיק tradeoffs ומיישם בנושא חדש ללא עזרה.
+1. **Predict:** write an expected outcome and a reason.
+2. **Experiment:** use a small synthetic input or a safe simulation.
+3. **Record:** preserve commands, expected versus observed results, tool version and redacted logs.
+4. **Explain:** identify assumptions, the root cause and a plausible failure mode.
+5. **Transfer:** solve a related but different challenge without AI hints.
+6. **Evidence:** describe what you can independently perform, not how confident you feel.
 
-הציון הוא **דיווח לימודי**, לא הערכה של זהות או של ערך אישי. חשוב לומר במפורש "עוד לא יודע" ולהחזיק רשימת פערים; המטרה אינה להעמיד פנים שבטוחים בכל דבר.
+### Self-assessment scale
 
-## תוצר נדרש בסיום כל Side Quest
-```text
-Question / Prediction:
-Hardware constraints (only category light/moderate/full if relevant):
+| Level | Meaning |
+| --- | --- |
+| 0 | Not yet familiar with the concept |
+| 1 | Can explain it in plain language |
+| 2 | Can complete a guided experiment |
+| 3 | Can debug and explain a new case independently |
+| 4 | Can transfer the insight to another problem and justify trade-offs |
+
+A score reflects **demonstrated skill at a particular task**, not a person's identity or worth. Explicitly recording "not yet understood" makes the next learning action more accurate.
+
+## Evidence template
+
+~~~text
+Question and prediction:
+Hardware mode (light/moderate/full, only if relevant):
 Experiment or simulation:
-Command and expected result:
+Exact command and expected result:
 Observed result:
-Root cause or reasoning:
+Root cause and assumptions:
 What surprised me:
 New problem solved independently:
-Evidence (local file / personal PR, with no secrets):
-Next review date (about 7–14 days):
-```
+Safe evidence (file or personal PR):
+Next review date (approximately 7–14 days):
+~~~
 
-## תפקיד ChatGPT כמנטור
-- לפתוח בשאלה מעוררת סקרנות ולא בהרצאה ארוכה.
-- לקשר לכל Stage *נושא רוחב אחד רלוונטי* ושאלת "למה?" אחת.
-- להתחיל ברמז קטן, ורק לאחר ניסיון לספק פתרון מלא.
-- להבדיל בין ביטחון סובייקטיבי לבין יכולת שנבדקה.
-- לשאול איזו התנהגות הלומד **צופה** לפני הרצת הניסוי.
-- להציע סרטון/מחברת רק אם הם מועילים למשימה, ולא לצבור צפיות.
-- לא להגדיר "מומחה" לאחר תרגיל אחד או מספר שעות קבוע.
-- לא לבצע פעולות מסוכנות, יקרות או חושפות מידע מהמחשב בלי אישור הלומד.
+## Mentor responsibilities
 
-## מסלול הצמיחה
-**Orientation:** Stage 00–02 — למצוא חוסרים, להבין מחשב, SQL, בדיקות ופלטפורמת Git.  
-**Build:** Stage 03–07 — לקבל מידע, לעבד, למדל ולבדוק.  
-**Operate:** Stage 08–12 — להנגיש, לפרוס, לאבטח ולשחזר.  
-**Explain & Transfer:** Stage 13 — להציג תיק עבודות, להסביר תכנון ולפתור מקרה חדש.
+Start with one question rather than a long lecture; offer graduated hints; check **predictions before execution**; keep confidence separate from passing evidence; recommend videos only when useful; never label someone an expert after one lab or a fixed number of hours; request consent before costly or sensitive operations.
 
-קישורי לימוד כלליים: [MIT Missing Semester](https://missing.csail.mit.edu/), [Python Tutorial](https://docs.python.org/3/tutorial/), [MDN HTTP](https://developer.mozilla.org/en-US/docs/Web/HTTP), [PostgreSQL Documentation](https://www.postgresql.org/docs/), [OWASP ASVS](https://owasp.org/www-project-application-security-verification-standard/). כל קישור הוא השלמה לניסוי — לא משימה לצפות בכל התוכן.
+Further official learning resources: [MIT Missing Semester](https://missing.csail.mit.edu/), [Python](https://docs.python.org/3/tutorial/), [MDN HTTP](https://developer.mozilla.org/en-US/docs/Web/HTTP), [PostgreSQL](https://www.postgresql.org/docs/), [OWASP ASVS](https://owasp.org/www-project-application-security-verification-standard/).

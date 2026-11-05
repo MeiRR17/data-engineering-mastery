@@ -1,79 +1,77 @@
-# Foundations Labs — מסלול מונחה ומדורג ב-SQL, Python ו-ETL
+# Foundations Labs — a guided SQL, Python and ETL sequence
 
-[ל-README הראשי](../README.md) · [מפת המסלול](ROADMAP.he.md) · [כללי הערכה](ASSESSMENT.md)
+[Home](../README.md) · [Roadmap](ROADMAP.he.md) · [Assessment](ASSESSMENT.md)
 
-המסלול הזה מתקן פער מרכזי: תיעוד אינו זהה ללמידה. אלו **שלוש מעבדות רצות עם מערכת בדיקה אוטומטית**, שחולקות תרחיש אחד — אירועי רעידות אדמה סינתטיים — ומלמדות מה באמת קורה למידע בדרך מהמקור למסד הנתונים.
+**Documentation is not the same as competence.** These are three real graded labs sharing a single synthetic event source and explaining what happens between an upstream feed and a trusted database.
 
-```mermaid
+~~~mermaid
 flowchart LR
-  A[Stage 01 SQL: What is an event?] --> B[Stage 02 Python: What is valid?]
-  B --> C[Stage 03 ETL: What survives a crash?]
-  C --> D[Stage 04 PostgreSQL — new isolated lab]
-  E[Algorithms, types, ACID, network failures] -. explains .-> B
-  E -. explains .-> C
-```
+  A[Stage 01: SQL and event identity] --> B[Stage 02: Python validation]
+  B --> C[Stage 03: Replay-safe ETL]
+  C --> D[Stage 04: Isolated PostgreSQL]
+  E[Algorithms, types, ACID and HTTP failures] -. explain .-> B
+  E -. explain .-> C
+~~~
 
-## דרישות מקדימות
-Python 3.11+ ו-Git מספיקים. אין דרישה ל-Docker, חשבון ענן, חשבון ChatGPT בתשלום או GPU. כל המידע המקומי סינתטי, כל השאילתות רצות על SQLite בזיכרון, וכל בדיקות הקלט נטולות רשת. בקש מהמנטור להתאים קצב לפי אבחון; אל תשלח סיסמאות או מפרט מחשב אישי מלא.
+## Prerequisites
 
-## איך מתחילים — בדיוק
-מתיקיית שורש הריפו האישי:
+Python 3.11+ and Git are enough to start. There is no requirement for Docker, a cloud account, a paid ChatGPT account or GPU. Source data is synthetic, and the early SQL exercises run on in-memory SQLite.
 
-```bash
+## Exact start commands
+
+From your personal copy of the repository:
+
+~~~bash
 python3 scripts/validate_repo.py
 python3 labs/01-sql/run_lab.py
 python3 labs/01-sql/grade.py
-```
+~~~
 
-הבדיקה של `grade.py` צפויה **להיכשל בתחילה**. זה לא באג בתבנית. כעת פתח `labs/01-sql/tasks.sql` ב-VS Code ומלא את המשימות לפי [הוראות SQL](../labs/01-sql/README.md). הרץ שוב עד שכל הדרישות עוברות. המשך ל-[מעבדת Python](../labs/02-python/README.md) ול-[מעבדת ETL](../labs/03-etl/README.md):
+`grade.py` is **expected to fail initially**: open `labs/01-sql/tasks.sql` and implement the [SQL tasks](../labs/01-sql/README.md). Then continue with [Python](../labs/02-python/README.md) and [ETL](../labs/03-etl/README.md):
 
-```bash
+~~~bash
 python3 labs/02-python/grade.py
 python3 labs/03-etl/grade.py
-```
+~~~
 
-לכל מעבדה יש שני מסלולי בדיקה:
+Each lab has two grading modes: **learner mode** (without arguments, tests your unfinished starter) and **maintainer mode** (`--reference`, verifies that the reference and tests still agree). The reference is visible for source review but should **not** be copied as proof of independent learning.
 
-- **לומד:** פקודת `grade.py` ללא דגל; בודקת את הקוד שלו, ומכשילה כשהוא עדיין אינו שלם.
-- **מתחזק/CI:** אותה פקודה עם `--reference`; בודקת פתרון ייחוס שנמצא במאגר, כדי לתפוס רגרסיות בהוראות ובמבחנים. הפתרון גלוי למבקר אך **לא אמור לשמש להעתקה לצורך מעבר**.
+## Suggested four-part sequence
 
-## קצב מומלץ שאינו מחייב
-| שבוע | מה לומדים | מה מוכיחים |
-|---|---|---|
-| 1 | SQL, NULL, aggregate, window functions, dedup | 4 שאילתות נכונות על שני datasets + הסבר grain |
-| 2 | Python, GeoJSON, timestamps, validation | 6 מקרי בדיקה + parser עצמאי |
-| 3 | ETL, transaction, replay, quarantine, failure injection | 7 מקרי אינטגרציה + שחזור כשל |
-| 4 | הרחבה עצמאית, review, אימון ב-PostgreSQL, השלמת תיקון | PR + הסבר ללא AI + בעיית העברה חדשה |
+| Learning block | Core topic | Demonstrated evidence |
+| --- | --- | --- |
+| 1 | SQL, NULL, aggregates, windows and deduplication | Four correct queries on two datasets; explanation of grain |
+| 2 | Python parsing, GeoJSON, timestamps, validation | Six edge cases plus an independently written parser |
+| 3 | ETL transactions, replay, quarantine and failure injection | Seven integration cases and a reproduced incident |
+| 4 | Independent extension, code review and PostgreSQL preparation | PR, no-AI explanation and an unseen transfer problem |
 
-## מה המנטור עושה בכל שיעור?
-1. מציג תקלה אחת ומבקש **ניבוי** לפני ניסוי.
-2. מבקש 10 דקות ניסיון עצמאי; מגדיר נקודת עצירה בטוחה.
-3. נותן רמז מדורג לפי צורך; לא כותב מיד את הפתרון.
-4. בודק את תוצאות הפקודות ומבקש מהלומד לפרש אותן.
-5. מחבר ליסוד מדעי המחשב (B-Tree, טיפוסים, ACID/Isolation, Idempotency).
-6. בוחר שאלה חדשה שלא הופיעה בפתרון, כדי לבדוק **העברת ידע**.
-7. מסכם PR, בדיקות, מגבלות, טעויות, ובוחן את השלב הבא.
+The sequence is competency-based. Spend longer on a failed prerequisite rather than advancing to satisfy a calendar deadline.
 
-## Gate — מתי באמת מסיימים את יסודות 01–03?
-- לכל מעבדה ה־grader שלה עובר על גרסת הלומד.
-- קיים PR פרטי או ציבורי בריפו האישי, עם תוצאות פקודות ודיון ב-tradeoffs.
-- הלומד מסוגל לתקן כשל שלא ראה מראש ולפתור 2 שאלות ללא AI.
-- אין טענות על Supabase בענן, Spark או Kafka אם לא הורצו שם בדיקות אמיתיות.
-- ההשלמה מוגדרת **self-reported** עד שבודק אנושי או בוחן בלתי תלוי עבר על הראיות. אין תעודת הסמכה מקצועית רשמית אוטומטית.
+## Every lesson follows the same method
 
-## תרחישי כשל שחייבים להכיר
-| אירוע | מה צריך להוכיח |
-|---|---|
-| רישום כפול מהמקור | DISTINCT EVENT ולא COUNT שורות |
-| ערך `NULL` | הבחנה בין COUNT(*) ל-COUNT(column) |
-| שדה מספרי המכיל טקסט/NaN/Boolean | Validation מפורש ללא coercion |
-| UTC מול זמן מקומי | תאריכים ו-timezone נשמרים באופן חד-משמעי |
-| API מוסיף שדה | לא מאבדים נתונים הכרחיים; שדה לא מוכר מטופל לפי contract |
-| Batch מופעל פעמיים | Replay לא מכפיל מידע |
-| עדכון ישן מגיע אחרי חדש | גרסה ישנה אינה דורסת את החדשה |
-| רשומה פגומה בין תקינות | הסגר עם fingerprint בלבד; איכות לא מתדרדרת בשקט |
-| יותר מדי רשומות פגומות | כל batch נבלם באופן אטומי |
-| קריסה לפני commit | אפס שורות חלקיות נשארות |
+1. Present one failure and ask for a prediction.
+2. Require an initial independent coding attempt.
+3. Offer progressively smaller hints when necessary.
+4. Inspect actual test output and require a causal explanation.
+5. Connect the result to B-trees, types, transactions, isolation or idempotency.
+6. Test a **new** case, not the same one solved in the reference.
+7. Record a PR, redacted test evidence, limitations and a next action.
 
-## מה עוד לא נכלל בהרחבה הזאת?
-המעבדות הן **השלמת תרגול לשלבים 01–03**, לא כל ההכשרה. שלבים 04–13, פריסה אמיתית ל-Supabase, מדדי Production, אורקסטרציה בענן ופרויקט גמר נדרשים עדיין. תוכנית המימוש נמצאת ב-[Maintainer Roadmap](MAINTAINER-ROADMAP.he.md).
+## Must-understand failure cases
+
+| Failure | Required reasoning |
+| --- | --- |
+| Duplicate source row | Count business events, not arbitrary JOIN rows |
+| NULL magnitude | Explain the difference between `COUNT(*)` and `COUNT(column)` |
+| Text, NaN or boolean in numeric field | Reject explicitly; do not silently coerce |
+| Mixed timezones | Normalize to UTC and preserve event time |
+| Unexpected API field | Follow the versioned schema contract |
+| Repeated batch | Replay does not multiply events |
+| Older source correction arrives last | Old revision cannot overwrite a new revision |
+| Malformed record within valid data | Safe quarantine and explainable quality metrics |
+| Excessive invalid fraction | Block publication atomically |
+| Crash before commit | No partially published rows or checkpoints |
+
+**Completion gate:** the learner's own code passes all three labs; their personal PR contains reproducible commands, two independent explanation questions, a new test and no secrets. Only a qualified independent assessment can turn self-reported progress into verified competency.
+
+The full 14-stage program extends beyond these foundations to PostgreSQL, dbt, Spark, Kafka and the [capstone](../capstone/README.md).
