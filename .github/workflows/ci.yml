@@ -211,6 +211,107 @@ jobs:
         if: always()
         run: docker rm -f dem-stage11-kafka || true
 
+desktop-vscode-jupyter-e2e:
+    name: "Real VS Code/Jupyter on OS: ${{ matrix.os }}"
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, macos-15, windows-2025]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    env:
+      MPLBACKEND: Agg
+    steps:
+      - name: Checkout without retaining credentials
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Select Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install official VS Code CLI on disposable Ubuntu
+        if: runner.os == 'Linux'
+        shell: bash
+        run: |
+          curl -fLsS --retry 3 --retry-delay 2 --connect-timeout 20 \
+            -o "$RUNNER_TEMP/vscode-linux.deb" \
+            "https://update.code.visualstudio.com/latest/linux-deb-x64/stable"
+          file "$RUNNER_TEMP/vscode-linux.deb" | grep -F "Debian binary package"
+          sudo apt-get install -y "$RUNNER_TEMP/vscode-linux.deb"
+          code --version
+          echo "VSCODE_CLI=$(command -v code)" >> "$GITHUB_ENV"
+
+      - name: Install official VS Code CLI on disposable Apple Silicon macOS
+        if: runner.os == 'macOS'
+        shell: bash
+        run: |
+          curl -fLsS --retry 3 --retry-delay 2 --connect-timeout 20 \
+            -o "$RUNNER_TEMP/vscode-macos.zip" \
+            "https://update.code.visualstudio.com/latest/darwin-arm64/stable"
+          mkdir -p "$RUNNER_TEMP/vscode-macos"
+          ditto -xk "$RUNNER_TEMP/vscode-macos.zip" "$RUNNER_TEMP/vscode-macos"
+          cli="$RUNNER_TEMP/vscode-macos/Visual Studio Code.app/Contents/Resources/app/bin/code"
+          test -x "$cli"
+          "$cli" --version
+          echo "VSCODE_CLI=$cli" >> "$GITHUB_ENV"
+
+      - name: Install official VS Code CLI on disposable Windows
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $ProgressPreference = 'SilentlyContinue'
+          $zip = Join-Path $env:RUNNER_TEMP 'vscode-windows.zip'
+          Invoke-WebRequest -Uri 'https://update.code.visualstudio.com/latest/win32-x64-archive/stable' -OutFile $zip
+          $dest = Join-Path $env:RUNNER_TEMP 'vscode-windows'
+          Expand-Archive -LiteralPath $zip -DestinationPath $dest
+          $cli = Join-Path $dest 'bin\code.cmd'
+          if (-not (Test-Path -LiteralPath $cli)) { throw 'VS Code CLI missing from official archive' }
+          & $cli --version
+          Add-Content -Path $env:GITHUB_ENV -Value "VSCODE_CLI=$cli"
+
+      - name: Install extensions and run all 14 notebooks on real Jupyter (Unix)
+        if: runner.os != 'Windows'
+        shell: bash
+        run: bash scripts/bootstrap-learning.sh --all
+
+      - name: Install extensions and run all 14 notebooks on real Jupyter (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          powershell -NoProfile -ExecutionPolicy RemoteSigned -File scripts/bootstrap-learning.ps1 -Mode all
+          if ($LASTEXITCODE -ne 0) { throw 'Windows course setup or notebook CI failed' }
+
+      - name: Verify generated local evidence (Unix)
+        if: runner.os != 'Windows'
+        shell: bash
+        run: |
+          .venv/bin/python - <<'PY'
+          import json
+          from pathlib import Path
+          x = json.loads(Path("learner/setup-check.local.json").read_text())
+          assert x["status"] == "PASS", x["issues"]
+          assert len(x["installed_extensions"]) == 4
+          assert len(x["executed_notebooks"]) == 14
+          assert x["markdown_parsed_to_html"] is True
+          assert x["execution_scope"] == "THIS_CLI_CONTEXT_ONLY"
+          print("PASS: installed VS Code extensions, Markdown and all 14 Jupyter notebooks")
+          PY
+
+      - name: Verify generated local evidence (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $r = Get-Content learner\setup-check.local.json -Raw | ConvertFrom-Json
+          if ($r.status -ne 'PASS') { throw 'Local readiness was not PASS' }
+          if ($r.installed_extensions.PSObject.Properties.Count -ne 4) { throw 'Missing extensions' }
+          if ($r.executed_notebooks.Count -ne 14) { throw 'Not all notebooks executed' }
+          if (-not $r.markdown_parsed_to_html) { throw 'Markdown render failed' }
+          Write-Host 'PASS: actual Windows VS Code extensions and Jupyter runtime'
+
   capstone-stage13:
     runs-on: ubuntu-latest
     timeout-minutes: 8
