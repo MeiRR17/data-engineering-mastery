@@ -16,7 +16,7 @@ ROOT = Path(__file__).resolve().parents[1]
 HEBREW = re.compile(r"[\u0590-\u05FF]")
 TEXT_SUFFIXES = frozenset({
     ".md", ".ipynb", ".json", ".py", ".sql", ".js", ".html", ".css",
-    ".sh", ".yml", ".yaml", ".toml", ".svg", ".txt", ".example", ".csv", ".jsonl",
+    ".sh", ".ps1", ".yml", ".yaml", ".toml", ".svg", ".txt", ".example", ".csv", ".jsonl",
 })
 SKIP_PARTS = frozenset({
     ".git", ".venv", "venv", "node_modules", "__pycache__", ".pytest_cache",
@@ -69,6 +69,20 @@ def validate_visual_setup(root: Path = ROOT) -> list[str]:
             failures.append("Missing required Markdown/Python/Jupyter extension recommendations")
     except (OSError, ValueError, KeyError, TypeError) as error:
         failures.append(f"Invalid VS Code extension recommendations: {error}")
+
+    # Cross-platform installers are optional; verify their declared contents
+    # without attempting local editor installation from CI.
+    for installer in (
+        root / "scripts" / "install-vscode-extensions.sh",
+        root / "scripts" / "install-vscode-extensions.ps1",
+    ):
+        try:
+            install_text = installer.read_text(encoding="utf-8")
+            for extension in EXTENSIONS:
+                if extension not in install_text:
+                    failures.append(f"{installer.name}: missing extension {extension}")
+        except OSError as error:
+            failures.append(f"Missing or unreadable installer {installer.name}: {error}")
 
     guide = root / "docs" / "VS-CODE-LEARNING-SETUP.md"
     if not guide.is_file():
