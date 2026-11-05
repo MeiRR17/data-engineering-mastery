@@ -35,3 +35,7 @@ The offline Stage 09 lesson implements reproducible versioned ZIP bundles, integ
 ### Stage 10 implementation increment (in RC)
 
 A deterministic pure-Python MapReduce learning fallback (21 instructor-graded scenarios) and a real Java 17 + PySpark 4.0.5 local DataFrame job (9 instructor-graded scenarios, light/Spark parity check, physical-plan explanation and a synthetic skew demonstration). A separate optional CI job installs PySpark and runs locally; running local Spark on one machine is **not** the same as distributed cluster verification. No DuckDB performance benchmark, Kafka, Parquet lake or cloud cluster has been claimed.
+
+### Integrated 00–13 learning coverage — 2026-11-05
+
+The Draft RC now includes 14 stage notebooks, Stage 00–12 labs, a Stage 13 integrated capstone, and an independent review/examination framework. `python3 scripts/audit_program.py` verifies structure, and instructor graders run in CI, including real local PostgreSQL, dbt, Spark and single-broker Kafka. These are *local teaching integrations*, not authorized production deployments. Full release acceptance still requires pilot feedback, examiner review, security review and optional real cloud sandbox proof. See [PROGRAM-READINESS.he.md](PROGRAM-READINESS.he.md).
