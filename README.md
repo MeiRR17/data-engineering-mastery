@@ -1,236 +1,154 @@
 # Data Engineering Mastery
 
-**מתואר בהנדסת תוכנה ועד Data Engineer שמסוגל לתכנן, לפתח, לפרוס, לאבטח ולתפעל תשתית נתונים מקצה לקצה.**
+![Data Engineering Mastery — a reliable flow from ingest to validated analytics](assets/hero.svg)
 
-[English](README.en.md) · [מסלול מלא](docs/ROADMAP.he.md) · [מדריך הלומד](docs/LEARNER-HANDBOOK.he.md) · [וידאו ומחברות](docs/VIDEO-LEARNING.he.md) · [מנטור ChatGPT](prompts/MASTER-AGENT.he.md) · [GitHub/MCP](docs/GITHUB-MCP-SETUP.he.md)
+**A complete, practical, English-first learning pathway from software engineering to Data Engineering.** Learn the concepts, write real code, break it safely, fix it, and show reproducible evidence.
 
-![Data Engineering Mastery — from raw data to reliable systems](assets/hero.svg)
+The repository contains **14 stages (00–13)**, guided Jupyter notebooks, graded labs, reference implementations for maintainers, independent learner exercises, and a synthetic end-to-end DataPulse capstone. All exercises use reproducible synthetic datasets; real cloud environments are strictly optional and require separate owner authorization.
 
-> **סטטוס תוכנית ההכשרה:** כל 14 השלבים 00–13 כוללים שיעור, מחברת, תרגול מעשי ובודק; יש פרויקט גמר משולב ובחינה פנימית נפרדת. זהו **מסלול תוכן וקוד מלא לשימוש וללמידה עצמאית**, ולא הוכחה שלומד כלשהו כבר עבר אותו. [דוח מוכנות](docs/PROGRAM-READINESS.he.md) · [תוכנית ההוראה](docs/TEACHING-PLAN.he.md) · [בחינת הגמר](docs/FINAL-ASSESSMENT.he.md).
+[**Start learning**](docs/QUICKSTART.en.md) · [**Visual VS Code setup**](docs/VS-CODE-LEARNING-SETUP.md) · [**Course map**](docs/training-manifest.json) · [**Capstone**](capstone/README.md) · [**Final assessment**](docs/FINAL-ASSESSMENT.he.md)
 
-> **מגבלות שאינן מסתתרות מאחורי CI ירוק:** יש לבצע פיילוט לומד עצמאי וביקורת מקצועית לפני מתן אישור סיום פנימי. לא בוצעה פריסת Supabase מאובטחת בענן, אין הסמכה חיצונית ואין הבטחת תעסוקה. תג הגרסה האחרון לפני שילוב התוכנית היה `v0.2.0`; אין לטעון ל־`v1.0.0` מוסמך בלי השלמת שערי הקבלה האנושיים.
+## Start here: read the lessons visually
 
-## למי מיועד המסלול?
+Do **not** open a `.ipynb` file as raw JSON. This course is designed for **VS Code with rendered Markdown and visual Jupyter notebooks**.
 
-בוגר/ת הנדסת תוכנה שמכיר/ה כתיבת קוד, אך לא בהכרח Data Engineering. לא נניח שלמדת SQL מתקדם, Linux, רשתות, ענן או מערכות מבוזרות; נבצע אבחון ונלמד רק מה שחסר. דרוש מחשב, Git, Python 3.11+ וסקרנות. **אין צורך ב־GPU, מנוי ChatGPT בתשלום, חשבון ענן או Docker להתחלה.**
-
-ההבדל בין **Data Analyst** (מפיק תובנות), **Data Scientist** (מפתח ניתוח ומודלים) ו־**Data Engineer** (בונה תשתיות מידע אמינות) נלמד כבר ב־Stage 00. כל שיעור מחבר *בעיה עסקית → נתונים → קוד → בדיקות → מדעי המחשב → פריסה → תפעול*.
-
-## לימוד לרוחב — כדי לפתח ביטחון הנדסי אמיתי
-
-ההתמחות המרכזית היא **Data Engineering**, אבל בכל שלב נלמד גם תחום משיק: מערכות הפעלה, אלגוריתמים, רשתות, אבטחה, סטטיסטיקה, ארכיטקטורה, מוצר ו-AI. לא נלמד הכל בבת אחת; 70% מהזמן נשארים בבניית Data Pipelines ו-20% בניסויי רוחב קטנים.
-
-[**מסלול רוחב וביטחון — Foundations Passport**](docs/BREADTH-FOUNDATIONS.he.md) כולל 12 אתגרי חקר עם ניסוי עצמאי ומבחן העברה:
+1. **Clone or open this repository** in Visual Studio Code (**File → Open Folder**).
+2. Install the recommended extensions from the notification or follow the [one-page VS Code setup](docs/VS-CODE-LEARNING-SETUP.md): **Python**, **Jupyter**, **Markdown All in One**, **Markdown Preview Enhanced**.
+3. Open this `README.md` or a stage module; press **Cmd+Shift+V** (macOS) / **Ctrl+Shift+V** (Windows/Linux) to view the formatted Markdown, diagrams and tables. Use **Cmd/Ctrl+K, V** for side-by-side preview.
+4. Open [notebooks/00_data_journey.ipynb](notebooks/00_data_journey.ipynb): it should display notebook **cells**, not JSON. Select a Python kernel when prompted.
+5. Run the reference exercise once to verify that the lab itself works:
 
 ~~~bash
-python3 scripts/breadth_quest.py recommend --stage 03
-python3 scripts/breadth_quest.py show Q04
+python3 labs/00-onboarding/grade.py --reference
 ~~~
 
-**ביטחון נבנה מהיכולת לחזות תוצאה, להריץ, לאבחן ולהסביר ללא AI; לא מהשלמת שעות או צפייה בסרטונים.** ניתן לדלג על Quest צדדי אם אינו קשור ליעד הנוכחי.
+6. Implement the **separate learner starter**, intentionally unfinished at first:
 
-## מעבדות חדשות — למידה שמוכיחה יכולת
+~~~bash
+python3 labs/00-onboarding/grade.py
+~~~
 
-[**Foundations Labs — מדריך צעד אחר צעד לשלבים 01–03**](docs/FOUNDATIONS-LABS.he.md) כולל שלוש מעבדות מדורגות, גריידרים עם נתוני קצה, בדיקות קריסה ופתרונות ייחוס המיועדים לתחזוקה. מתחילים ב-SQL, ממשיכים ל-Python ול-ETL ב-SQLite; **הבדיקות של הלומד נכשלות בהתחלה בכוונה**. אין צורך בחשבון ענן או בהתקנת חבילות נוספות.
+7. Explain the test result, add a new failure case, and submit evidence in your own branch. Then continue to [Stage 01](curriculum/modules/01.md).
 
-```bash
-python3 labs/01-sql/grade.py
-python3 labs/02-python/grade.py
-python3 labs/03-etl/grade.py
-```
+You can install all four VS Code extensions on macOS/Linux from a terminal in this repository:
 
-להערכת המערכת (CI בלבד), פקודות אלה עם `--reference` אמורות לעבור. נתונים אמיתיים ופריסת Supabase מגיעים בשלבים הבאים, לאחר בניית היסודות.
+~~~bash
+bash scripts/install-vscode-extensions.sh
+~~~
 
-## Stage 04 — PostgreSQL אמיתי לפני Supabase
+The installation is **optional and user-initiated**. The repository cannot install extensions in your local editor without your action.
 
-[מעבדת PostgreSQL](labs/04-postgres/README.md) מריצה בדיקות רלוונטיות על בסיס נתונים זמני ללא חשבון ענן. התחל עם פקודת הייחוס: python3 labs/04-postgres/run_lab.py --reference. לאחר מכן נסה את תרגיל הלומד: python3 labs/04-postgres/run_lab.py, שייכשל בתחילה בכוונה. [פריסה לענן](docs/STAGE-04-SUPABASE-DEPLOY.he.md) היא שלב נפרד ואינה מאומתת עדיין.
+## What you will learn
 
-## Stage 10 — Big Data ו־PySpark על מחשב רגיל
+<escape><!-- The course is competency-based: finishing a file does not prove mastery. --></escape>
 
-[**מעבדת Spark ו־Map/Reduce בשני מסלולים**](labs/10-spark/README.md) מציעה מצב Light ללא תלות חיצונית עם 21 מבחני תרגול ומצב Full עם PySpark מקומי, 9 מבחני Spark, בדיקת התאמה בין מסלולים והדגמה של חלוקה לא מאוזנת למחיצות (Data Skew). הדוגמה סינתטית ומוגבלת; אין בה Cluster מבוזר או פריסה לענן.
+| Stage | Topic | Practice | Notebook |
+| --- | --- | --- | --- |
+| [00](curriculum/modules/00.md) | Environment, Git and data flow | Readiness, safe paths and DAG reasoning | [Open](notebooks/00_data_journey.ipynb) |
+| [01](curriculum/modules/01.md) | SQL, relational models and query plans | Joins, cardinality, transactions and indexes | [Open](notebooks/01_sql_detective.ipynb) |
+| [02](curriculum/modules/02.md) | Python data foundations | Typed parsing, validation and unit tests | [Open](notebooks/02_etl_failure_lab.ipynb) |
+| [03](curriculum/modules/03.md) | Batch ETL and incremental processing | Idempotent SQLite loads and late corrections | [Open](notebooks/03_pipeline_observatory.ipynb) |
+| [04](curriculum/modules/04.md) | PostgreSQL and row-level security | Real local PostgreSQL migrations, role denial tests | [Open](notebooks/04_postgres_security.ipynb) |
+| [05](curriculum/modules/05.md) | Warehouse modeling and dbt | Fact/dimension schema, SCD2 and dbt marts | [Open](notebooks/05_scd2_modeling.ipynb) |
+| [06](curriculum/modules/06.md) | Orchestration and retries | DAGs, bounded backfill and durable checkpoints | [Open](notebooks/06_dag_recovery.ipynb) |
+| [07](curriculum/modules/07.md) | Data contracts, quality and lineage | Quarantine, freshness, completeness and atomic publish | [Open](notebooks/07_quality_contracts.ipynb) |
+| [08](curriculum/modules/08.md) | Read-only analytics serving | Local API, quality-aware dashboard and KPI definition | [Open](notebooks/08_readonly_serving.ipynb) |
+| [09](curriculum/modules/09.md) | CI/CD and release engineering | Reproducible artifacts, health gates and rollback | [Open](notebooks/09_releases_rollback.ipynb) |
+| [10](curriculum/modules/10.md) | Big Data and Spark | Light Map/Reduce, local PySpark and shuffle/skew | [Open](notebooks/10_spark_partitioning.ipynb) |
+| [11](curriculum/modules/11.md) | Streaming and Kafka | Offsets, replay, safe local sink and Kafka broker | [Open](notebooks/11_streaming_offsets.ipynb) |
+| [12](curriculum/modules/12.md) | Reliability and recovery | SLOs, error budgets, RBAC, backups and incident drills | [Open](notebooks/12_slo_recovery.ipynb) |
+| [13](curriculum/modules/13.md) | Capstone, portfolio and assessment | Integrated DataPulse pipeline and independent examination | [Open](notebooks/13_integrated_capstone.ipynb) |
 
-## Stage 11 — Kafka ו־Streaming
+Every stage links to a lesson, a practical lab, a graded test, and a separate student implementation task. The expected first result of an unfinished learner exercise is a **failing test**; instructors run `--reference` to validate the test suite.
 
-[**מעבדת Streaming ו־Consumer Offsets**](labs/11-streaming/README.md) כוללת 25 מבחני כשל לרשומות כפולות, Restart, Watermarks, Poison Messages ו־Commit אטומי של Offset/נתוני Sink. יש מצב Light ללא שירותים ומסלול Kafka אמיתי עם Broker מקומי. התרגילים מתחילים לא פתורים.
+## How the course works
 
-## Stage 12 — תפעול, SLO, גיבויים ושחזור
+![Learning loop: predict, implement, test, explain and transfer](assets/learning-loop.svg)
 
-[**מעבדת Reliability & Governance**](labs/12-reliability/README.md): מגדירים SLO, תקציב שגיאות, הרשאות, מודל עלויות, גיבוי SQLite ואימות שחזור לתיקייה מבודדת; 27 מבחני כשל ותרגיל Incident. זהו סימולטור מקומי, לא מערך תפעול בענן.
+**Learn → Predict → Build → Break → Repair → Explain → Transfer.** Read a concept, predict its behavior, implement your own solution, inject a controlled failure, add a regression test, then explain a *different* scenario without AI. Simply watching videos or copying reference solutions is not a passing result.
 
-## מה עושים עכשיו? בדיוק 10 צעדים
+The progression is **competency-based, not time-based**. The [teaching plan](docs/TEACHING-PLAN.he.md) provides a suggested schedule, [learner handbook](docs/LEARNER-HANDBOOK.he.md) explains the daily workflow, and the [mastery matrix](docs/MASTERY-MATRIX.he.md) defines evidence requirements. You may spend longer on advanced stages until the skills are demonstrable.
 
-1. **יוצרים ריפו אישי:** כשמאגר זה יתפרסם כ־GitHub Template, לחצו **Use this template → Create a new repository**. אפשר להתחיל בריפו פרטי; אין חובה לפרסם את ההתקדמות האישית. אם קיבלתם ZIP, חילצו אותו ופתחו את התיקייה ב־VS Code. [הסבר](docs/GITHUB-MCP-SETUP.he.md).
-2. **נכנסים לתיקיית השורש:** זה המקום שבו נמצאים `README.md`, `scripts/` ו־`curriculum/`. פתחו Terminal מתוך VS Code (`Terminal → New Terminal`).
-3. **בודקים סביבת עבודה** (פקודות לקריאה בלבד, ללא שליחה לענן):
+Each major topic includes a bridge back to computer science: [algorithms](curriculum/cs-bridges/algorithms.md), [databases](curriculum/cs-bridges/databases.md), [networking](curriculum/cs-bridges/networking.md), [operating systems](curriculum/cs-bridges/operating-systems.md), [distributed systems](curriculum/cs-bridges/distributed-systems.md), [security](curriculum/cs-bridges/security.md), [statistics](curriculum/cs-bridges/statistics.md) and [architecture](curriculum/cs-bridges/architecture.md). Optional [breadth quests](docs/BREADTH-FOUNDATIONS.he.md) build confidence beyond any individual tool.
 
-   ```bash
-   python3 --version
-   git --version
-   python3 scripts/system_profile.py
-   python3 scripts/validate_repo.py
-   python3 -m unittest discover -s tests -v
-   ```
+## Running the code
 
-   Windows: אם `python3` אינו מזוהה, נסו `py -3` במקום `python3`; את כל פקודות Python אפשר להריץ בהתאם. אם אין Python, התקינו מהאתר הרשמי או דרך מנהל חבילות מהימן. [פתרון תקלות](docs/TROUBLESHOOTING.he.md).
-4. **בוחרים מסלול חומרה:** המחשב מקבל המלצה `light` / `moderate` / `full`. RAM/CPU אינם ציון היכולות שלכם; גם במחשב חלש אפשר להשלים את המסלול עם SQLite, DuckDB וקבצים קטנים. אין צורך לשתף את פלט החומרה המלא. [הסבר מפורט](docs/ENVIRONMENT.he.md).
-5. **פותחים מצב התקדמות מקומי ואישי:**
+The **Light path** requires Python 3.11+ and the standard library; begin here on any ordinary computer. The **full local path** adds Docker/PostgreSQL, dbt, Java 17/PySpark and single-broker Kafka exercises when your machine supports them. No GPU is required.
 
-   ```bash
-   python3 scripts/roadmap.py init --alias learner
-   python3 scripts/roadmap.py status
-   python3 scripts/roadmap.py next
-   python3 scripts/roadmap.py start 00
-   ```
+~~~bash
+# Curriculum metadata, documentation links and notebook structure
+python3 scripts/validate_repo.py
+python3 scripts/audit_program.py
 
-   הקובץ האישי `learner/progress.json` מוחרג מ־Git ולא מועלה אוטומטית. **אם כבר התחלתם**, דלגו על `init` (הסקריפט מסרב לדרוס התקדמות קיימת).
-6. **פותחים את המנטור:** קראו [MASTER-AGENT.he.md](prompts/MASTER-AGENT.he.md), הדביקו את פקודת הפתיחה שבסופו ל־ChatGPT, ואפשרו לו לקרוא את הריפו רק אם חיברתם אותו מרצון. [חיבור ChatGPT ו־GitHub MCP הם שני מסלולים שונים](docs/GITHUB-MCP-SETUP.he.md); לא צריך אף אחד מהם כדי להתחיל.
-7. **עושים אבחון לפני הלימוד:** המנטור בוחן SQL, Python, Linux, HTTP, תכנון DB, מורכבות ואבחון תקלות. מסבירים *למה* בחרנו תשובה. אפשר לדלג על חומר מוכר לאחר הוכחת יכולת, לא לפי תואר בלבד. [פרוטוקול מפגש](docs/LEARNER-HANDBOOK.he.md#אבחון-והתאמה-אישית).
-8. **נכנסים למחברת הראשונה:** [Notebook 00 — מסע הנתון](notebooks/00_data_journey.ipynb) ואחר כך [Notebook 01 — SQL Detective](notebooks/01_sql_detective.ipynb). מחברות הן תרגילים קטנים, עצמאיים וללא ענן. [איך לצפות בסרטון תוך כדי עבודה](docs/VIDEO-LEARNING.he.md).
-9. **מבצעים את הפרויקט הראשון:** `python3 labs/01-sql/run_lab.py`, עוברים על [Stage 00](curriculum/modules/00.md), כותבים קוד בעצמכם, פותחים Branch ו־PR, ומציגים בדיקות. לא נוגעים ב־Supabase production בשלב זה.
-10. **מגישים מבחן מעבר** ומסכמים: ראיית קוד, תוצאות בדיקות, שתי שאלות ללא AI, הסבר tradeoffs, וה־Side Quest. לעדכון עצמי (לא הסמכה):
+# Execute the new notebooks' Python cells without a Jupyter server
+python3 scripts/notebook_smoke.py
 
-   ```bash
-   python3 scripts/roadmap.py complete 00 --evidence "local tests and PR" --reflection "הסבר של לפחות ארבעים תווים על מה בניתי, למה וכיצד בדקתי" --quiz-notes "עניתי עצמאית על שתי שאלות בחינה"
-   python3 scripts/roadmap.py status
-   python3 scripts/roadmap.py next
-   ```
+# General local regression tests
+python3 -m unittest discover -s tests -v
 
-### השבוע הראשון — מה עושים בכל יום?
+# Independently graded end-to-end instructor reference
+python3 capstone/grade.py --reference
+python3 capstone/demo.py
+~~~
 
-| יום | משימה מדויקת | הוכחה שהושלמה |
-|---|---|---|
-| 1 | חשבון GitHub, Clone/Template, VS Code, Python/Git | ריצה של `validate_repo.py` |
-| 2 | אבחון חומרה + 5 שאלות אבחון SQL/Python/CS | סטטוס Stage 00 + מפת פערים מקומית |
-| 3 | Notebook 00, צפו בקטע הווידאו והסבירו את תנועת הנתונים | `assert` עובד והסבר של מקור/דחייה/כפילות |
-| 4 | Notebook 01 ו־SQL Detective | שאילתת JOIN חדשה וניתוח `EXPLAIN QUERY PLAN` |
-| 5 | ניסוי Parser: שברו שדה JSON והוסיפו test | בדיקה אדומה ואחר כך ירוקה |
-| 6 | Branch + PR, Review עם AI, שתי שאלות ללא עזרה | PR כולל פקודות, ראיות והחלטות |
-| 7 | מבחן Stage 00, השלימו רק אם עמדתם ב־Exit Gate | הערכה, רפלקציה והצעד הבא |
+See the [notebook index](notebooks/README.md) for the full visual-learning workflow. The setup instructions distinguish **viewer dependencies** (Jupyter, Markdown preview) from **execution dependencies** (PySpark, Kafka) so you do not install unnecessary heavyweight packages.
 
-הזמן היומי גמיש. אם נושא כבר מוכר, הוכיחו בקוד והמשיכו. אם בדיקה נכשלת, עוצרים ומתקנים — לא מסתירים את הכשל בעזרת ציון הצלחה ידני.
+### The DataPulse capstone
 
-**אם משהו נתקע:** אל תדלגו על האזהרה. חפשו ב־[מדריך פתרון תקלות](docs/TROUBLESHOOTING.he.md), בצעו ניסוי מינימלי, תעדו את הפלט המסונן ופנו למנטור עם מה שכבר ניסיתם.
+The final project demonstrates a synthetic event pipeline, not a real earthquake warning service:
 
-## כך נראה המסע — ממקור הנתונים עד למוצר
-
-```mermaid
+~~~mermaid
 flowchart LR
-  A[Public API / DB / File] --> B[Ingest]
-  B --> C[(Raw / Bronze)]
-  C --> D[Validate & Transform]
-  D --> E[(Curated / Silver)]
-  E --> F[(Analytics / Gold)]
-  F --> G[Dashboard / API / AI]
-  H[Orchestration] -. schedules .-> B
-  I[Quality & Lineage] -. checks .-> D
-  J[Security + Observability] -. protects .-> F
-```
+  A[Synthetic event source] --> B[Validate and checkpoint]
+  B --> C[Curated data]
+  C --> D[Read-only API and dashboard]
+  C --> E[Verified backup and restore]
+  D --> F[Quality and freshness evidence]
+  E --> G[Controlled release and rollback]
+  F --> H[Capstone assessment]
+  G --> H
+~~~
 
-**למה חשוב ללמוד מדעי המחשב?**
+Start with [DataPulse](projects/datapulse/README.md), then complete the [capstone specification](capstone/specification.md), [22-case capstone grader](capstone/README.md), an independent transfer exam, and the required architecture, security and operations evidence.
 
-```mermaid
-flowchart TD
-  SQL[SQL query is slow] --> Q{What is the bottleneck?}
-  Q -->|scan / index| ALG[Algorithms + B-Trees]
-  Q -->|disk / RAM| OS[Operating systems + memory]
-  Q -->|join / sort| DB[DB execution plans]
-  Q -->|network| NET[Protocols + latency]
-  ALG --> FIX[Measure, change, compare]
-  OS --> FIX
-  DB --> FIX
-  NET --> FIX
-```
+## Personal learning progress and assessment
 
-## מפת הדרך: 14 שלבים, פרויקט מתפתח אחד, מבחני מעבר
+Keep learner work separate from instructor references. A passing reference test proves that **the teaching solution and grader work**, not that you wrote the learner solution.
 
-| שלב | נושא | מה בונים | מדעי המחשב שבדרך | שער יציאה |
-|---|---|---|---|---|
-| [00](curriculum/modules/00.md) | Onboarding + אבחון | סביבת עבודה, אבחון חומרה | Linux, Git, תהליכים | בדיקות + הסבר data flow |
-| [01](curriculum/modules/01.md) | SQL ו־Postgres | שאילתות ו־EXPLAIN | B-Trees, complexity, transactions | תוכניות ביצוע מנומקות |
-| [02](curriculum/modules/02.md) | Python Data | Parser ו־validation | טיפוסים, זיכרון, אלגוריתמים | יחידות ופינות קצה |
-| [03](curriculum/modules/03.md) | ETL / ELT | Batch ingest ו־dedup | consistency, idempotency | הרצה חוזרת ללא כפילויות |
-| [04](curriculum/modules/04.md) | Supabase | DB, migrations, RLS | ACID, auth, privilege | בדיקת הרשאות אמיתית |
-| [05](curriculum/modules/05.md) | Modeling | Dimensional model + marts | normalization, OLAP | תוצאות נכונות ומוסברות |
-| [06](curriculum/modules/06.md) | Orchestration | DAG, retries, backfill | state machines, time | שחזור הרצה שנכשלה |
-| [07](curriculum/modules/07.md) | Data Quality | contracts, lineage | invariants, statistics | נתון פגום נחסם |
-| [08](curriculum/modules/08.md) | Analytics | Serving + dashboard | caching, APIs, privacy | נתונים מדויקים וגישה בטוחה |
-| [09](curriculum/modules/09.md) | Cloud / CI/CD | build, deploy, rollback | networks, infra, IAM | פריסה ואימות מרחוק |
-| [10](curriculum/modules/10.md) | Spark | distributed batch | partitioning, shuffles | benchmark וניתוח בחירה |
-| [11](curriculum/modules/11.md) | Kafka | stream consumer | ordering, backpressure | duplicate / restart tests |
-| [12](curriculum/modules/12.md) | Production | monitoring + recovery | fault tolerance, security | incident rehearsal |
-| [13](curriculum/modules/13.md) | Capstone | product end-to-end | systems design | case study + review |
+~~~bash
+python3 scripts/roadmap.py init --alias learner
+python3 scripts/roadmap.py status
+python3 scripts/roadmap.py next
+~~~
 
-**איך יודעים אם זה מספיק לרמת עבודה?** לא לפי אחוז צפייה. כל מודול דורש קוד/שאילתה, בדיקות, הסבר עצמאי ותיעוד. קראו [קריטריוני ההערכה](docs/ASSESSMENT.md), [מטריצת הכישורים](docs/MASTERY-MATRIX.he.md) ו־[מפת פרויקטי ההמשך](docs/PROJECT-LADDER.he.md). אחרי Stage 13 מתקדמים למסלולי התמחות ב־Lakehouse, Analytics, Streaming, Data Platform ו־AI Data Infrastructure.
+Your `learner/progress.json` is local and gitignored. See [learner/README.md](learner/README.md) for safe progress tracking. Do not publish raw system profiles, credentials or personal records.
 
-## למידה שלא משעממת: ניסוי, סרטון, בעיה, גילוי
+The [final assessment](docs/FINAL-ASSESSMENT.he.md) checks all 14 stages, independent code, unseen tasks, operational failure recovery, architecture decisions, a ten-minute capstone demonstration and a qualified human review. The [assessment validator](assessment/evaluate.py) verifies the **structure** of evidence, not its truth. This repository does not automatically issue certificates.
 
-![A visual learning loop from problem to proof](assets/learning-loop.svg)
+## Responsible scope and limitations
 
-בכל מפגש 50–90 דקות: **חידת פתיחה → ניסיון עצמאי → הסבר קצר/סרטון ממוקד → מימוש → שבירת המערכת בכוונה → תיקון → שאלה במדעי המחשב → הוכחת הבנה**. אפשר לבחור סגנון `investigator`, `builder`, `detective` או `production`:
+- **Implemented and locally tested:** teaching material and instructor labs across stages 00–13, including isolated PostgreSQL/dbt, local PySpark, a disposable Kafka broker and the synthetic capstone.
+- **Not proven by CI alone:** student competence, a beginner pilot, production security, real multi-node scale, cross-system exactly-once, cloud deployment or disaster-recovery RPO/RTO.
+- **No external accreditation:** the program can support an accurately labeled *internal* completion review only after independent assessment; it is not a vendor or officially recognized professional certification.
+- **Cloud work needs permission:** never use a real Supabase project, live database, production Kafka broker or billable infrastructure without explicit owner authorization. [Cloud deployment guidance](docs/STAGE-04-SUPABASE-DEPLOY.he.md) is optional.
 
-```bash
-python3 scripts/session_plan.py --style investigator --level intermediate --minutes 60
-```
+See [program readiness](docs/PROGRAM-READINESS.he.md), [the maintainers' roadmap](docs/MAINTAINER-ROADMAP.he.md), and [the security policy](SECURITY.md) for release gates and safe contribution practices.
 
-התיעוד משתנה בהתאם לידע ולמחשב, אבל שערי האיכות לא משתנים. [דוגמת תרחישי חקר](docs/LEARNER-HANDBOOK.he.md), [משימות צד](curriculum/side-quests.json) ו־[מסלול מדעי המחשב](docs/COMPUTER-SCIENCE-BRIDGES.he.md).
+## Documentation navigation
 
-### מחברות וסרטונים
+| Goal | Document |
+| --- | --- |
+| Start with a terminal and no cloud account | [Quickstart](docs/QUICKSTART.en.md) |
+| Install VS Code extensions and view files visually | [Visual editor setup](docs/VS-CODE-LEARNING-SETUP.md) |
+| Choose the next stage and schedule practice | [Teaching plan](docs/TEACHING-PLAN.he.md) |
+| Develop breadth and computer science confidence | [Breadth foundations](docs/BREADTH-FOUNDATIONS.he.md) |
+| Learn the SQL/Python/ETL foundations carefully | [Foundations labs](docs/FOUNDATIONS-LABS.he.md) |
+| Work through video and notebook resources | [Video learning](docs/VIDEO-LEARNING.he.md) |
+| Diagnose environment, SQL or notebook errors | [Troubleshooting](docs/TROUBLESHOOTING.he.md) |
+| Determine whether you have independent evidence | [Mastery matrix](docs/MASTERY-MATRIX.he.md) |
+| Prepare for a real capstone defense | [Final assessment](docs/FINAL-ASSESSMENT.he.md) |
+| Understand the roadmap and advanced paths | [Roadmap](docs/ROADMAP.he.md) |
+| Work with GitHub and security-aware coding agents | [Agent guide](prompts/MASTER-AGENT.en.md) |
 
-| מחברת | צפייה משלימה | מה מתרגלים |
-|---|---|---|
-| [00 — Data Journey](notebooks/00_data_journey.ipynb) | [מהו Orchestration?](https://www.youtube.com/watch?v=-JLnp-iLins) | מקור → בדיקות → תובנות |
-| [01 — SQL Detective](notebooks/01_sql_detective.ipynb) | [CS50 SQL](https://www.youtube.com/watch?v=WXk7yDqsKxs) | joins, group by, indexes |
-| [02 — ETL Failure Lab](notebooks/02_etl_failure_lab.ipynb) | [Ingestion workshop — dlt](https://www.youtube.com/watch?v=5eMytPBgmVs) | dedup, retries, malformed rows |
-| [03 — Pipeline Observatory](notebooks/03_pipeline_observatory.ipynb) | [Scheduling & Backfills](https://www.youtube.com/watch?v=1pu_C_oOAMA) | latency, failure rate, alerts |
+The course, examples and reference implementations are provided for learning. [Contribute](CONTRIBUTING.md) with original work, safe test fixtures and clear change notes.
 
-ב־Jupyter אפשר להציג YouTube באמצעות נגן מוטמע, אם הרשת/הסביבה מאפשרות זאת. **ב־GitHub preview אין להסתמך על נגן מוטמע**: לכל מחברת יש קישור צפייה רגיל כדי שהלומד לא ייתקע. הסרטונים שייכים ליוצריהם, ואינם מועתקים לריפו. [כל ההוראות והקישורים](docs/VIDEO-LEARNING.he.md).
-
-## Stage 06 — תזמור ושחזור טעינות
-
-[**מעבדת Orchestration, Retries & Backfills**](labs/06-orchestration/README.md) מתרגלת תלויות DAG, תכנון חלונות, Retry מוגבל, מניעת כפילויות, Rollback והתאוששות לאחר אובדן אישור Commit. היא פועלת באופן מקומי ב־Python ו־SQLite. קובץ התרגול מתחיל לא פתור, והבדיקות הן חלק מתהליך הלמידה.
-
-## Stage 07 — איכות, חוזים ו־Lineage
-
-[**מעבדת איכות נתונים עם 27 תרחישי בדיקה**](labs/07-quality/README.md) עוסקת בזיהוי Schema Drift, נתונים חסרים, כפילויות, Freshness, Quarantine ופרסום אטומי. פועלת ללא שירות ענן, עם תרגול לא פתור ובדיקות Reference ב־CI.
-
-## Stage 08 — דשבורד API מאובטח להדגמה
-
-[**DataPulse Observatory — API לקריאה בלבד ודשבורד עם מדדי איכות**](labs/08-serving/README.md). שרת Python מקומי משרת מדדים מקובץ SQLite סינתטי, מציג אזהרות Freshness, מידע על ריצות חסומות, ומונע גישה לנתונים גולמיים ולפעולות כתיבה. נתיב ההפעלה: `python3 labs/08-serving/serve.py`. זו הדגמה מקומית ולא שירות Production.
-
-## Stage 09 — Build, CI/CD ו־Rollback
-
-[**מעבדת Stage 09 — Release Reproducibility & Recovery**](labs/09-cicd/README.md) מלמדת לבנות Artifact שחזורי, לאמת SHA-256, להפריד סביבות, לבצע Health Gate לפני Promotion ולבצע Rollback בטוח באמצעות 26 בדיקות. הסימולציה פועלת ללא שרת, ענן או סודות: `python3 labs/09-cicd/demo.py`. ב־CI נבדק פתרון הייחוס; קוד הלומד מתחיל לא פתור.
-
-## הפרויקט המרכזי — DataPulse
-
-[DataPulse](projects/datapulse/README.md) קולט אירועי רעידות אדמה מ־USGS, מבצע Validation, טוען נתונים ושולח ל־Dashboard. מתחילים ב־Fixture סינתטי, אחר כך SQLite/SQL, בהמשך Supabase, Orchestration, QA, Monitoring, פריסה ו־Recovery. **כל הרחבה היא PR נפרד עם Definition of Done**. ראו [מפת הפרויקטים](docs/PROJECT-LADDER.he.md).
-
-```bash
-PYTHONPATH=projects/datapulse/src python3 -m unittest discover -s projects/datapulse/tests -v
-PYTHONPATH=projects/datapulse/src python3 -m datapulse.ingest \
-  --fixture projects/datapulse/data/sample.geojson --dry-run
-```
-
-## מדריך פעולה לפי מצב
-
-| אני רוצה… | פתח כאן |
-|---|---|
-| להתחיל מאפס במחשב חדש | [מדריך הלומד](docs/LEARNER-HANDBOOK.he.md#יום-0--הקמה-ללא-ענן) |
-| לבחור מה לרוץ על המחשב שלי | [סביבת עבודה](docs/ENVIRONMENT.he.md) |
-| לחבר GitHub, ChatGPT או MCP | [מדריך חיבור](docs/GITHUB-MCP-SETUP.he.md) |
-| ללמוד עם וידאו ב־Jupyter | [מחברות וסרטונים](docs/VIDEO-LEARNING.he.md) |
-| לפתור שגיאת Docker/SQL/Auth | [Troubleshooting](docs/TROUBLESHOOTING.he.md) |
-| לדעת מה אני באמת יודע | [מטריצת שליטה](docs/MASTERY-MATRIX.he.md) |
-| לפרוס Supabase וממשק | [Deployment checklist](projects/datapulse/DEPLOYMENT-CHECKLIST.he.md) |
-| להציע תרגיל או תיקון לציבור | [CONTRIBUTING](CONTRIBUTING.md) |
-| לפרסם את הריפו הראשי כתבנית | [מדריך המתחזק](docs/PUBLISHING.he.md) |
-
-## כללי זהב לפרויקט ציבורי
-
-- **אין מפתחות ב־Git:** לא מפרסמים `.env`, service-role, PAT, נתוני משתמשים, נתונים מוגנים או מידע חומרתי אישי. בדיקת סודות לפני PR היא חובה.
-- **לומדים לפני שמפעילים סוכן:** מותר AI לרמז, Review ויצירת בדיקות; יכולת עצמאית נבחנת בלי פתרון מוכן. אין להציג עבודה של AI כהוכחה אישית לבקיאות.
-- **לא נוגעים ב־Production בלי אישור:** עלות, מחיקה, שינוי הרשאות, `db reset --remote`, Merge ופריסה דורשים בדיקה ואישור.
-- **חומרה חלשה אינה חסם:** מתחילים על Data קטן ואותן דרישות מושגיות, ורושמים אילו בדיקות ענן/ביצועים עדיין לא הושלמו.
-- **פתוח לכולם:** מדריכים בעברית, דף English ותרומות קהילה. [MIT License](LICENSE) · [SECURITY](SECURITY.md) · [CONTRIBUTING](CONTRIBUTING.md).
-
-> **שיעור ראשון, ברגע זה:** פתחו את [Notebook 00](notebooks/00_data_journey.ipynb), ענו בכתב: *אם קיבלנו 1,000 אירועים מה־API ו־17 נפסלו, מה נוכל לטעון בוודאות על איכות המידע?* אחר כך הפעילו את הבדיקות והסבירו מה עדיין לא הוכח.
