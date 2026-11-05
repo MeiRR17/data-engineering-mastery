@@ -1,0 +1,246 @@
+{
+  "schema_version": 1,
+  "candidate_alias": "example-only-not-a-real-student",
+  "stages": {
+    "10": {
+      "scores": {
+        "concepts": 0,
+        "implementation": 0,
+        "testing": 0,
+        "architecture": 0,
+        "operations": 0
+      },
+      "evidence": [
+        "evidence/10-code.txt",
+        "evidence/10-tests.txt",
+        "evidence/10-transfer.txt"
+      ],
+      "independent_transfer": false,
+      "critical_findings": []
+    },
+    "11": {
+      "scores": {
+        "concepts": 0,
+        "implementation": 0,
+        "testing": 0,
+        "architecture": 0,
+        "operations": 0
+      },
+      "evidence": [
+        "evidence/11-code.txt",
+        "evidence/11-tests.txt",
+        "evidence/11-transfer.txt"
+      ],
+      "independent_transfer": false,
+      "critical_findings": []
+    },
+    "12": {
+      "scores": {
+        "concepts": 0,
+        "implementation": 0,
+        "testing": 0,
+        "architecture": 0,
+        "operations": 0
+      },
+      "evidence": [
+        "evidence/12-code.txt",
+        "evidence/12-tests.txt",
+        "evidence/12-transfer.txt"
+      ],
+      "independent_transfer": false,
+      "critical_findings": []
+    },
+    "13": {
+      "scores": {
+        "concepts": 0,
+        "implementation": 0,
+        "testing": 0,
+        "architecture": 0,
+        "operations": 0
+      },
+      "evidence": [
+        "evidence/13-code.txt",
+        "evidence/13-tests.txt",
+        "evidence/13-transfer.txt"
+      ],
+      "independent_transfer": false,
+      "critical_findings": []
+    },
+    "00": {
+      "scores": {
+        "concepts": 0,
+        "implementation": 0,
+        "testing": 0,
+        "architecture": 0,
+        "operations": 0
+      },
+      "evidence": [
+        "evidence/00-code.txt",
+        "evidence/00-tests.txt",
+        "evidence/00-transfer.txt"
+      ],
+      "independent_transfer": false,
+      "critical_findings": []
+    },
+    "01": {
+      "scores": {
+        "concepts": 0,
+        "implementation": 0,
+        "testing": 0,
+        "architecture": 0,
+        "operations": 0
+      },
+      "evidence": [
+        "evidence/01-code.txt",
+        "evidence/01-tests.txt",
+        "evidence/01-transfer.txt"
+      ],
+      "independent_transfer": false,
+      "critical_findings": []
+    },
+    "02": {
+      "scores": {
+        "concepts": 0,
+        "implementation": 0,
+        "testing": 0,
+        "architecture": 0,
+        "operations": 0
+      },
+      "evidence": [
+        "evidence/02-code.txt",
+        "evidence/02-tests.txt",
+        "evidence/02-transfer.txt"
+      ],
+      "independent_transfer": false,
+      "critical_findings": []
+    },
+    "03": {
+      "scores": {
+        "concepts": 0,
+        "implementation": 0,
+        "testing": 0,
+        "architecture": 0,
+        "operations": 0
+      },
+      "evidence": [
+        "evidence/03-code.txt",
+        "evidence/03-tests.txt",
+        "evidence/03-transfer.txt"
+      ],
+      "independent_transfer": false,
+      "critical_findings": []
+    },
+    "04": {
+      "scores": {
+        "concepts": 0,
+        "implementation": 0,
+        "testing": 0,
+        "architecture": 0,
+        "operations": 0
+      },
+      "evidence": [
+        "evidence/04-code.txt",
+        "evidence/04-tests.txt",
+        "evidence/04-transfer.txt"
+      ],
+      "independent_transfer": false,
+      "critical_findings": []
+    },
+    "05": {
+      "scores": {
+        "concepts": 0,
+        "implementation": 0,
+        "testing": 0,
+        "architecture": 0,
+        "operations": 0
+      },
+      "evidence": [
+        "evidence/05-code.txt",
+        "evidence/05-tests.txt",
+        "evidence/05-transfer.txt"
+      ],
+      "independent_transfer": false,
+      "critical_findings": []
+    },
+    "06": {
+      "scores": {
+        "concepts": 0,
+        "implementation": 0,
+        "testing": 0,
+        "architecture": 0,
+        "operations": 0
+      },
+      "evidence": [
+        "evidence/06-code.txt",
+        "evidence/06-tests.txt",
+        "evidence/06-transfer.txt"
+      ],
+      "independent_transfer": false,
+      "critical_findings": []
+    },
+    "07": {
+      "scores": {
+        "concepts": 0,
+        "implementation": 0,
+        "testing": 0,
+        "architecture": 0,
+        "operations": 0
+      },
+      "evidence": [
+        "evidence/07-code.txt",
+        "evidence/07-tests.txt",
+        "evidence/07-transfer.txt"
+      ],
+      "independent_transfer": false,
+      "critical_findings": []
+    },
+    "08": {
+      "scores": {
+        "concepts": 0,
+        "implementation": 0,
+        "testing": 0,
+        "architecture": 0,
+        "operations": 0
+      },
+      "evidence": [
+        "evidence/08-code.txt",
+        "evidence/08-tests.txt",
+        "evidence/08-transfer.txt"
+      ],
+      "independent_transfer": false,
+      "critical_findings": []
+    },
+    "09": {
+      "scores": {
+        "concepts": 0,
+        "implementation": 0,
+        "testing": 0,
+        "architecture": 0,
+        "operations": 0
+      },
+      "evidence": [
+        "evidence/09-code.txt",
+        "evidence/09-tests.txt",
+        "evidence/09-transfer.txt"
+      ],
+      "independent_transfer": false,
+      "critical_findings": []
+    }
+  },
+  "final_exam": {
+    "independent_implementation": 0,
+    "incident": 0,
+    "system_design": 0,
+    "defense": 0
+  },
+  "reviewer": {
+    "name": "",
+    "independent_review_completed": false,
+    "capstone_demonstrated": false
+  },
+  "external_claims": {
+    "cloud_deployed": false,
+    "kafka_broker_run": false,
+    "spark_runtime_run": false
+  }
+}

@@ -1,0 +1,14 @@
+name: data_engineering_mastery
+version: '0.1.0'
+config-version: 2
+profile: data_engineering_mastery
+model-paths: ["models"]
+seed-paths: ["seeds"]
+test-paths: ["tests"]
+clean-targets: ["target", "dbt_packages"]
+models:
+  data_engineering_mastery:
+    staging:
+      +materialized: view
+    marts:
+      +materialized: table

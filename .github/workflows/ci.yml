@@ -20,6 +20,10 @@ jobs:
           python-version: '3.12'
       - name: Validate learning content
         run: python3 scripts/validate_repo.py
+      - name: Audit all 14 stage learning assets
+        run: python3 scripts/audit_program.py
+      - name: Execute all 10 advanced guided notebook checks
+        run: python3 scripts/notebook_smoke.py
       - name: Tutor tool tests
         run: python3 -m unittest discover -s tests -v
       - name: DataPulse tests
@@ -30,3 +34,201 @@ jobs:
         run: python3 -m datapulse.ingest --fixture projects/datapulse/data/sample.geojson --dry-run
         env:
           PYTHONPATH: projects/datapulse/src
+
+      - name: Stage 06 orchestration grader (reference)
+        run: python3 labs/06-orchestration/grade.py --reference
+
+      - name: Stage 07 quality reference grader (27 tests)
+        run: python3 labs/07-quality/grade.py --reference
+
+      - name: Stage 08 HTTP read-only and dashboard asset tests
+        run: |
+          python3 labs/08-serving/grade.py
+          node --check labs/08-serving/web/app.js
+          python3 labs/08-serving/learner/grade.py --reference
+
+      - name: Stage 11 streaming semantics and crash-safe checkpointing
+        run: |
+          python3 labs/11-streaming/grade.py --reference
+          python3 labs/11-streaming/demo.py
+
+      - name: Stage 12 reliability, safe backup/restore and incident drill
+        run: |
+          python3 labs/12-reliability/grade.py --reference
+          python3 labs/12-reliability/incident_drill.py
+
+  postgres-stage04:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Stage 04 disposable PostgreSQL integration
+        run: python3 labs/04-postgres/run_lab.py --reference
+
+  postgres-stage05:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Stage 05 disposable PostgreSQL dimensional modeling
+        run: python3 labs/05-modeling/run_lab.py --reference
+
+  dbt-stage05:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    permissions:
+      contents: read
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_PASSWORD: disposable-ci-only
+          POSTGRES_DB: learning
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d learning"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dbt versions pinned for teaching
+        run: python3 -m pip install "dbt-core==1.11.16" "dbt-postgres==1.11.0"
+      - name: Reproduce dbt seed and model tests twice
+        env:
+          DBT_PG_PASSWORD: disposable-ci-only
+        run: |
+          dbt debug --project-dir labs/05-modeling/dbt --profiles-dir labs/05-modeling/dbt
+          dbt seed --project-dir labs/05-modeling/dbt --profiles-dir labs/05-modeling/dbt
+          dbt build --project-dir labs/05-modeling/dbt --profiles-dir labs/05-modeling/dbt
+          dbt build --project-dir labs/05-modeling/dbt --profiles-dir labs/05-modeling/dbt
+
+
+  release-simulation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout no persistent credentials
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run 26 Stage 09 delivery and rollback scenarios
+        run: python3 labs/09-cicd/grade.py --reference
+      - name: Perform offline promotion and rollback demonstration
+        run: python3 labs/09-cicd/demo.py
+
+
+  spark-stage10:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    permissions:
+      contents: read
+    env:
+      SPARK_LOCAL_IP: 127.0.0.1
+      PYSPARK_PYTHON: python3
+      PYSPARK_DRIVER_PYTHON: python3
+    steps:
+      - name: Checkout no persistent credentials
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Set up Java 17 for PySpark
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned local PySpark
+        run: python3 -m pip install "pyspark==4.0.5"
+      - name: Verify real Spark and light output match
+        run: python3 labs/10-spark/spark_pipeline.py --partitions 2
+      - name: Grade instructor Spark Window and shuffle logic
+        run: python3 labs/10-spark/spark_grade.py --reference
+      - name: Demonstrate partition skew on synthetic events
+        run: python3 labs/10-spark/skew_demo.py
+
+
+  kafka-stage11:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned Kafka client
+        run: python3 -m pip install "confluent-kafka==2.16.1"
+      - name: Launch disposable loopback-only Kafka broker
+        run: |
+          docker run -d --rm --name dem-stage11-kafka \
+            -p 127.0.0.1:9092:9092 apache/kafka:4.4.0
+      - name: Real Kafka produce/consume/replay and broker offset check
+        run: python3 labs/11-streaming/kafka_demo.py --broker 127.0.0.1:9092
+      - name: Remove only the temporary training broker
+        if: always()
+        run: docker rm -f dem-stage11-kafka || true
+
+  capstone-stage13:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify integrated capstone reference
+        run: python3 capstone/grade.py --reference
+      - name: Run end-to-end synthetic DataPulse demonstration
+        run: python3 capstone/demo.py
+      - name: Generate reviewer-separated transfer fixture
+        run: |
+          python3 assessment/generate_transfer.py --seed 20261105 --output /tmp/dem-training-exam
+          test -s /tmp/dem-training-exam/candidate/events.jsonl
+          test -s /tmp/dem-training-exam/reviewer_only/answer_key.json

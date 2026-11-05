@@ -6,13 +6,56 @@
 
 ![Data Engineering Mastery — from raw data to reliable systems](assets/hero.svg)
 
-> **סטטוס הפרויקט:** `v0.2.0` — חומרי למידה מורחבים, מחברות Jupyter, תרגילים, בדיקות, DataPulse starter ומדריכי פריסה. **לא** כל 14 השלבים ממומשים כמעבדות רצות; **לא** בוצעה פריסת ענן מאומתת. זה מסלול למידה ומערכת מתפתחת, לא הסמכת מקצוע או הבטחת תעסוקה.
+> **סטטוס תוכנית ההכשרה:** כל 14 השלבים 00–13 כוללים שיעור, מחברת, תרגול מעשי ובודק; יש פרויקט גמר משולב ובחינה פנימית נפרדת. זהו **מסלול תוכן וקוד מלא לשימוש וללמידה עצמאית**, ולא הוכחה שלומד כלשהו כבר עבר אותו. [דוח מוכנות](docs/PROGRAM-READINESS.he.md) · [תוכנית ההוראה](docs/TEACHING-PLAN.he.md) · [בחינת הגמר](docs/FINAL-ASSESSMENT.he.md).
+
+> **מגבלות שאינן מסתתרות מאחורי CI ירוק:** יש לבצע פיילוט לומד עצמאי וביקורת מקצועית לפני מתן אישור סיום פנימי. לא בוצעה פריסת Supabase מאובטחת בענן, אין הסמכה חיצונית ואין הבטחת תעסוקה. תג הגרסה האחרון לפני שילוב התוכנית היה `v0.2.0`; אין לטעון ל־`v1.0.0` מוסמך בלי השלמת שערי הקבלה האנושיים.
 
 ## למי מיועד המסלול?
 
 בוגר/ת הנדסת תוכנה שמכיר/ה כתיבת קוד, אך לא בהכרח Data Engineering. לא נניח שלמדת SQL מתקדם, Linux, רשתות, ענן או מערכות מבוזרות; נבצע אבחון ונלמד רק מה שחסר. דרוש מחשב, Git, Python 3.11+ וסקרנות. **אין צורך ב־GPU, מנוי ChatGPT בתשלום, חשבון ענן או Docker להתחלה.**
 
 ההבדל בין **Data Analyst** (מפיק תובנות), **Data Scientist** (מפתח ניתוח ומודלים) ו־**Data Engineer** (בונה תשתיות מידע אמינות) נלמד כבר ב־Stage 00. כל שיעור מחבר *בעיה עסקית → נתונים → קוד → בדיקות → מדעי המחשב → פריסה → תפעול*.
+
+## לימוד לרוחב — כדי לפתח ביטחון הנדסי אמיתי
+
+ההתמחות המרכזית היא **Data Engineering**, אבל בכל שלב נלמד גם תחום משיק: מערכות הפעלה, אלגוריתמים, רשתות, אבטחה, סטטיסטיקה, ארכיטקטורה, מוצר ו-AI. לא נלמד הכל בבת אחת; 70% מהזמן נשארים בבניית Data Pipelines ו-20% בניסויי רוחב קטנים.
+
+[**מסלול רוחב וביטחון — Foundations Passport**](docs/BREADTH-FOUNDATIONS.he.md) כולל 12 אתגרי חקר עם ניסוי עצמאי ומבחן העברה:
+
+~~~bash
+python3 scripts/breadth_quest.py recommend --stage 03
+python3 scripts/breadth_quest.py show Q04
+~~~
+
+**ביטחון נבנה מהיכולת לחזות תוצאה, להריץ, לאבחן ולהסביר ללא AI; לא מהשלמת שעות או צפייה בסרטונים.** ניתן לדלג על Quest צדדי אם אינו קשור ליעד הנוכחי.
+
+## מעבדות חדשות — למידה שמוכיחה יכולת
+
+[**Foundations Labs — מדריך צעד אחר צעד לשלבים 01–03**](docs/FOUNDATIONS-LABS.he.md) כולל שלוש מעבדות מדורגות, גריידרים עם נתוני קצה, בדיקות קריסה ופתרונות ייחוס המיועדים לתחזוקה. מתחילים ב-SQL, ממשיכים ל-Python ול-ETL ב-SQLite; **הבדיקות של הלומד נכשלות בהתחלה בכוונה**. אין צורך בחשבון ענן או בהתקנת חבילות נוספות.
+
+```bash
+python3 labs/01-sql/grade.py
+python3 labs/02-python/grade.py
+python3 labs/03-etl/grade.py
+```
+
+להערכת המערכת (CI בלבד), פקודות אלה עם `--reference` אמורות לעבור. נתונים אמיתיים ופריסת Supabase מגיעים בשלבים הבאים, לאחר בניית היסודות.
+
+## Stage 04 — PostgreSQL אמיתי לפני Supabase
+
+[מעבדת PostgreSQL](labs/04-postgres/README.md) מריצה בדיקות רלוונטיות על בסיס נתונים זמני ללא חשבון ענן. התחל עם פקודת הייחוס: python3 labs/04-postgres/run_lab.py --reference. לאחר מכן נסה את תרגיל הלומד: python3 labs/04-postgres/run_lab.py, שייכשל בתחילה בכוונה. [פריסה לענן](docs/STAGE-04-SUPABASE-DEPLOY.he.md) היא שלב נפרד ואינה מאומתת עדיין.
+
+## Stage 10 — Big Data ו־PySpark על מחשב רגיל
+
+[**מעבדת Spark ו־Map/Reduce בשני מסלולים**](labs/10-spark/README.md) מציעה מצב Light ללא תלות חיצונית עם 21 מבחני תרגול ומצב Full עם PySpark מקומי, 9 מבחני Spark, בדיקת התאמה בין מסלולים והדגמה של חלוקה לא מאוזנת למחיצות (Data Skew). הדוגמה סינתטית ומוגבלת; אין בה Cluster מבוזר או פריסה לענן.
+
+## Stage 11 — Kafka ו־Streaming
+
+[**מעבדת Streaming ו־Consumer Offsets**](labs/11-streaming/README.md) כוללת 25 מבחני כשל לרשומות כפולות, Restart, Watermarks, Poison Messages ו־Commit אטומי של Offset/נתוני Sink. יש מצב Light ללא שירותים ומסלול Kafka אמיתי עם Broker מקומי. התרגילים מתחילים לא פתורים.
+
+## Stage 12 — תפעול, SLO, גיבויים ושחזור
+
+[**מעבדת Reliability & Governance**](labs/12-reliability/README.md): מגדירים SLO, תקציב שגיאות, הרשאות, מודל עלויות, גיבוי SQLite ואימות שחזור לתיקייה מבודדת; 27 מבחני כשל ותרגיל Incident. זהו סימולטור מקומי, לא מערך תפעול בענן.
 
 ## מה עושים עכשיו? בדיוק 10 צעדים
 
@@ -141,6 +184,22 @@ python3 scripts/session_plan.py --style investigator --level intermediate --minu
 | [03 — Pipeline Observatory](notebooks/03_pipeline_observatory.ipynb) | [Scheduling & Backfills](https://www.youtube.com/watch?v=1pu_C_oOAMA) | latency, failure rate, alerts |
 
 ב־Jupyter אפשר להציג YouTube באמצעות נגן מוטמע, אם הרשת/הסביבה מאפשרות זאת. **ב־GitHub preview אין להסתמך על נגן מוטמע**: לכל מחברת יש קישור צפייה רגיל כדי שהלומד לא ייתקע. הסרטונים שייכים ליוצריהם, ואינם מועתקים לריפו. [כל ההוראות והקישורים](docs/VIDEO-LEARNING.he.md).
+
+## Stage 06 — תזמור ושחזור טעינות
+
+[**מעבדת Orchestration, Retries & Backfills**](labs/06-orchestration/README.md) מתרגלת תלויות DAG, תכנון חלונות, Retry מוגבל, מניעת כפילויות, Rollback והתאוששות לאחר אובדן אישור Commit. היא פועלת באופן מקומי ב־Python ו־SQLite. קובץ התרגול מתחיל לא פתור, והבדיקות הן חלק מתהליך הלמידה.
+
+## Stage 07 — איכות, חוזים ו־Lineage
+
+[**מעבדת איכות נתונים עם 27 תרחישי בדיקה**](labs/07-quality/README.md) עוסקת בזיהוי Schema Drift, נתונים חסרים, כפילויות, Freshness, Quarantine ופרסום אטומי. פועלת ללא שירות ענן, עם תרגול לא פתור ובדיקות Reference ב־CI.
+
+## Stage 08 — דשבורד API מאובטח להדגמה
+
+[**DataPulse Observatory — API לקריאה בלבד ודשבורד עם מדדי איכות**](labs/08-serving/README.md). שרת Python מקומי משרת מדדים מקובץ SQLite סינתטי, מציג אזהרות Freshness, מידע על ריצות חסומות, ומונע גישה לנתונים גולמיים ולפעולות כתיבה. נתיב ההפעלה: `python3 labs/08-serving/serve.py`. זו הדגמה מקומית ולא שירות Production.
+
+## Stage 09 — Build, CI/CD ו־Rollback
+
+[**מעבדת Stage 09 — Release Reproducibility & Recovery**](labs/09-cicd/README.md) מלמדת לבנות Artifact שחזורי, לאמת SHA-256, להפריד סביבות, לבצע Health Gate לפני Promotion ולבצע Rollback בטוח באמצעות 26 בדיקות. הסימולציה פועלת ללא שרת, ענן או סודות: `python3 labs/09-cicd/demo.py`. ב־CI נבדק פתרון הייחוס; קוד הלומד מתחיל לא פתור.
 
 ## הפרויקט המרכזי — DataPulse
 

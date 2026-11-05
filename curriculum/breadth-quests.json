@@ -1,0 +1,177 @@
+{
+  "version": "1.0.0",
+  "description": "Optional cross-discipline quests aligned to Data Engineering stages; no personal data or telemetry",
+  "quests": [
+    {
+      "id": "Q01",
+      "domain": "systems",
+      "title_he": "מה המחשב שלי באמת מסוגל להריץ?",
+      "stages": [
+        "00"
+      ],
+      "minutes": 35,
+      "question": "למה תהליך Python צורך זיכרון גם כשקובץ הנתונים קטן?",
+      "experiment": "הפעל באופן מקומי סקריפט שמייצר מערך קטן וגדול ומדוד זמן וזיכרון; השווה לקריאה במנות. אל תשתף פרטים מזהים או פלט מלא של המחשב.",
+      "evidence": "מדידה לפני/אחרי בטבלה והסבר מתי לבחור streaming",
+      "transfer": "כיצד תעבד קובץ הגדול מ-RAM?",
+      "requirements": "Python בלבד, ללא ענן"
+    },
+    {
+      "id": "Q02",
+      "domain": "algorithms",
+      "title_he": "מדוע אינדקס יכול להיות איטי יותר מסריקה?",
+      "stages": [
+        "01"
+      ],
+      "minutes": 40,
+      "question": "מתי חיפוש בינארי מועיל ומתי העלות של אינדקס לא משתלמת?",
+      "experiment": "צור SQLite עם 10000 רשומות דוגמה, הרץ EXPLAIN QUERY PLAN לשאילתה לפני ואחרי CREATE INDEX והשווה זמנים.",
+      "evidence": "שאילתות, תוכניות ביצוע והסבר cardinality",
+      "transfer": "מה משתנה כשמסננים 90% מהשורות?",
+      "requirements": "Python sqlite3 מובנה"
+    },
+    {
+      "id": "Q03",
+      "domain": "engineering",
+      "title_he": "איך יודעים שבאג באמת נפתר?",
+      "stages": [
+        "02"
+      ],
+      "minutes": 35,
+      "question": "מדוע קוד שעובד על דוגמה אחת עדיין עלול להיכשל?",
+      "experiment": "כתוב parser ל-JSON עם 3 קלטים פגומים, כתוב בדיקות שמכשילות אותו לפני התיקון, ולאחר מכן תקן.",
+      "evidence": "פלט בדיקה אדומה ולאחר מכן ירוקה, עם הסבר ל-root cause",
+      "transfer": "מהו קלט חדש שהבדיקות לא כיסו?",
+      "requirements": "Python unittest"
+    },
+    {
+      "id": "Q04",
+      "domain": "networking",
+      "title_he": "מה קורה כשה-API מפסיק לענות?",
+      "stages": [
+        "03"
+      ],
+      "minutes": 40,
+      "question": "למה retry ללא גבול עלול להפיל שירות?",
+      "experiment": "בנה שרת HTTP מקומי או Mock שמחזיר 429, 500 ו-timeout; נסה retry עם גבול ו-backoff.",
+      "evidence": "בדיקות מספר ניסיונות, זמן מקסימלי ומניעת כפילויות",
+      "transfer": "כיצד תבחין בין כשל זמני לבין תגובה קבועה של 400?",
+      "requirements": "Python ו-Mock מקומי"
+    },
+    {
+      "id": "Q05",
+      "domain": "security",
+      "title_he": "מפתח ציבורי אינו הרשאת כתיבה",
+      "stages": [
+        "04"
+      ],
+      "minutes": 35,
+      "question": "למה Auth ו-Authorization אינם אותו דבר?",
+      "experiment": "שרטט מטריצת read/write לפי anon/authenticated/service; הכן בדיקות שליליות על מסד בדיקה מבודד, בלי לשתף מפתחות.",
+      "evidence": "מטריצת הרשאות, בדיקות חסימה והסבר RLS+GRANT",
+      "transfer": "איזו בדיקה מגלה דליפה של שורות בין משתמשים?",
+      "requirements": "טבלת דמו או ניתוח סטטי; ענן אופציונלי"
+    },
+    {
+      "id": "Q06",
+      "domain": "statistics",
+      "title_he": "למה מדד נכון מתמטי יכול להטעות?",
+      "stages": [
+        "05",
+        "07"
+      ],
+      "minutes": 40,
+      "question": "כיצד missing values ו-selection bias משנים את התוצאה?",
+      "experiment": "צור dataset סינתטי עם קבוצות לא מאוזנות וחסרים; השווה ממוצע כולל לממוצעים לפי קבוצה.",
+      "evidence": "טבלת השוואה והסבר של אוכלוסייה, יחידות ומכנה",
+      "transfer": "כיצד תבדוק ש-Dashboard לא משנה משמעות אחרי סינון?",
+      "requirements": "Python statistics בלבד"
+    },
+    {
+      "id": "Q07",
+      "domain": "computer-science",
+      "title_he": "למה DAG אינו יכול להכיל מעגל?",
+      "stages": [
+        "06"
+      ],
+      "minutes": 35,
+      "question": "מדוע תזמור משימות הוא בעיה בתורת הגרפים?",
+      "experiment": "בנה DAG קטן כ-dict, בצע topological sort והוסף cycle מכוון.",
+      "evidence": "סדר ריצה תקין, זיהוי cycle והסבר תלות",
+      "transfer": "מה תעשה כשהשלב האחרון נכשל ויש לבצע רק את התלויים בו?",
+      "requirements": "Python סטנדרטי בלבד, ללא רשת או שירות ענן"
+    },
+    {
+      "id": "Q08",
+      "domain": "governance",
+      "title_he": "האם מותר לפרסם את הנתונים האלה?",
+      "stages": [
+        "07",
+        "12"
+      ],
+      "minutes": 35,
+      "question": "מה ההבדל בין נתון ציבורי, נתון מותר לשימוש ומידע אישי?",
+      "experiment": "בנה Data Inventory לדוגמאות סינתטיות: מקור, רישיון, רגישות, retention, גישה והסרת נתונים.",
+      "evidence": "טבלת provenance ומדיניות גישה קצרה, ללא נתוני אדם אמיתיים",
+      "transfer": "כיצד תטפל בבקשת מחיקה כשיש גיבויים וגרסאות?",
+      "requirements": "מסמך מקומי בלבד"
+    },
+    {
+      "id": "Q09",
+      "domain": "product",
+      "title_he": "למה ה-Dashboard אינו עונה לשאלה של המשתמש?",
+      "stages": [
+        "08"
+      ],
+      "minutes": 40,
+      "question": "איך מגדירים metric כך ששני אנשים יקבלו אותה תשובה?",
+      "experiment": "נסח user story, הגדר grain ומכנה למדד אחד וצור בדיקת SQL שמגלה fan-out.",
+      "evidence": "Metric contract, שאילתה ודוגמת פלט",
+      "transfer": "מה משתנה במדד כאשר יש מידע מאוחר?",
+      "requirements": "SQLite מקומי"
+    },
+    {
+      "id": "Q10",
+      "domain": "cloud-finops",
+      "title_he": "כמה עולה להריץ Pipeline?",
+      "stages": [
+        "09"
+      ],
+      "minutes": 35,
+      "question": "למה פתרון מהיר אינו בהכרח זול או אמין?",
+      "experiment": "השווה על הנייר שתי חלופות: הרצה מתוזמנת קטנה מול שירות שרץ תמיד; חשב זמן CPU/אחסון/תעבורה בהנחות מפורשות.",
+      "evidence": "טבלת הנחות, עלות יחסית, סיכונים וללא חיוב אמיתי",
+      "transfer": "מתי caching מצדיק את עלותו?",
+      "requirements": "ללא חשבון ענן"
+    },
+    {
+      "id": "Q11",
+      "domain": "distributed-systems",
+      "title_he": "איך כפילות נוצרת גם עם קוד תקין?",
+      "stages": [
+        "10",
+        "11"
+      ],
+      "minutes": 45,
+      "question": "מה ההבדל בין at-least-once, at-most-once ו-exactly-once?",
+      "experiment": "סמלץ consumer שמתרסק אחרי כתיבה ולפני acknowledgment; בצע replay ובדוק idempotency key.",
+      "evidence": "בדיקה שמדגימה כפילות לפני תיקון ומניעתה אחרי תיקון",
+      "transfer": "איך מטפלים באירועים שמגיעים מחוץ לסדר?",
+      "requirements": "Python/SQLite; Kafka לא נדרש"
+    },
+    {
+      "id": "Q12",
+      "domain": "ai-and-communication",
+      "title_he": "האם אפשר לסמוך על תשובה מבוססת נתונים?",
+      "stages": [
+        "13"
+      ],
+      "minutes": 45,
+      "question": "מה ההבדל בין תשובה משכנעת לבין תשובה שניתנת לאימות?",
+      "experiment": "קח שלוש טענות על נתונים סינתטיים, צרף שאילתת מקור, מדוד נכונות והצג case study קצר עם מגבלות.",
+      "evidence": "דו״ח מקור, בדיקות, נימוק החלטות ושקף אחד",
+      "transfer": "כיצד תזהה סיכום AI שממציא מספר שלא מופיע במקור?",
+      "requirements": "SQL ומסמך; AI אופציונלי"
+    }
+  ]
+}

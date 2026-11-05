@@ -1,0 +1,9 @@
+{"partition":0,"offset":0,"value":{"event_id":"evt-A","observed_at":"2026-01-01T10:00:00Z","source_updated_at":"2026-01-01T10:05:00Z","region_code":"N","magnitude":1.5}}
+{"partition":0,"offset":1,"value":{"event_id":"evt-B","observed_at":"2026-01-01T10:10:00Z","source_updated_at":"2026-01-01T10:15:00Z","region_code":"E","magnitude":4.1}}
+{"partition":1,"offset":0,"value":{"event_id":"evt-C","observed_at":"2026-01-01T10:20:00Z","source_updated_at":"2026-01-01T10:25:00Z","region_code":"W","magnitude":null}}
+{"partition":1,"offset":1,"value":{"event_id":"evt-A","observed_at":"2026-01-01T10:00:00Z","source_updated_at":"2026-01-01T11:00:00Z","region_code":"N","magnitude":1.8}}
+{"partition":0,"offset":2,"value":{"event_id":"evt-B","observed_at":"2026-01-01T10:10:00Z","source_updated_at":"2026-01-01T10:12:00Z","region_code":"E","magnitude":9}}
+{"partition":1,"offset":2,"value":{"event_id":"evt-invalid","observed_at":"2026-01-01T10:20:00","source_updated_at":"2026-01-01T10:25:00Z","region_code":"W","magnitude":7}}
+{"partition":0,"offset":3,"value":{"event_id":"evt-D","observed_at":"2026-01-01T08:00:00Z","source_updated_at":"2026-01-01T08:05:00Z","region_code":"S","magnitude":3.4}}
+{"partition":1,"offset":3,"value":{"event_id":"evt-E","observed_at":"2026-01-01T10:30:00Z","source_updated_at":"2026-01-01T10:35:00Z","region_code":"N","magnitude":2.2}}
+

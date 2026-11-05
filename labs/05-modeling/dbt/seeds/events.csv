@@ -1,0 +1,5 @@
+event_id,observed_at,source_updated_at,region_code,magnitude
+lab-a,2026-01-01T10:00:00Z,2026-01-01T10:10:00Z,N,1.5
+lab-b,2026-01-01T11:00:00Z,2026-01-01T11:10:00Z,E,4.1
+lab-c,2026-01-02T08:00:00Z,2026-01-02T08:10:00Z,E,5.7
+lab-d,2026-01-02T09:00:00Z,2026-01-02T09:10:00Z,W,

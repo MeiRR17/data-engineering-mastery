@@ -1,0 +1,13 @@
+# All private credentials are read from environment variables.
+data_engineering_mastery:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: "{{ env_var('DBT_PG_HOST', '127.0.0.1') }}"
+      port: "{{ env_var('DBT_PG_PORT', '5432') | as_number }}"
+      dbname: "{{ env_var('DBT_PG_DB', 'learning') }}"
+      user: "{{ env_var('DBT_PG_USER', 'postgres') }}"
+      password: "{{ env_var('DBT_PG_PASSWORD') }}"
+      schema: de_mastery_dbt
+      threads: 2

@@ -1,0 +1,96 @@
+# Stage 05 — Data Modeling & Analytics Engineering
+
+[תוכנית הלימודים](../../curriculum/modules/05.md) · [DataPulse](../../projects/datapulse/README.md) · [Stage 04](../04-postgres/README.md)
+
+## מה נלמד ולמה?
+
+הנתונים הגיעו ממקור חיצוני ועברו ניקוי בשלב הקודם. כעת נבנה מהם שכבת אנליטיקה אמינה. ההבדל בין טבלה תפעולית לבין Data Mart אינו רק מבנה העמודות — אלא **גרעיניות, משמעות היסטורית, מניעת ספירה כפולה ויכולת חישוב מחדש**.
+
+המעבדה מריצה **PostgreSQL 17 אמיתי בתוך Docker זמני**, ללא צורך בחיבור Supabase, ללא העלאת נתונים אישיים וללא פתיחת פורטים.
+
+~~~mermaid
+flowchart LR
+  A[(Curated events)] --> B[Event → Region map]
+  C[(Region dimension history: SCD2)] --> D[As-of temporal join]
+  B --> D
+  D --> E[(fact_earthquake: 1 row per event)]
+  E --> F[Daily region metrics]
+  C --> F
+  G[Checks: grain / history / NULL / replay] -. verifies .-> F
+~~~
+
+### החלטות המידול
+
+| ישות | Grain — גרעיניות | מפתח | תפקיד |
+|---|---|---|---|
+| Curated earthquakes | אירוע מקור אחד | event_id | מקור נתונים אמין לאחר ניקוי |
+| Region map | שיוך אחד לכל אירוע | event_id | מיפוי דוגמה סינתטי |
+| dim_region | גרסה אחת לכל אזור ותקופת תוקף | region_sk | לשמור שם אזור היסטורי (SCD2) |
+| fact_earthquake | **אירוע אחד בדיוק** | event_id | מדדים + קישור לגרסת הממד הנכונה |
+| daily_region_metrics | יום UTC אחד ואזור היסטורי אחד | צמד יום/שם | שכבת אנליטיקה נגזרת |
+
+בנתוני הדוגמה, לאזור E יש שם ישן עד 2 בינואר 2026 ושם חדש החל מאותו תאריך. האירוע של 1 בינואר חייב להישאר משויך לגרסה הישנה, והאירוע של 2 בינואר לחדשה. אי אפשר פשוט להצטרף לממד לפי region_code בלבד: זה יכפיל אירועים.
+
+## פקודות הרצה — מתוך שורש הריפו
+
+~~~bash
+docker --version
+python3 labs/05-modeling/run_lab.py --reference
+python3 labs/05-modeling/run_lab.py
+~~~
+
+ההרצה הראשונה מפעילה פתרון ייחוס (זה מה שבודק ה־CI). **ההרצה השנייה צפויה להיכשל בהתחלה**, משום שקובץ התרגול עדיין אינו פתור. זו אינה תקלה בסביבת הלימוד.
+
+במקרה שאין Docker או שהמחשב חלש: עיין במבנה ה־SQL, כתוב פתרון עצמאי ושלח למנטור לבדיקה סטטית; סמן את בדיקת PostgreSQL כ־**לא אומתה** עד שתוכל להריץ אותה במחשב או בסביבת מעבדה מתאימה. אין להציג בדיקה סטטית כאילו עברו בדיקות אינטגרציה.
+
+~~~bash
+# אפשר להשאיר את starter.sql ללא שינוי ולהגיש פתרון מקובץ אישי:
+python3 labs/05-modeling/run_lab.py --answers path/to/my_model.sql
+~~~
+
+## סדר העבודה ללומד
+
+1. קרא את קובץ **setup.sql**, תאר אילו טבלאות הן Source, Dimension ו־Fact, וקבע מהו ה־Grain לפני כתיבת SQL.
+2. נסה לנבא מה יקרה אם תחבר את כל האירועים לכל גרסאות הממד על בסיס region_code בלבד. האם מספר השורות יישאר ארבע?
+3. כתוב ב־**starter.sql** טעינה ל־fact_earthquake באמצעות Join לפי זמן התצפית בתוך החלון התקף, כולל גבול סוף בלעדי [valid_from, valid_to).
+4. הגדר UPSERT על event_id שמאפשר חישוב מחדש. העדפה: לא לשכתב שורה כאשר הערכים לא השתנו.
+5. צור View בשם analytics.daily_region_metrics עם העמודות day_utc, region_name, total_events, known_magnitude_events, avg_magnitude. ה־View חייב לרוץ עם הרשאות הקורא (security_invoker).
+6. הרץ שוב את הבדיקה. תקן תחילה את הכשל הראשון ורק אז עבור לשאר.
+7. תעד סיכום: גרעיניות, שיטת ה־Join, מניעת Fan-out, טיפול ב־NULL, תוצאות Tests, וכיצד המערכת מטפלת בעדכון מאוחר.
+8. פתח PR בריפו האישי והצג לפחות מבחן אחד שנכשל לפני התיקון ועבר לאחריו. אין לפרסם סיסמאות או הגדרות מחשב מזהות.
+
+## אילו תרחישים נבדקים?
+
+- ארבע רשומות מקור הופכות לארבע רשומות Fact — ללא חסרים וללא כפילויות.
+- היסטוריית האזור נשמרת: East Sector באירוע הישן, East District באירוע החדש.
+- יצירת גרסה חופפת של SCD2 נכשלת בגלל Exclusion Constraint ב־PostgreSQL.
+- ארבע קבוצות יום־אזור מסכמות יחד לארבעה אירועים; הממוצע מתעלם מ־NULL ולא מחליף אותו באפס.
+- הרצת המודל פעמיים אינה משנה את מספר האירועים.
+- לאחר תיקון נתון מקור סינתטי, חישוב מחדש מעדכן את ה־Fact ואת הממוצע, בלי ליצור אירוע נוסף.
+- הסכמה האנליטית פרטית ולא נגישה לתפקיד anon.
+
+## תרגיל מדעי המחשב — Side Quest
+
+**שאלת חקר:** מדוע גם Index על region_code לא מציל Join שמכפיל נתונים עקב היסטוריית גרסאות?
+
+נסה לשרטט שתי שורות היסטוריות לאותו אזור, לחשב את הקרדינליות של Join שגוי, ואז לחשב אותה מחדש עם תנאי זמן. קרא על Range Types ב־PostgreSQL ולמה GiST מתאים לבדיקת חפיפה: https://www.postgresql.org/docs/current/rangetypes.html
+
+## מבחן מעבר עצמאי — בלי AI
+
+- הסבר מהו Grain ומה ההבדל בין Natural Key למפתח Surrogate.
+- הצג רשומה חדשה שמגיעה אחרי תחילת גרסת ממד שנייה, אבל מתארת אירוע שקרה בזמן הגרסה הראשונה. הסבר מה ייבחר ולמה.
+- כתוב Query שמגלה Fact ללא Dimension ו־Query שמזהה ספירה כפולה.
+- הסבר מתי SCD Type 1 עדיף על Type 2.
+- ציין לפחות שתי מגבלות במודל: מיפוי האזורים כאן סינתטי, ומודלי dbt ו־Parquet טרם מומשו בשלב הזה.
+
+**שער מעבר:** קוד מקורי של הלומד, בדיקות PostgreSQL עוברות, תיקון אחרי כשל מכוון, שתי שאלות ללא AI, הסבר Tradeoffs ותיעוד ב־PR. ההצלחה היא ברמת Data Modeling מקומית; היא **אינה פריסה מאומתת ל־Supabase**.
+
+## למתחזקי הריפו
+
+קובץ הפתרון בתוך **instructor/reference.sql** משמש את ה־CI לאימות הבודק. הוא ציבורי לצורכי ביקורת ושחזור, אבל מומלץ ללומד לא לפתוח אותו לפני ניסיון עצמאי.
+
+**תיחום:** Stage 05 כעת מכסה בסיס Star Schema, SCD Type 2, Reconciliation ו־Replay על PostgreSQL. פרויקט dbt מלא, SCD2 ingestion אוטומטי, Lakehouse ו־Benchmark של Parquet עדיין אינם ממומשים; אין לסמן את כל ה־Stage כמוכן להסמכה לפני הוספתם או הגדרת חלופות מאומתות.
+
+## Stage 05b — dbt Core
+
+Run a second independent lab with CSV seeds, staging views, a fact model, an analytical mart, and dbt generic/custom tests: [dbt/README.md](dbt/README.md). It is CI-tested in a dedicated PostgreSQL service, not in Supabase.

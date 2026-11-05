@@ -69,7 +69,16 @@ def validate_learning_assets(root=ROOT):
         content = asset.read_text(encoding="utf8")
         if "<svg" not in content or "<title" not in content or "<desc" not in content:
             errors.append(f"SVG lacks accessible title/description: {name}")
-    for name in ("00_data_journey.ipynb", "01_sql_detective.ipynb", "02_etl_failure_lab.ipynb", "03_pipeline_observatory.ipynb"):
+    notebooks = (
+        "00_data_journey.ipynb", "01_sql_detective.ipynb",
+        "02_etl_failure_lab.ipynb", "03_pipeline_observatory.ipynb",
+        "04_postgres_security.ipynb", "05_scd2_modeling.ipynb",
+        "06_dag_recovery.ipynb", "07_quality_contracts.ipynb",
+        "08_readonly_serving.ipynb", "09_releases_rollback.ipynb",
+        "10_spark_partitioning.ipynb", "11_streaming_offsets.ipynb",
+        "12_slo_recovery.ipynb", "13_integrated_capstone.ipynb",
+    )
+    for name in notebooks:
         file = root / "notebooks" / name
         if not file.is_file():
             errors.append(f"Missing educational notebook: {name}")
@@ -80,8 +89,11 @@ def validate_learning_assets(root=ROOT):
             assert notebook["nbformat"] == 4
             assert sum(c["cell_type"] == "code" for c in cells) >= 2
             sources = "\n".join("".join(c["source"]) if isinstance(c["source"], list) else c["source"] for c in cells)
-            assert "youtube.com/watch?v=" in sources  # clickable fallback
-            assert "YouTubeVideo(" in sources  # optional Jupyter embed
+            if name.startswith(("00_","01_","02_","03_")):
+                assert "youtube.com/watch?v=" in sources  # legacy original video link
+                assert "YouTubeVideo(" in sources  # optional Jupyter embed
+            else:
+                assert "https://" in sources  # official source reference
             assert "assert " in sources  # executable check
             assert "Goal:" in sources and "Next" in sources
         except (OSError, ValueError, KeyError, TypeError, AssertionError) as exc:
