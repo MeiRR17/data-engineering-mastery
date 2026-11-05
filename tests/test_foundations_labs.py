@@ -37,7 +37,8 @@ class FoundationsLabTests(unittest.TestCase):
 
     def test_readme_link_and_labs_exist(self):
         readme = (ROOT/"README.md").read_text(encoding="utf-8")
-        self.assertIn("docs/FOUNDATIONS-LABS.he.md", readme)
+        self.assertIn("docs/FOUNDATIONS-LABS.md", readme)
+        self.assertTrue((ROOT / "docs" / "FOUNDATIONS-LABS.md").is_file())
         for stage in ("01-sql", "02-python", "03-etl"):
             self.assertTrue((ROOT/"labs"/stage/"README.md").is_file())
             self.assertTrue((ROOT/"labs"/stage/"grade.py").is_file())
