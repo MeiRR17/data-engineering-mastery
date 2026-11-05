@@ -15,6 +15,6 @@ python3 -m unittest discover -s projects/datapulse/tests -v
 
 4. Open `curriculum/modules/00.md` and paste `prompts/MASTER-AGENT.en.md` into an AI tutor, or allow it to read through a separately authorized GitHub integration.
 5. Every module leads to a branch, tests, a reflection and an assessment gate. Completion records are local-only and self-reported until independently reviewed.
-6. Follow [GitHub/MCP guide](GITHUB-MCP-SETUP.he.md), [resource policy](ENVIRONMENT.he.md), [roadmap](ROADMAP.he.md), and [assessment rubric](ASSESSMENT.md).
+6. Follow [GitHub/MCP guide](GITHUB-MCP-SETUP.md), [resource policy](ENVIRONMENT.md), [roadmap](ROADMAP.md), and [assessment rubric](ASSESSMENT.md).
 
 Never share tokens, service keys, raw system inventories or personal data in public repositories. New Supabase projects can cost money; deployment is opt-in.

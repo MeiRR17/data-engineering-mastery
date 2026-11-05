@@ -2,7 +2,7 @@
 """Enforce English-first text in curriculum, notebooks, code and public UI.
 
 This local-only check never modifies files, installs dependencies, runs notebook
-cells or makes network requests. Historic '*.he.md' filenames are retained to
+cells or makes network requests. Historic '*.md' filenames are retained to
 avoid breaking existing links; their *contents* must still be English.
 """
 from __future__ import annotations
@@ -29,6 +29,21 @@ EXTENSIONS = (
     "shd101wyy.markdown-preview-enhanced",
 )
 NOTEBOOK_COUNT = 14
+# English canonical files co-exist with short legacy redirect pages.
+CANONICAL_GUIDES = (
+    "ADAPTIVE-LEARNING", "BREADTH-FOUNDATIONS",
+    "COMPUTER-SCIENCE-BRIDGES", "ENVIRONMENT", "FINAL-ASSESSMENT",
+    "FOUNDATIONS-LABS", "GITHUB-MCP-SETUP", "LEARNER-HANDBOOK",
+    "MAINTAINER-ROADMAP", "MAINTAINERS", "MASTERY-MATRIX",
+    "PROGRAM-READINESS", "PROJECT-LADDER", "PUBLISHING", "ROADMAP",
+    "STAGE-04-SUPABASE-DEPLOY", "TEACHING-PLAN", "TROUBLESHOOTING",
+    "VIDEO-LEARNING",
+)
+OTHER_CANONICAL_GUIDES = (
+    "projects/datapulse/DEPLOYMENT-CHECKLIST",
+    "projects/datapulse/LEARNING-PATH",
+    "prompts/MASTER-AGENT",
+)
 
 
 def text_files(root: Path):
@@ -87,6 +102,25 @@ def validate_visual_setup(root: Path = ROOT) -> list[str]:
     guide = root / "docs" / "VS-CODE-LEARNING-SETUP.md"
     if not guide.is_file():
         failures.append("Missing visual-learning setup guide")
+
+    for base in ("docs/" + item for item in CANONICAL_GUIDES):
+        canonical = root / (base + ".md")
+        legacy = root / (base + ".he.md")
+        if not canonical.is_file() or canonical.stat().st_size < 400:
+            failures.append(f"Missing or incomplete English guide: {canonical.relative_to(root)}")
+        if not legacy.is_file():
+            failures.append(f"Missing historical redirect: {legacy.relative_to(root)}")
+        elif canonical.name not in legacy.read_text(encoding="utf-8"):
+            failures.append(f"Historical guide does not point to canonical English file: {base}")
+    for base in OTHER_CANONICAL_GUIDES:
+        canonical = root / (base + ".md")
+        legacy = root / (base + ".he.md")
+        if not canonical.is_file() or canonical.stat().st_size < 400:
+            failures.append(f"Missing or incomplete English guide: {canonical.relative_to(root)}")
+        if not legacy.is_file():
+            failures.append(f"Missing historical redirect: {legacy.relative_to(root)}")
+        elif canonical.name not in legacy.read_text(encoding="utf-8"):
+            failures.append(f"Historical guide does not point to canonical English file: {base}")
 
     notebooks = sorted((root / "notebooks").glob("*.ipynb"))
     if len(notebooks) != NOTEBOOK_COUNT:

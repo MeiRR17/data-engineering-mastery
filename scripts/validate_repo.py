@@ -38,8 +38,8 @@ def validate(root=ROOT):
         if not (root / "curriculum/cs-bridges" / f"{quest['cs']}.md").exists():
             errors.append(f"Missing CS bridge: {quest['cs']}")
     for needed in ["README.md", "README.en.md", "AGENTS.md", "LICENSE", "SECURITY.md",
-                   "prompts/MASTER-AGENT.he.md", "prompts/MASTER-AGENT.en.md",
-                   "docs/GITHUB-MCP-SETUP.he.md", "docs/ASSESSMENT.md", "docs/ENVIRONMENT.he.md",
+                   "prompts/MASTER-AGENT.md", "prompts/MASTER-AGENT.en.md",
+                   "docs/GITHUB-MCP-SETUP.md", "docs/ASSESSMENT.md", "docs/ENVIRONMENT.md",
                    "scripts/system_profile.py", "scripts/roadmap.py", "projects/datapulse/README.md"]:
         if not (root / needed).is_file():
             errors.append(f"Missing required file: {needed}")

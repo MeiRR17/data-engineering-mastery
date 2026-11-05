@@ -17,7 +17,7 @@ class EducationalAssetTests(unittest.TestCase):
 
     def test_documentation_references_resources(self):
         readme=(ROOT/'README.md').read_text(encoding='utf8')
-        for required in ['docs/VIDEO-LEARNING.he.md','docs/MASTERY-MATRIX.he.md','docs/TROUBLESHOOTING.he.md', 'docs/LEARNER-HANDBOOK.he.md','notebooks/00_data_journey.ipynb']:
+        for required in ['docs/VIDEO-LEARNING.md','docs/MASTERY-MATRIX.md','docs/TROUBLESHOOTING.md', 'docs/LEARNER-HANDBOOK.md','notebooks/00_data_journey.ipynb']:
             self.assertIn(required,readme)
 
     def test_no_remote_video_in_repository(self):

@@ -6,7 +6,7 @@
 
 The repository contains **14 stages (00–13)**, guided Jupyter notebooks, graded labs, reference implementations for maintainers, independent learner exercises, and a synthetic end-to-end DataPulse capstone. All exercises use reproducible synthetic datasets; real cloud environments are strictly optional and require separate owner authorization.
 
-[**Start learning**](docs/QUICKSTART.en.md) · [**Visual VS Code setup**](docs/VS-CODE-LEARNING-SETUP.md) · [**Course map**](docs/training-manifest.json) · [**Capstone**](capstone/README.md) · [**Final assessment**](docs/FINAL-ASSESSMENT.he.md)
+[**Start learning**](docs/QUICKSTART.en.md) · [**Visual VS Code setup**](docs/VS-CODE-LEARNING-SETUP.md) · [**Course map**](docs/training-manifest.json) · [**Capstone**](capstone/README.md) · [**Final assessment**](docs/FINAL-ASSESSMENT.md)
 
 ## Start here: read the lessons visually
 
@@ -30,7 +30,9 @@ python3 labs/00-onboarding/grade.py
 
 7. Explain the test result, add a new failure case, and submit evidence in your own branch. Then continue to [Stage 01](curriculum/modules/01.md).
 
-You can install all four VS Code extensions on macOS/Linux from a terminal in this repository:
+**Easiest inside VS Code:** open **Terminal → Run Task → Course: Install VS Code Markdown and Jupyter extensions**. The task uses PowerShell on Windows and Bash on macOS/Linux.
+
+You can also install all four VS Code extensions on macOS/Linux from a terminal in this repository:
 
 ~~~bash
 bash scripts/install-vscode-extensions.sh
@@ -72,9 +74,9 @@ Every stage links to a lesson, a practical lab, a graded test, and a separate st
 
 **Learn → Predict → Build → Break → Repair → Explain → Transfer.** Read a concept, predict its behavior, implement your own solution, inject a controlled failure, add a regression test, then explain a *different* scenario without AI. Simply watching videos or copying reference solutions is not a passing result.
 
-The progression is **competency-based, not time-based**. The [teaching plan](docs/TEACHING-PLAN.he.md) provides a suggested schedule, [learner handbook](docs/LEARNER-HANDBOOK.he.md) explains the daily workflow, and the [mastery matrix](docs/MASTERY-MATRIX.he.md) defines evidence requirements. You may spend longer on advanced stages until the skills are demonstrable.
+The progression is **competency-based, not time-based**. The [teaching plan](docs/TEACHING-PLAN.md) provides a suggested schedule, [learner handbook](docs/LEARNER-HANDBOOK.md) explains the daily workflow, and the [mastery matrix](docs/MASTERY-MATRIX.md) defines evidence requirements. You may spend longer on advanced stages until the skills are demonstrable.
 
-Each major topic includes a bridge back to computer science: [algorithms](curriculum/cs-bridges/algorithms.md), [databases](curriculum/cs-bridges/databases.md), [networking](curriculum/cs-bridges/networking.md), [operating systems](curriculum/cs-bridges/operating-systems.md), [distributed systems](curriculum/cs-bridges/distributed-systems.md), [security](curriculum/cs-bridges/security.md), [statistics](curriculum/cs-bridges/statistics.md) and [architecture](curriculum/cs-bridges/architecture.md). Optional [breadth quests](docs/BREADTH-FOUNDATIONS.he.md) build confidence beyond any individual tool.
+Each major topic includes a bridge back to computer science: [algorithms](curriculum/cs-bridges/algorithms.md), [databases](curriculum/cs-bridges/databases.md), [networking](curriculum/cs-bridges/networking.md), [operating systems](curriculum/cs-bridges/operating-systems.md), [distributed systems](curriculum/cs-bridges/distributed-systems.md), [security](curriculum/cs-bridges/security.md), [statistics](curriculum/cs-bridges/statistics.md) and [architecture](curriculum/cs-bridges/architecture.md). Optional [breadth quests](docs/BREADTH-FOUNDATIONS.md) build confidence beyond any individual tool.
 
 ## Running the code
 
@@ -128,16 +130,16 @@ python3 scripts/roadmap.py next
 
 Your `learner/progress.json` is local and gitignored. See [learner/README.md](learner/README.md) for safe progress tracking. Do not publish raw system profiles, credentials or personal records.
 
-The [final assessment](docs/FINAL-ASSESSMENT.he.md) checks all 14 stages, independent code, unseen tasks, operational failure recovery, architecture decisions, a ten-minute capstone demonstration and a qualified human review. The [assessment validator](assessment/evaluate.py) verifies the **structure** of evidence, not its truth. This repository does not automatically issue certificates.
+The [final assessment](docs/FINAL-ASSESSMENT.md) checks all 14 stages, independent code, unseen tasks, operational failure recovery, architecture decisions, a ten-minute capstone demonstration and a qualified human review. The [assessment validator](assessment/evaluate.py) verifies the **structure** of evidence, not its truth. This repository does not automatically issue certificates.
 
 ## Responsible scope and limitations
 
 - **Implemented and locally tested:** teaching material and instructor labs across stages 00–13, including isolated PostgreSQL/dbt, local PySpark, a disposable Kafka broker and the synthetic capstone.
 - **Not proven by CI alone:** student competence, a beginner pilot, production security, real multi-node scale, cross-system exactly-once, cloud deployment or disaster-recovery RPO/RTO.
 - **No external accreditation:** the program can support an accurately labeled *internal* completion review only after independent assessment; it is not a vendor or officially recognized professional certification.
-- **Cloud work needs permission:** never use a real Supabase project, live database, production Kafka broker or billable infrastructure without explicit owner authorization. [Cloud deployment guidance](docs/STAGE-04-SUPABASE-DEPLOY.he.md) is optional.
+- **Cloud work needs permission:** never use a real Supabase project, live database, production Kafka broker or billable infrastructure without explicit owner authorization. [Cloud deployment guidance](docs/STAGE-04-SUPABASE-DEPLOY.md) is optional.
 
-See [program readiness](docs/PROGRAM-READINESS.he.md), [the maintainers' roadmap](docs/MAINTAINER-ROADMAP.he.md), and [the security policy](SECURITY.md) for release gates and safe contribution practices.
+See [program readiness](docs/PROGRAM-READINESS.md), [the maintainers' roadmap](docs/MAINTAINER-ROADMAP.md), and [the security policy](SECURITY.md) for release gates and safe contribution practices.
 
 ## Documentation navigation
 
@@ -145,14 +147,14 @@ See [program readiness](docs/PROGRAM-READINESS.he.md), [the maintainers' roadmap
 | --- | --- |
 | Start with a terminal and no cloud account | [Quickstart](docs/QUICKSTART.en.md) |
 | Install VS Code extensions and view files visually | [Visual editor setup](docs/VS-CODE-LEARNING-SETUP.md) |
-| Choose the next stage and schedule practice | [Teaching plan](docs/TEACHING-PLAN.he.md) |
-| Develop breadth and computer science confidence | [Breadth foundations](docs/BREADTH-FOUNDATIONS.he.md) |
-| Learn the SQL/Python/ETL foundations carefully | [Foundations labs](docs/FOUNDATIONS-LABS.he.md) |
-| Work through video and notebook resources | [Video learning](docs/VIDEO-LEARNING.he.md) |
-| Diagnose environment, SQL or notebook errors | [Troubleshooting](docs/TROUBLESHOOTING.he.md) |
-| Determine whether you have independent evidence | [Mastery matrix](docs/MASTERY-MATRIX.he.md) |
-| Prepare for a real capstone defense | [Final assessment](docs/FINAL-ASSESSMENT.he.md) |
-| Understand the roadmap and advanced paths | [Roadmap](docs/ROADMAP.he.md) |
+| Choose the next stage and schedule practice | [Teaching plan](docs/TEACHING-PLAN.md) |
+| Develop breadth and computer science confidence | [Breadth foundations](docs/BREADTH-FOUNDATIONS.md) |
+| Learn the SQL/Python/ETL foundations carefully | [Foundations labs](docs/FOUNDATIONS-LABS.md) |
+| Work through video and notebook resources | [Video learning](docs/VIDEO-LEARNING.md) |
+| Diagnose environment, SQL or notebook errors | [Troubleshooting](docs/TROUBLESHOOTING.md) |
+| Determine whether you have independent evidence | [Mastery matrix](docs/MASTERY-MATRIX.md) |
+| Prepare for a real capstone defense | [Final assessment](docs/FINAL-ASSESSMENT.md) |
+| Understand the roadmap and advanced paths | [Roadmap](docs/ROADMAP.md) |
 | Work with GitHub and security-aware coding agents | [Agent guide](prompts/MASTER-AGENT.en.md) |
 
 The course, examples and reference implementations are provided for learning. [Contribute](CONTRIBUTING.md) with original work, safe test fixtures and clear change notes.

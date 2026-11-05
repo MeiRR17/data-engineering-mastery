@@ -1,6 +1,6 @@
 # Interactive learning notebooks — 14 stages (00–13)
 
-[Return to repository](../README.md) · [Course map](../docs/training-manifest.json) · [Assessment](../docs/FINAL-ASSESSMENT.he.md)
+[Return to repository](../README.md) · [Course map](../docs/training-manifest.json) · [Assessment](../docs/FINAL-ASSESSMENT.md)
 
 All **14 stages have a guided notebook**. Notebooks 00–03 include external video links and optional embeds; notebooks 04–13 use official documentation links and small, synthetic, **Python standard-library-only** examples, without network or external credentials.
 

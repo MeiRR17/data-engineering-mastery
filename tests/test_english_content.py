@@ -31,10 +31,10 @@ class EnglishContentTests(unittest.TestCase):
             self.assertTrue(any("unit.md:1" in x for x in errors))
             self.assertTrue(any("note.ipynb:1" in x for x in errors))
 
-    def test_english_path_filenames_kept_for_backward_compatibility(self):
-        self.assertTrue((ROOT / "docs" / "ROADMAP.he.md").is_file())
+    def test_canonical_english_names_and_legacy_redirects(self):
+        self.assertTrue((ROOT / "docs" / "ROADMAP.md").is_file())
         self.assertEqual(english.HEBREW.search(
-            (ROOT / "docs" / "ROADMAP.he.md").read_text(encoding="utf-8")
+            (ROOT / "docs" / "ROADMAP.md").read_text(encoding="utf-8")
         ), None)
 
 
