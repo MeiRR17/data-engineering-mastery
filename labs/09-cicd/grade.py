@@ -42,7 +42,11 @@ class DeliveryScenarios(unittest.TestCase):
         return TARGET.build_release(source, self.root / ("artifacts-" + str(self.number)), version)
 
     def deploy(self, version="v1.0.0", environment="dev", **kwargs):
-        bundle, manifest = self.build(version)
+        source_settings = {
+            name: kwargs.pop(name) for name in ("health", "quality", "rows")
+            if name in kwargs
+        }
+        bundle, manifest = self.build(version, **source_settings)
         return TARGET.deploy_release(bundle, manifest, self.deployments, environment, **kwargs)
 
     def test_build_is_reproducible(self):
