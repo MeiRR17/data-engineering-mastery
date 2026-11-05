@@ -1,0 +1,11 @@
+{
+  "files.encoding": "utf8",
+  "markdown.preview.fontSize": 16,
+  "markdown.preview.lineHeight": 1.65,
+  "markdown.preview.scrollPreviewWithEditor": true,
+  "markdown.preview.scrollEditorWithPreview": true,
+  "markdown.validate.enabled": true,
+  "notebook.output.textLineLimit": 80,
+  "editor.wordWrap": "on",
+  "editor.bracketPairColorization.enabled": true
+}
