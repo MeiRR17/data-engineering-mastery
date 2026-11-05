@@ -38,6 +38,10 @@ code --install-extension shd101wyy.markdown-preview-enhanced
 
 **macOS:** if `code` is not found, open VS Code, press Cmd+Shift+P and select **Shell Command: Install 'code' command in PATH**, then open a new terminal.
 
+## Install from inside VS Code (no commands to copy)
+
+Open the project folder, then choose **Terminal → Run Task** and select **Course: Install VS Code Markdown and Jupyter extensions**. This is a user-triggered task: it runs the included PowerShell installer on Windows, or the Bash installer on macOS/Linux. You can also choose **Course: Validate English lessons and notebooks** to check the files without installing anything. If your system blocks scripts, install the four extensions manually through the VS Code Extensions sidebar; do not change system-wide security policy just for this course.
+
 ## Read Markdown as a formatted page
 
 1. Use **File → Open Folder** to open the whole repository.
