@@ -1,5 +1,6 @@
 """Stage 12 independent grading suite; --reference checks instructor baseline."""
 import argparse
+from contextlib import closing
 from datetime import datetime, timezone
 from importlib.util import module_from_spec, spec_from_file_location
 import json
