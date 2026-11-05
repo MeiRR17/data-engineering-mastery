@@ -1,197 +1,188 @@
-# DataPulse — Data Engineering from API to Production
+# DataPulse — From a Data API to Trusted Analytics
 
-פרויקט לימודי מלא: **USGS → Python ETL → Supabase PostgreSQL → Dashboard → Deployment**.
+[Course home](../../README.md) · [DataPulse learning path](LEARNING-PATH.he.md) · [Deployment checklist](DEPLOYMENT-CHECKLIST.he.md)
 
-> הסטטוס הנוכחי של חבילת הלימוד: קוד ותשתיות מוכנים לבדיקה מקומית; פריסה לענן דורשת פרויקט Supabase ייעודי והרשאות פריסה. אין כאן טענה שפרויקט ענן נוצר או הופעל.
+**Project architecture:** USGS GeoJSON → Python ETL → PostgreSQL/Supabase → read-only dashboard → optional deployment. It is a learning project with **synthetic offline fixtures** and optional, owner-authorized live integration. Neither a deployed cloud project nor production readiness is implied by the code.
 
-## מבוא: אילו בעיות אנחנו פותרים?
+## What problems does it solve?
 
-- **Extract:** משיכת נתונים מ-USGS GeoJSON. מקור: https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php
-- **Transform:** אימות מזהה, זמנים, קואורדינטות, עוצמה, סוג אירוע, ודחיית רשומות לא תקינות.
-- **Load:** כתיבת Raw ו-Curated באותה טרנזקציית PostgreSQL עם upsert לפי `event_id` ומועד עדכון המקור.
-- **Quality:** סף פסילה של 25% בשלב ההדגמה, constraints ברמת מסד הנתונים, ובדיקות יחידה.
-- **Serve:** שימוש ב-PostgREST לקריאה ציבורית *רק* של נתונים מעובדים, עם RLS ו-GRANT מינימלי.
-- **Operate:** GitHub Actions להרצה מחזורית (לאחר הפעלה מפורשת), run logs, יכולת dry-run.
-- **Deploy:** Supabase לפריסת DB + Vercel לפריסת ממשק סטטי.
+- **Extract:** request a USGS earthquake GeoJSON feed; official source: https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php.
+- **Transform:** validate event ID, timestamps, coordinates, magnitude, event type and quality of records.
+- **Load:** persist raw and curated records in a PostgreSQL transaction; upsert by business `event_id` and source revision time.
+- **Quality:** quarantine malformed input, enforce a demonstrative 25% rejection threshold and database constraints, test failure cases.
+- **Serve:** return approved curated data through a restricted read-only PostgREST view, governed by RLS and minimal grants.
+- **Operate:** explicitly enabled scheduled ingestion, run logs and safe dry-run behavior.
+- **Deploy:** optionally use a *separate* Supabase database sandbox and Vercel for the static frontend, only with owner permission and a cost review.
 
-### ארכיטקטורה
-
-```mermaid
+~~~mermaid
 flowchart TD
-    A[USGS GeoJSON API] --> B[Python ingestion]
-    B --> C{Data validation}
-    C -->|valid batches| D[Supabase RPC]
-    C -->|invalid| E[Reject counters]
-    D --> F[(Raw JSONB)]
-    D --> G[(Curated PostgreSQL)]
-    G --> H[Daily SQL view]
-    G --> I[REST API with RLS]
-    H --> I
-    I --> J[Vercel dashboard]
-    K[GitHub Actions hourly schedule] --> B
-```
+  A[USGS GeoJSON feed] --> B[Python ingestion]
+  B --> C{Validate event contract}
+  C -->|approved| D[Postgres ingestion function]
+  C -->|rejected| E[Safe rejection counters]
+  D --> F[(Private raw JSONB)]
+  D --> G[(Curated event records)]
+  G --> H[Daily SQL view]
+  H --> I[Restricted REST read API]
+  G --> I
+  I --> J[Static dashboard]
+  K[Optional approved schedule] --> B
+~~~
 
-### עקרונות חשובים
+### Important boundaries
 
-1. Supabase **אינו** תחליף ל-Spark או Warehouse ייעודי. כאן Postgres מספיק מבחינת היקף המידע.
-2. `sb_secret_...` שייך רק ל-Backend או ל-CI; אסור להכניסו ל-JavaScript בדפדפן.
-3. `sb_publishable_...` יכול להיחשף בדפדפן, אך רק כשה-RLS וההרשאות הוגדרו נכון.
-4. Raw data נגיש למפתח בעל הרשאות בלבד; אנונימי יכול לקרוא רק `earthquakes` ו-`daily_stats`.
-5. הזנת אותו אירוע שוב אינה יוצרת שורה נוספת. גרסה חדשה של האירוע עשויה לעדכן שורה קיימת.
-6. נתוני הדוגמה תחת `data/sample.geojson` הם **סינתטיים**, ואין להציג אותם כאירועים אמיתיים.
+1. Supabase/PostgreSQL is sufficient for this teaching scale; it is **not** a substitute for Spark or a dedicated distributed warehouse at all scales.
+2. `SUPABASE_SECRET_KEY` / service-role credentials belong **server-side only**. Never embed them in JavaScript or commit them to Git.
+3. A publishable key can be publicly exposed **only if** RLS, GRANT and API exposure rules are independently verified.
+4. Raw input and ingestion audit tables are private. Anonymous clients should see only explicitly approved curated records/aggregates.
+5. Re-ingesting an event cannot create another record for the same `event_id`. A newer source revision may update the record.
+6. `data/sample.geojson` is synthetic. Never represent its records as actual real-world earthquakes.
 
-## מיקום במאגר הלימודי
+## Where to run the commands
 
-במאגר המאסטרי הזה, קובצי הפרויקט נמצאים תחת `projects/datapulse`. הפקודות המוצגות בדף זה מניחות שנכנסת קודם לתיקייה זו (`cd projects/datapulse`), אלא אם צוין אחרת.
+This project lives at `projects/datapulse/` in the course repository. In the commands below, first enter that folder **from the repository root**:
 
-## מבנה התיקיות
+~~~bash
+cd projects/datapulse
+~~~
 
-```text
-src/datapulse/etl.py      # deterministic transformation + quality rules
-src/datapulse/ingest.py   # CLI entrypoint, fetching, retry, dry-run
-src/datapulse/client.py   # Supabase REST adapter
-database/001_init.sql     # PostgreSQL tables, view, RLS, function
-web/                      # responsive static dashboard + Vercel API config
-.github/workflows/        # tests and scheduled ingestion
-data/sample.geojson       # synthetic testing fixture
-tests/                    # unittest tests
-scripts/                  # CLI-generated migration helper
-```
+The directory structure is:
 
-## שלב 1 — הרצה ללא מפתחות וללא עלות ענן
+~~~text
+src/datapulse/etl.py      deterministic transform and quality rules
+src/datapulse/ingest.py   CLI entry point, HTTP fetch, retry and dry-run
+src/datapulse/client.py   Supabase REST adapter
+database/001_init.sql     PostgreSQL schema, view, RLS and ingest function
+web/                      accessible English static dashboard and API configuration
+data/sample.geojson       synthetic fixture
+tests/                    unittest coverage
+scripts/                  CLI-managed migration helper
+~~~
 
-דרישות: Python 3.11+.
+The GitHub Actions ingestion workflow is maintained in the course repository's root-level `examples/workflows/ingest.yml.example`, not inside this project folder.
 
-```bash
-cd datapulse
-PYTHONPATH=src python -m unittest discover -s tests -v
-PYTHONPATH=src python -m datapulse.ingest --fixture data/sample.geojson --dry-run
-```
+## Step 1 — run everything locally, with no cloud cost
 
-אחרי האימות המקומי אפשר להריץ Dry Run מול USGS (נדרש חיבור לרשת):
+**Requirement:** Python 3.11+.
 
-```bash
-PYTHONPATH=src python -m datapulse.ingest --feed day --dry-run
-```
+~~~bash
+# Start at the course root, then:
+cd projects/datapulse
+PYTHONPATH=src python3 -m unittest discover -s tests -v
+PYTHONPATH=src python3 -m datapulse.ingest \
+  --fixture data/sample.geojson --dry-run
+~~~
 
-## שלב 2 — Supabase project
+A dry run should write **zero** database rows. A real request to the public feed is optional and needs internet access:
 
-1. היכנס ל-https://supabase.com/dashboard ובחר ארגון והרשאות מתאימים.
-2. צור **פרויקט חדש ונפרד** (עדיף קרוב גאוגרפית למשתמשים שלך). בדוק את המחיר לפני יצירה.
-3. SQL Editor → New Query → הדבק את `database/001_init.sql` → Run.
-4. ב-Table Editor ודא שקיימות: `raw_earthquakes`, `earthquakes`, `ingest_runs`.
-5. ב-Database/Views ודא שקיים `daily_stats`.
-6. ב-Settings → API Keys צור/העתק Publishable ו-Secret keys. **אל תשתף כאן Secret key.**
+~~~bash
+PYTHONPATH=src python3 -m datapulse.ingest --feed day --dry-run
+~~~
 
-לעבודה עם Supabase CLI, יצירת מיגרציה עם שם מקורי של ה-CLI במקום לנחש חותמת זמן:
+Read output as a diagnostic. Never assume the feed or its schema is fixed forever.
 
-```bash
+## Step 2 — optional, separately approved Supabase project
+
+Only proceed if the owner has explicitly authorized creating a **new isolated sandbox**, has checked potential billing, and has selected the correct Supabase account/organization.
+
+1. Open https://supabase.com/dashboard and inspect account, region, billing and security settings.
+2. Create a *new* project, not one holding personal or business data.
+3. Choose **one** migration path: SQL Editor *or* versioned CLI migrations. Do not execute the initial migration twice.
+4. Inspect [database/001_init.sql](database/001_init.sql) before using it.
+5. Confirm `raw_earthquakes`, `earthquakes`, `ingest_runs` and `daily_stats`, including grants and exposed Data API schemas.
+6. Keep secret keys in a secure backend/CI store; never share them with an AI tutor.
+
+For the CLI method, check the exact current syntax **before** proceeding. Examples from a development environment:
+
+~~~bash
 supabase --version
+supabase --help
 supabase init
 bash scripts/create_migration.sh
+# Review the generated migration and get approval before linking or pushing.
+# Only then, in the authorized sandbox:
 supabase login
-supabase link --project-ref YOUR_PROJECT_REF
+supabase link --project-ref YOUR_APPROVED_PROJECT_REF
 supabase db push --remote
-```
+~~~
 
-> בחר **או** פריסה דרך SQL Editor **או** דרך migration ב-CLI, כדי לא לבצע תהליך כפול על אותו פרויקט. הדרך המומלצת לפיתוח ארוך טווח היא migrations כגרסת מקור יחידה.
+See the [controlled Supabase deployment guide](../../docs/STAGE-04-SUPABASE-DEPLOY.he.md). Do not copy cloud commands without reviewing their effect and your CLI version.
 
-## שלב 3 — טעינה אמיתית ראשונה
+## Step 3 — first approved ingestion
 
-קבע את משתני הסביבה בטרמינל או בקובץ `.env` מקומי שלא נכנס ל-Git (מומלץ secret manager):
+In a protected terminal/session, supply **server-side** environment variables only:
 
-```bash
-export SUPABASE_URL=https://YOUR_PROJECT_REF.supabase.co
+~~~bash
+export SUPABASE_URL=https://YOUR_APPROVED_PROJECT_REF.supabase.co
 export SUPABASE_SECRET_KEY='YOUR_SERVER_SIDE_SECRET_KEY'
-PYTHONPATH=src python -m datapulse.ingest --feed day
-```
+PYTHONPATH=src python3 -m datapulse.ingest --feed day
+~~~
 
-אחר כך בדוק ב-SQL Editor:
+Check database state using approved SQL access:
 
-```sql
+~~~sql
 select count(*) from public.raw_earthquakes;
 select count(*) from public.earthquakes;
 select * from public.daily_stats order by day desc limit 7;
 select status, source_rows, valid_rows, rejected_rows, loaded_rows
 from public.ingest_runs order by started_at desc limit 5;
-```
+~~~
 
-### בדיקת Idempotency
+### Idempotency check
 
-הרץ את אותה פקודת טעינה פעמיים בהפרש קצר והשווה את מספרי השורות. כל אירוע מזוהה באמצעות `event_id`, ולכן טעינה חוזרת אינה אמורה להוסיף כפילויות. אם המקור התעדכן בין ההרצות, ייתכנו אירועים חדשים או עדכונים תקינים.
+Run the same batch again and compare IDs and counts. A replay must not insert duplicate IDs. If the upstream data actually changed between runs, new events or revised values are legitimate; assess source revision times before declaring a problem.
 
-## שלב 4 — Dashboard מקומי ו-Vercel
+## Step 4 — visually inspect the English dashboard
 
-לתצוגה מקומית, צור `web/config.local.js` לפי `web/config.local.example.js` והכניס **רק מפתח Publishable**. הפעל שרת סטטי:
+A local demo requires **no account, key or cloud service**. Starting inside `projects/datapulse`:
 
-```bash
+~~~bash
 cd web
-python -m http.server 8080
-# http://localhost:8080             (דורש Supabase config)
-# http://localhost:8080/?demo=1     (דמו סינתטי ללא מפתחות)
-```
+python3 -m http.server 8080
+# Open http://localhost:8080/?demo=1
+~~~
 
-לפריסה ב-Vercel:
+For a separately authorized Supabase-backed local demo, create `web/config.local.js` from `web/config.local.example.js` and include **only** the public URL and publishable key. Do not include a secret token in `web/`.
 
-1. העלה את הפרויקט ל-GitHub, וייבא את ה-Repository ב-Vercel.
-2. הגדר **Root Directory** כ-`web` ובחר Other/No framework.
-3. בהגדרות ה-Environment Variables הוסף `SUPABASE_URL` ו-`SUPABASE_PUBLISHABLE_KEY` (ערכים ציבוריים בלבד).
-4. Deploy. אמת ש-`/api/config` מחזיר URL ו-Publishable key בלבד; אחרי כן בדוק טעינת dashboard ללא שגיאות.
-5. אם הקריאות נכשלות, בדוק RLS, `GRANT`, והאם Data API פעיל עבור schema `public`.
+For optional Vercel hosting, connect the intended GitHub repository and set the correct root directory `projects/datapulse/web` when importing the monorepo. Set only public configuration values needed by the frontend. Verify `/api/config` does not return privileged keys. Check status codes, loading/error/empty states, GRANT and RLS on the actual deployed API; **a screenshot is not an authorization test**.
 
-## שלב 5 — תזמון
+## Step 5 — optional, explicit schedule
 
-לאחר אישור מפורש, העתק את `examples/workflows/ingest.yml.example` ל-`.github/workflows/datapulse-ingest.yml` בשורש הריפו והפעל אותו ב-GitHub Actions (משתנה `DATAPULSE_ENABLED=true`). הוסף **Repository Secrets**:
+The sample workflow lives at [examples/workflows/ingest.yml.example](../../examples/workflows/ingest.yml.example). It is disabled by default and **must not be activated without approval**. To enable it:
+- Review the workflow and copy it to the monorepo's `.github/workflows/` under an approved PR.
+- Configure `SUPABASE_URL` and `SUPABASE_SECRET_KEY` as repository **secrets**, not public variables.
+- Set `DATAPULSE_ENABLED=true` only after a successful manual dry run and cost review.
+- Monitor schedule drift, retries, error logs, quotas, budget alerts and the shutdown procedure.
 
-- `SUPABASE_URL` — כתובת Supabase.
-- `SUPABASE_SECRET_KEY` — מפתח שרת, **לעולם לא** כמשתנה ציבורי או בקובץ Git.
+GitHub's scheduled Actions are not guaranteed to run at an exact minute.
 
-לאחר שביצעת טעינה מוצלחת אחת במצב ידני, הוסף **Repository Variable**:
+## Step 6 — security and quality exit gate
 
-- `DATAPULSE_ENABLED` = `true`
+- [ ] Raw and audit tables are **not readable** with anonymous/public credentials.
+- [ ] Curated tables and approved metrics can be read, but **not written**, with public credentials.
+- [ ] The ingest function is not callable by anonymous/authenticated frontend users.
+- [ ] No server-side secret appears in browser bundles or Git history.
+- [ ] HTTP errors and invalid records cannot silently bypass quality gates.
+- [ ] Supabase security/performance advisors have no unresolved critical findings.
+- [ ] Replays do not add duplicates, and later source corrections are applied correctly.
+- [ ] The dashboard handles no data, network failure and NULL magnitudes.
+- [ ] Operational limits and the cost estimate are documented.
 
-ה-Workflow מוגדר להרצה אחת בשעה ב-UTC, בתלות בתזמון של GitHub (שאינו מובטח לדקה המדויקת).
+## Limits and advanced learning
 
-## שלב 6 — בדיקות אבטחה ואיכות לפני פריסה
+- A daily feed is usually a **rolling window**, not a complete historical archive. Historical analytics need a bounded, safe backfill.
+- `loaded_rows` represents rows submitted to the ingestion function, not necessarily rows actually changed.
+- Unit tests do not replace integration tests against real PostgreSQL.
+- The average magnitude excludes NULL from the denominator; make that denominator explicit.
+- The frontend is a static web app; PostgreSQL/Supabase is the backend, not a frontend hosting provider.
+- The course includes separate **dbt**, **PySpark**, **Kafka** and **CI/CD** labs; those are not automatically deployed by this DataPulse MVP.
 
-- `raw_earthquakes` ו-`ingest_runs` אינם נגישים באמצעות publishable key.
-- `earthquakes` ו-`daily_stats` קריאים אך אינם ניתנים לכתיבה עם publishable key.
-- פונקציית `ingest_earthquake_batch` אינה זמינה ל-`anon` או ל-`authenticated`.
-- אין `SUPABASE_SECRET_KEY` בקבצים הנשלחים לדפדפן או ב-Git.
-- HTTP errors/invalid records do not silently pass quality gates.
-- `supabase db advisors` או Database Security Advisors: אין ממצאי אבטחה לא מטופלים.
-- ביצוע שתי טעינות: אין כפילויות; גרסאות אירועים חדשות מתעדכנות.
-- Dashboards: בדוק מצב ריק, כישלון רשת ואירועים עם magnitude חסר.
+## Official references
 
-## מסלול הרחבה לאחר MVP
+- [USGS feed](https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php)
+- [Supabase API keys](https://supabase.com/docs/guides/getting-started/api-keys)
+- [Supabase RLS](https://supabase.com/docs/guides/database/postgres/row-level-security)
+- [Supabase deployment](https://supabase.com/docs/guides/deployment)
+- [Vercel Functions](https://vercel.com/docs/functions)
 
-**v0.2.0:** CDC / change history, backfill עם חלונות תאריכים, Data Contracts.
-
-**v0.3.0:** dbt + DuckDB / Parquet, orchestration עצמאי, lineage.
-
-**v0.4.0:** Kafka streaming, Spark, cost benchmarks, CI integration tests.
-
-## מגבלות MVP
-
-- `all_day.geojson` הוא חלון מתגלגל של היום האחרון, לכן לצורך היסטוריה נדרש גם backfill (דוגמה: `--feed week`).
-- `loaded_rows` מציין רשומות שהועברו ל-RPC, **לא** כמה שורות השתנו בפועל.
-- בדיקות היחידה אינן מחליפות בדיקות אינטגרציה מול PostgreSQL פעיל.
-- ממוצע העוצמה ב-Dashboard מחושב לפי ממוצע יום משוקלל במספר האירועים בעלי ערך magnitude; ערכים חסרים אינם נכללים במכנה.
-- Supabase מספק backend. ה-frontend בפרויקט נפרס דרך Vercel.
-
-## מקורות רשמיים
-
-- USGS Feed: https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php
-- Supabase Keys: https://supabase.com/docs/guides/getting-started/api-keys
-- Supabase RLS: https://supabase.com/docs/guides/database/postgres/row-level-security
-- Supabase deployment: https://supabase.com/docs/guides/deployment
-- Vercel functions: https://vercel.com/docs/functions
-
-
-## התאמה ל-Supabase CLI v3 (נובמבר 2026)
-
-ה-CLI החדש פועל **מקומית כברירת מחדל**. כל שינוי בפרויקט מאוחסן מחייב בחירה מכוונת ב-`--remote`, ולפעולות לא אינטראקטיביות גם `--yes` לאחר סקירת השינוי. אל תעתיק פקודות ישנות בלי בדיקה עם `supabase --help`, `supabase db --help` ו-`supabase db push --help`.
-
-מקור רשמי: https://supabase.com/changelog/supabase-cli-v3
-
-**הערה:** הקוד המצורף הוא פרויקט לימודי שצריך לבדוק מול סביבת Supabase ייעודית; אין לטעון שפריסה או בדיקת RLS חיצונית הושלמו ללא ראיות.
+**Do not claim remote Supabase deployment or production readiness without owner-approved remote security, data API and restore evidence.**
