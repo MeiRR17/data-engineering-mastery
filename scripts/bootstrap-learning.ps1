@@ -10,10 +10,17 @@ $root = (Resolve-Path (Join-Path $PSScriptRoot "..")).Path
 Push-Location $root
 try {
     $python = $null
-    if (Get-Command py -ErrorAction SilentlyContinue) {
-        $python = @("py", "-3")
-    } elseif (Get-Command python -ErrorAction SilentlyContinue) {
+    if ($env:COURSE_PYTHON -and (Test-Path -LiteralPath $env:COURSE_PYTHON -PathType Leaf)) {
+        $python = @($env:COURSE_PYTHON)
+    } elseif (Get-Command py -ErrorAction SilentlyContinue) {
+        & py -3.12 -c "import sys; print(sys.version_info[:2])" 2>$null
+        if ($LASTEXITCODE -eq 0) { $python = @("py", "-3.12") }
+    }
+    if (-not $python -and (Get-Command python -ErrorAction SilentlyContinue)) {
         $python = @("python")
+    }
+    if (-not $python -and (Get-Command py -ErrorAction SilentlyContinue)) {
+        $python = @("py", "-3")
     }
     if (-not $python) {
         Write-Error "Install Python 3.11+ to complete the setup."
@@ -24,7 +31,7 @@ try {
     if ($python.Count -gt 1) { $pythonArgs = @($python[1]) }
 
     if (-not $VerifyOnly) {
-        & $python[0] @pythonArgs -c "import sys; sys.exit(0 if sys.version_info >= (3, 11) else 2)"
+        & $python[0] @pythonArgs -c "import sys; sys.exit(0 if (3, 11) <= sys.version_info < (3, 15) else 2)"
         if ($LASTEXITCODE -ne 0) { throw "Python 3.11+ is required." }
         & powershell -NoProfile -ExecutionPolicy RemoteSigned -File "$root\scripts\install-vscode-extensions.ps1"
         if ($LASTEXITCODE -ne 0) { throw "VS Code extension installation failed." }
@@ -35,7 +42,7 @@ try {
         & ".venv\Scripts\python.exe" -m pip install --disable-pip-version-check -r notebooks\requirements-vscode.txt
         if ($LASTEXITCODE -ne 0) { throw "Could not install notebook dependencies." }
     } else {
-        & powershell -NoProfile -File "$root\scripts\install-vscode-extensions.ps1" -VerifyOnly
+        & powershell -NoProfile -ExecutionPolicy RemoteSigned -File "$root\scripts\install-vscode-extensions.ps1" -VerifyOnly
         if ($LASTEXITCODE -ne 0) { throw "Required extensions are not installed." }
         if (-not (Test-Path ".venv\Scripts\python.exe")) {
             throw "Missing .venv - run the setup task first."

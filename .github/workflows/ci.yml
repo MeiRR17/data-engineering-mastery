@@ -282,6 +282,8 @@ jobs:
         if: runner.os == 'Windows'
         shell: pwsh
         run: |
+          $env:COURSE_PYTHON = Join-Path $env:pythonLocation 'python.exe'
+          & $env:COURSE_PYTHON --version
           powershell -NoProfile -ExecutionPolicy RemoteSigned -File scripts/bootstrap-learning.ps1 -Mode all
           if ($LASTEXITCODE -ne 0) { throw 'Windows course setup or notebook CI failed' }
 

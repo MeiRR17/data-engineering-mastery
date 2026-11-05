@@ -25,7 +25,7 @@ else
 fi
 
 if [[ "$verify_only" -eq 0 ]]; then
-  "$system_python" -c 'import sys; sys.exit(0 if sys.version_info >= (3, 11) else 2)'
+  "$system_python" -c 'import sys; sys.exit(0 if (3, 11) <= sys.version_info < (3, 15) else 2)'
   bash scripts/install-vscode-extensions.sh
   if [[ ! -x ".venv/bin/python" ]]; then
     "$system_python" -m venv .venv

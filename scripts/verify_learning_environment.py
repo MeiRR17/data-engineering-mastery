@@ -140,13 +140,15 @@ def verify(mode: str = "smoke") -> dict:
     problems = []
     if sys.version_info < (3, 11):
         problems.append("PYTHON_TOO_OLD")
+    if sys.version_info >= (3, 15):
+        problems.append("PYTHON_VERSION_NOT_VALIDATED")
     extensions, e_issues = check_extensions()
     problems.extend(e_issues)
     packages, p_issues = check_packages()
     problems.extend(p_issues)
     rendered = False
     notebooks = []
-    if not p_issues and sys.version_info >= (3, 11):
+    if not p_issues and (3, 11) <= sys.version_info < (3, 15):
         try:
             rendered = check_markdown_render()
             if not rendered:
