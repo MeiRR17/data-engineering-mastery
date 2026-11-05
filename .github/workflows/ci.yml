@@ -177,3 +177,54 @@ jobs:
         run: python3 labs/10-spark/spark_grade.py --reference
       - name: Demonstrate partition skew on synthetic events
         run: python3 labs/10-spark/skew_demo.py
+
+
+  kafka-stage11:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned Kafka client
+        run: python3 -m pip install "confluent-kafka==2.16.1"
+      - name: Launch disposable loopback-only Kafka broker
+        run: |
+          docker run -d --rm --name dem-stage11-kafka \
+            -p 127.0.0.1:9092:9092 apache/kafka:4.4.0
+      - name: Real Kafka produce/consume/replay and broker offset check
+        run: python3 labs/11-streaming/kafka_demo.py --broker 127.0.0.1:9092
+      - name: Remove only the temporary training broker
+        if: always()
+        run: docker rm -f dem-stage11-kafka || true
+
+  capstone-stage13:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify integrated capstone reference
+        run: python3 capstone/grade.py --reference
+      - name: Run end-to-end synthetic DataPulse demonstration
+        run: python3 capstone/demo.py
+      - name: Generate reviewer-separated transfer fixture
+        run: |
+          python3 assessment/generate_transfer.py --seed 20261105 --output /tmp/dem-training-exam
+          test -s /tmp/dem-training-exam/candidate/events.jsonl
+          test -s /tmp/dem-training-exam/reviewer_only/answer_key.json
