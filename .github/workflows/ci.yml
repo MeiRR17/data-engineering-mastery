@@ -43,6 +43,11 @@ jobs:
           node --check labs/08-serving/web/app.js
           python3 labs/08-serving/learner/grade.py --reference
 
+      - name: Stage 11 streaming semantics and crash-safe checkpointing
+        run: |
+          python3 labs/11-streaming/grade.py --reference
+          python3 labs/11-streaming/demo.py
+
   postgres-stage04:
     runs-on: ubuntu-latest
     timeout-minutes: 12

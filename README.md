@@ -47,6 +47,10 @@ python3 labs/03-etl/grade.py
 
 [**מעבדת Spark ו־Map/Reduce בשני מסלולים**](labs/10-spark/README.md) מציעה מצב Light ללא תלות חיצונית עם 21 מבחני תרגול ומצב Full עם PySpark מקומי, 9 מבחני Spark, בדיקת התאמה בין מסלולים והדגמה של חלוקה לא מאוזנת למחיצות (Data Skew). הדוגמה סינתטית ומוגבלת; אין בה Cluster מבוזר או פריסה לענן.
 
+## Stage 11 — Kafka ו־Streaming
+
+[**מעבדת Streaming ו־Consumer Offsets**](labs/11-streaming/README.md) כוללת 25 מבחני כשל לרשומות כפולות, Restart, Watermarks, Poison Messages ו־Commit אטומי של Offset/נתוני Sink. יש מצב Light ללא שירותים ומסלול Kafka אמיתי עם Broker מקומי. התרגילים מתחילים לא פתורים.
+
 ## מה עושים עכשיו? בדיוק 10 צעדים
 
 1. **יוצרים ריפו אישי:** כשמאגר זה יתפרסם כ־GitHub Template, לחצו **Use this template → Create a new repository**. אפשר להתחיל בריפו פרטי; אין חובה לפרסם את ההתקדמות האישית. אם קיבלתם ZIP, חילצו אותו ופתחו את התיקייה ב־VS Code. [הסבר](docs/GITHUB-MCP-SETUP.he.md).
