@@ -31,3 +31,7 @@ A local, standard-library HTTP/SQLite read-only serving lab with synthetic Stage
 ### Stage 09 — Release simulator in the consolidated RC
 
 The offline Stage 09 lesson implements reproducible versioned ZIP bundles, integrity verification, separate simulated environment pointers, health-gated atomic promotion and verified rollback. A dedicated CI job runs the instructor's 26 fault scenarios and end-to-end demo. It does **not** publish a GitHub Release, deploy to real infrastructure, handle real secrets or run irreversible PostgreSQL migrations; those remain explicit acceptance gates for a genuine delivery milestone.
+
+### Stage 10 implementation increment (in RC)
+
+A deterministic pure-Python MapReduce learning fallback (21 instructor-graded scenarios) and a real Java 17 + PySpark 4.0.5 local DataFrame job (9 instructor-graded scenarios, light/Spark parity check, physical-plan explanation and a synthetic skew demonstration). A separate optional CI job installs PySpark and runs locally; running local Spark on one machine is **not** the same as distributed cluster verification. No DuckDB performance benchmark, Kafka, Parquet lake or cloud cluster has been claimed.

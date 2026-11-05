@@ -43,6 +43,10 @@ python3 labs/03-etl/grade.py
 
 [מעבדת PostgreSQL](labs/04-postgres/README.md) מריצה בדיקות רלוונטיות על בסיס נתונים זמני ללא חשבון ענן. התחל עם פקודת הייחוס: python3 labs/04-postgres/run_lab.py --reference. לאחר מכן נסה את תרגיל הלומד: python3 labs/04-postgres/run_lab.py, שייכשל בתחילה בכוונה. [פריסה לענן](docs/STAGE-04-SUPABASE-DEPLOY.he.md) היא שלב נפרד ואינה מאומתת עדיין.
 
+## Stage 10 — Big Data ו־PySpark על מחשב רגיל
+
+[**מעבדת Spark ו־Map/Reduce בשני מסלולים**](labs/10-spark/README.md) מציעה מצב Light ללא תלות חיצונית עם 21 מבחני תרגול ומצב Full עם PySpark מקומי, 9 מבחני Spark, בדיקת התאמה בין מסלולים והדגמה של חלוקה לא מאוזנת למחיצות (Data Skew). הדוגמה סינתטית ומוגבלת; אין בה Cluster מבוזר או פריסה לענן.
+
 ## מה עושים עכשיו? בדיוק 10 צעדים
 
 1. **יוצרים ריפו אישי:** כשמאגר זה יתפרסם כ־GitHub Template, לחצו **Use this template → Create a new repository**. אפשר להתחיל בריפו פרטי; אין חובה לפרסם את ההתקדמות האישית. אם קיבלתם ZIP, חילצו אותו ופתחו את התיקייה ב־VS Code. [הסבר](docs/GITHUB-MCP-SETUP.he.md).

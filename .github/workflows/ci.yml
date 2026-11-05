@@ -134,3 +134,36 @@ jobs:
         run: python3 labs/09-cicd/grade.py --reference
       - name: Perform offline promotion and rollback demonstration
         run: python3 labs/09-cicd/demo.py
+
+
+  spark-stage10:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    permissions:
+      contents: read
+    env:
+      SPARK_LOCAL_IP: 127.0.0.1
+      PYSPARK_PYTHON: python3
+      PYSPARK_DRIVER_PYTHON: python3
+    steps:
+      - name: Checkout no persistent credentials
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Set up Java 17 for PySpark
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned local PySpark
+        run: python3 -m pip install "pyspark==4.0.5"
+      - name: Verify real Spark and light output match
+        run: python3 labs/10-spark/spark_pipeline.py --partitions 2
+      - name: Grade instructor Spark Window and shuffle logic
+        run: python3 labs/10-spark/spark_grade.py --reference
+      - name: Demonstrate partition skew on synthetic events
+        run: python3 labs/10-spark/skew_demo.py
