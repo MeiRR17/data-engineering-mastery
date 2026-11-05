@@ -42,6 +42,31 @@ code --install-extension shd101wyy.markdown-preview-enhanced
 
 Open the project folder, then choose **Terminal → Run Task** and select **Course: Install VS Code Markdown and Jupyter extensions**. This is a user-triggered task: it runs the included PowerShell installer on Windows, or the Bash installer on macOS/Linux. You can also choose **Course: Validate English lessons and notebooks** to check the files without installing anything. If your system blocks scripts, install the four extensions manually through the VS Code Extensions sidebar; do not change system-wide security policy just for this course.
 
+## Real computer setup and local CI (recommended)
+
+**One action inside VS Code:** Open the whole repository folder, select **Terminal → Run Task → Course: Set up and verify this computer**. It requests no cloud account and performs actual setup on the machine/context running the task:
+
+1. Install or refresh the four extensions from VS Code Marketplace and query `code --list-extensions --show-versions` to confirm their **actual installed IDs and versions**. Merely listing them in `.vscode/extensions.json` is no longer considered success.
+2. Create a gitignored, isolated `.venv` and install the pinned [lightweight notebook dependencies](../notebooks/requirements-vscode.txt), including `ipykernel`, `nbclient` and Matplotlib. Nothing is installed system-wide by the Python step.
+3. Parse the course Markdown to HTML and **execute three real notebooks** (Stages 00, 04 and 13) using the Jupyter Python kernel, including real code outputs and errors.
+4. Run the curriculum audit and local unit tests. Every failed command stops the setup; it will not print a false PASS.
+5. Save a sanitized, **local-only** `learner/setup-check.local.json` with package and extension versions, notebook names and PASS/FAIL status. The file is gitignored and excludes username, host, home paths, tokens and source data.
+
+For an installation that you only need to check again, choose **Terminal → Run Task → Course: Run local CI (no installations)**. This verifies installed extensions and dependencies and executes real notebook cells **without writing a report or installing anything**.
+
+To execute every one of the 14 notebooks, choose **Terminal → Run Task → Course: Full 14-notebook Jupyter integration**. It uses the same environment and does not require a network connection to execute synthetic cells.
+
+**Windows and macOS:** the tasks automatically select PowerShell on Windows and Bash on macOS/Linux. The Windows task uses process-scoped `RemoteSigned` to run the repository's reviewed local script; this does not change system-wide PowerShell policy. If your organization enforces stricter policy, use the manual installation instructions and ask the administrator rather than overriding policy.
+
+### What the real CI verifies
+
+The GitHub workflow launches **disposable Ubuntu, Apple Silicon macOS and Windows runners**, downloads VS Code from Microsoft's official download endpoint, installs all four Marketplace extensions, creates a Python environment and executes **all 14 notebooks using real Jupyter kernels**. This detects broken extensions, missing kernels, incompatible dependencies and failing cell execution rather than merely inspecting JSON files.
+
+An automated CLI cannot prove that the editor's graphical tab is visible in your **personal** VS Code session or that an extension is enabled in every profile. After the local task passes, open one `.md` using Markdown Preview and one `.ipynb` in Jupyter Notebook view. This manual UI check complements, but does not replace, the automated checks.
+
+For WSL or SSH Remote environments, extension installation and kernel checks apply to the context in which the task is running. If you want a Windows-host editor profile instead of the WSL extension host, run the task from a Windows-local VS Code window.
+
+
 ## Read Markdown as a formatted page
 
 1. Use **File → Open Folder** to open the whole repository.
