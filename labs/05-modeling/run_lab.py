@@ -12,6 +12,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 LAB = Path(__file__).resolve().parent
+sys.path.insert(0, str(ROOT / "scripts"))
+from docker_pg_ready import wait_for_final_postgres
 STAGE04 = ROOT / "labs/04-postgres"
 SCHEMA = ROOT / "projects/datapulse/database/001_init.sql"
 
@@ -52,16 +54,8 @@ def main():
             "-e", "POSTGRES_PASSWORD=disposable-only",
             "-e", "POSTGRES_DB=learning", "postgres:17", quiet=True)
         started = True
-        for _ in range(45):
-            ready = subprocess.run(
-                ["docker", "exec", name, "pg_isready", "-U", "postgres", "-d", "learning"],
-                stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
-            )
-            if ready.returncode == 0:
-                break
-            time.sleep(1)
-        else:
-            raise RuntimeError("Temporary PostgreSQL did not start")
+        # Wait beyond the entrypoint's temporary initdb PostgreSQL server.
+        wait_for_final_postgres(name)
 
         # A real exercise starts with a fresh database, not a shared cloud DB.
         steps = [
@@ -96,4 +90,3 @@ def main():
 
 if __name__ == "__main__":
     raise SystemExit(main())
-
