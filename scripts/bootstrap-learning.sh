@@ -15,17 +15,31 @@ done
 
 root="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$root"
-if command -v python3 >/dev/null 2>&1; then
-  system_python="$(command -v python3)"
-elif command -v python >/dev/null 2>&1; then
-  system_python="$(command -v python)"
-else
-  echo "FAIL: install Python 3.11 or newer before course setup." >&2
-  exit 2
+# Prefer an actually supported interpreter, not macOS' first (possibly old) python3.
+# No system-wide Python installation or sudo is performed.
+system_python=""
+if [[ "$verify_only" -eq 0 ]]; then
+  candidates=()
+  if [[ -n "${COURSE_PYTHON:-}" ]]; then
+    candidates+=("$COURSE_PYTHON")
+  fi
+  candidates+=(python3.12 python3.13 python3.14 python3.11 python3 python)
+  for candidate in "${candidates[@]}"; do
+    if command -v "$candidate" >/dev/null 2>&1 && \
+       "$candidate" -c 'import sys; sys.exit(0 if (3, 11) <= sys.version_info < (3, 15) else 2)' >/dev/null 2>&1; then
+      system_python="$candidate"
+      break
+    fi
+  done
+  if [[ -z "$system_python" ]]; then
+    echo "FAIL: Python 3.11–3.14 is required. Install it and rerun this task." >&2
+    exit 2
+  fi
+  # Clear a prior success so it cannot be mistaken for this setup run.
+  rm -f -- learner/setup-check.local.json
 fi
 
 if [[ "$verify_only" -eq 0 ]]; then
-  "$system_python" -c 'import sys; sys.exit(0 if (3, 11) <= sys.version_info < (3, 15) else 2)'
   bash scripts/install-vscode-extensions.sh
   if [[ ! -x ".venv/bin/python" ]]; then
     "$system_python" -m venv .venv
@@ -40,17 +54,18 @@ else
   fi
 fi
 
+echo "Running local learning CI tests"
+.venv/bin/python scripts/validate_repo.py
+.venv/bin/python scripts/audit_program.py
+.venv/bin/python scripts/check_english_content.py
+.venv/bin/python -m unittest discover -s tests -q
+# The PASS report is written only after every other local CI gate passed.
 echo "Checking VS Code, Markdown and Jupyter kernel (mode: $mode)"
 if [[ "$verify_only" -eq 0 ]]; then
   .venv/bin/python scripts/verify_learning_environment.py --mode "$mode" --write-report
 else
   .venv/bin/python scripts/verify_learning_environment.py --mode "$mode"
 fi
-echo "Running local learning CI tests"
-.venv/bin/python scripts/validate_repo.py
-.venv/bin/python scripts/audit_program.py
-.venv/bin/python scripts/check_english_content.py
-.venv/bin/python -m unittest discover -s tests -q
 echo "PASS: local course setup and CI checks finished successfully."
 if [[ "$verify_only" -eq 0 ]]; then
   echo "Sanitized results saved locally to learner/setup-check.local.json (gitignored)."
