@@ -51,6 +51,10 @@ python3 labs/03-etl/grade.py
 
 [**מעבדת Streaming ו־Consumer Offsets**](labs/11-streaming/README.md) כוללת 25 מבחני כשל לרשומות כפולות, Restart, Watermarks, Poison Messages ו־Commit אטומי של Offset/נתוני Sink. יש מצב Light ללא שירותים ומסלול Kafka אמיתי עם Broker מקומי. התרגילים מתחילים לא פתורים.
 
+## Stage 12 — תפעול, SLO, גיבויים ושחזור
+
+[**מעבדת Reliability & Governance**](labs/12-reliability/README.md): מגדירים SLO, תקציב שגיאות, הרשאות, מודל עלויות, גיבוי SQLite ואימות שחזור לתיקייה מבודדת; 27 מבחני כשל ותרגיל Incident. זהו סימולטור מקומי, לא מערך תפעול בענן.
+
 ## מה עושים עכשיו? בדיוק 10 צעדים
 
 1. **יוצרים ריפו אישי:** כשמאגר זה יתפרסם כ־GitHub Template, לחצו **Use this template → Create a new repository**. אפשר להתחיל בריפו פרטי; אין חובה לפרסם את ההתקדמות האישית. אם קיבלתם ZIP, חילצו אותו ופתחו את התיקייה ב־VS Code. [הסבר](docs/GITHUB-MCP-SETUP.he.md).

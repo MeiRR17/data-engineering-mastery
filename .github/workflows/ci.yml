@@ -48,6 +48,11 @@ jobs:
           python3 labs/11-streaming/grade.py --reference
           python3 labs/11-streaming/demo.py
 
+      - name: Stage 12 reliability, safe backup/restore and incident drill
+        run: |
+          python3 labs/12-reliability/grade.py --reference
+          python3 labs/12-reliability/incident_drill.py
+
   postgres-stage04:
     runs-on: ubuntu-latest
     timeout-minutes: 12
