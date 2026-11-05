@@ -1,0 +1,11 @@
+{
+  "schema_version": "1.0.0",
+  "target_availability": 0.99,
+  "max_freshness_hours": 24,
+  "max_blocked_fraction": 0.1,
+  "labels": {
+    "dataset": "synthetic-datapulse",
+    "environment": "offline-learning-only"
+  },
+  "disclaimer": "Values are classroom targets, not a production SLA or vendor contract."
+}
