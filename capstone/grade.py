@@ -4,6 +4,7 @@ Default targets starter.py which must be implemented independently.
 All tests use temporary directories and synthetic fixture data only.
 """
 from __future__ import annotations
+from contextlib import closing
 import argparse
 from importlib.util import module_from_spec, spec_from_file_location
 import json
@@ -43,7 +44,7 @@ class CapstoneTests(unittest.TestCase):
     def test_stream_event_grain(self):
         report=self.run_capstone()
         self.assertEqual(report["stream"]["events"],4)
-        with sqlite3.connect(self.out/"stream.sqlite") as db:
+        with closing(sqlite3.connect(self.out/"stream.sqlite")) as db, db:
             self.assertEqual(db.execute("select count(*) from events").fetchone()[0],4)
 
     def test_stream_checkpoint_offsets(self):
@@ -56,7 +57,7 @@ class CapstoneTests(unittest.TestCase):
     def test_deadletter_quarantine_has_no_payload_column(self):
         report=self.run_capstone()
         self.assertEqual(report["stream"]["dead_letters"],2)
-        with sqlite3.connect(self.out/"stream.sqlite") as db:
+        with closing(sqlite3.connect(self.out/"stream.sqlite")) as db, db:
             cols={row[1] for row in db.execute("pragma table_info(dead_letters)")}
         self.assertNotIn("payload",cols)
         self.assertIn("reason_code",cols)
@@ -64,14 +65,14 @@ class CapstoneTests(unittest.TestCase):
     def test_quality_good_run_publishes_four(self):
         report=self.run_capstone()
         self.assertEqual(report["data_quality"]["accepted"],4)
-        with sqlite3.connect(self.out/"curated.sqlite") as db:
+        with closing(sqlite3.connect(self.out/"curated.sqlite")) as db, db:
             self.assertEqual(db.execute("select count(*) from curated_events").fetchone()[0],4)
 
     def test_bad_schema_batch_blocked_without_publish(self):
         report=self.run_capstone()
         self.assertTrue(report["data_quality"]["drift_blocked"])
         self.assertEqual(report["data_quality"]["blocked_published"],0)
-        with sqlite3.connect(self.out/"curated.sqlite") as db:
+        with closing(sqlite3.connect(self.out/"curated.sqlite")) as db, db:
             row=db.execute("select status,published_rows from quality_runs "
                            "where run_id='blocked-drift'").fetchone()
         self.assertEqual(row,("blocked",0))
@@ -79,7 +80,7 @@ class CapstoneTests(unittest.TestCase):
     def test_quality_recovery_replay_is_idempotent(self):
         report=self.run_capstone()
         self.assertEqual(report["data_quality"]["replay_published"],0)
-        with sqlite3.connect(self.out/"curated.sqlite") as db:
+        with closing(sqlite3.connect(self.out/"curated.sqlite")) as db, db:
             self.assertEqual(db.execute(
                 "select status from quality_runs where run_id='accepted-replay'").fetchone()[0],
                 "passed")
@@ -99,9 +100,9 @@ class CapstoneTests(unittest.TestCase):
         report=self.run_capstone()
         self.assertEqual(report["recovery"]["integrity"],"ok")
         self.assertEqual(report["recovery"]["rows"],4)
-        with sqlite3.connect(self.out/"restored.sqlite") as db:
+        with closing(sqlite3.connect(self.out/"restored.sqlite")) as db, db:
             restored=db.execute("select event_id,magnitude from curated_events order by event_id").fetchall()
-        with sqlite3.connect(self.out/"curated.sqlite") as db:
+        with closing(sqlite3.connect(self.out/"curated.sqlite")) as db, db:
             original=db.execute("select event_id,magnitude from curated_events order by event_id").fetchall()
         self.assertEqual(restored,original)
 
@@ -155,7 +156,7 @@ class CapstoneTests(unittest.TestCase):
         self.assertFalse((self.out/"curated.sqlite").exists())
         self.assertFalse((self.out/"evidence.json").exists())
         if (self.out/"stream.sqlite").exists():
-            with sqlite3.connect(self.out/"stream.sqlite") as db:
+            with closing(sqlite3.connect(self.out/"stream.sqlite")) as db, db:
                 self.assertEqual(db.execute("select count(*) from events").fetchone()[0],0)
                 self.assertEqual(db.execute(
                     "select count(*) from consumer_offsets").fetchone()[0],0)
@@ -175,7 +176,7 @@ class CapstoneTests(unittest.TestCase):
 
     def test_stream_to_curated_id_and_magnitude_reconciliation(self):
         self.run_capstone()
-        with sqlite3.connect(self.out/"stream.sqlite") as s,sqlite3.connect(self.out/"curated.sqlite") as c:
+        with closing(sqlite3.connect(self.out/"stream.sqlite")) as s, s, closing(sqlite3.connect(self.out/"curated.sqlite")) as c, c:
             stream=s.execute("select event_id,magnitude from events order by event_id").fetchall()
             curated=c.execute(
                 "select event_id,magnitude from curated_events order by event_id").fetchall()
