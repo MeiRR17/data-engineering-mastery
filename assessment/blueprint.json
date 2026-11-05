@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "title": "Data Engineering Mastery — Internal Completion Evidence",
+  "stages": [
+    {"id":"00","subject":"onboarding and engineering foundations","mode":"local"},
+    {"id":"01","subject":"SQL and relational correctness","mode":"local"},
+    {"id":"02","subject":"Python data parsing and validation","mode":"local"},
+    {"id":"03","subject":"batch ETL and transaction safety","mode":"local"},
+    {"id":"04","subject":"PostgreSQL permissions and RLS","mode":"postgres"},
+    {"id":"05","subject":"star schema, SCD2 and dbt","mode":"postgres-dbt"},
+    {"id":"06","subject":"orchestration and backfill recovery","mode":"local"},
+    {"id":"07","subject":"data contracts, quality and lineage","mode":"local"},
+    {"id":"08","subject":"read-only serving and analytics","mode":"local"},
+    {"id":"09","subject":"CI/CD, reproducible releases and rollback","mode":"local"},
+    {"id":"10","subject":"Spark DataFrame, shuffle and skew","mode":"spark"},
+    {"id":"11","subject":"Kafka partition, offsets and replay","mode":"kafka"},
+    {"id":"12","subject":"SLO, restore, RBAC and governance","mode":"local"},
+    {"id":"13","subject":"integrated capstone and independent oral assessment","mode":"capstone"}
+  ],
+  "required_scores": ["concepts", "implementation", "testing", "architecture", "operations"],
+  "mandatory_score_at_least": {"concepts":3, "implementation":3},
+  "capstone_all_scores_at_least": 3,
+  "final_exam": {
+    "total":100,
+    "passing_score":80,
+    "minimum_sections": {"independent_implementation":24, "incident":12, "system_design":12, "defense":12},
+    "section_maximums": {"independent_implementation":40, "incident":20, "system_design":20, "defense":20}
+  },
+  "output_statuses": ["needs_evidence", "ready_for_human_review"],
+  "note": "A green evaluation is not certification or verification of student authorship."
+}
