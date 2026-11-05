@@ -2,6 +2,77 @@
   "version": "2.0.0",
   "tasks": [
     {
+      "label": "Course: Set up and verify this computer",
+      "detail": "One-click install, create .venv, execute real notebooks, run local tests",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "scripts/bootstrap-learning.sh"
+      ],
+      "windows": {
+        "command": "powershell",
+        "args": [
+          "-NoProfile",
+          "-File",
+          "${workspaceFolder}\\scripts\\bootstrap-learning.ps1"
+        ]
+      },
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": [],
+      "group": "build"
+    },
+    {
+      "label": "Course: Run local CI (no installations)",
+      "detail": "Verify currently installed extensions, Python kernel, markdown and tests",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "scripts/bootstrap-learning.sh",
+        "--verify-only"
+      ],
+      "windows": {
+        "command": "powershell",
+        "args": [
+          "-NoProfile",
+          "-File",
+          "${workspaceFolder}\\scripts\\bootstrap-learning.ps1",
+          "-VerifyOnly"
+        ]
+      },
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Course: Full 14-notebook Jupyter integration",
+      "detail": "Run every synthetic notebook through real Jupyter kernels",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "scripts/bootstrap-learning.sh",
+        "--all",
+        "--verify-only"
+      ],
+      "windows": {
+        "command": "powershell",
+        "args": [
+          "-NoProfile",
+          "-File",
+          "${workspaceFolder}\\scripts\\bootstrap-learning.ps1",
+          "-Mode",
+          "all",
+          "-VerifyOnly"
+        ]
+      },
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    },
+    {
       "label": "Course: Install VS Code Markdown and Jupyter extensions",
       "type": "shell",
       "command": "bash",
