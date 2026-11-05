@@ -1,14 +1,28 @@
-# רשתות ומערכות API
+# Computer Science Bridge — Networking, HTTP and APIs
 
-**למה זה חשוב ב-Data Engineering?** TCP/TLS, HTTP, latency, retries, rate limiting, timeouts.
+This short unit connects fundamental computer science to practical Data Engineering. It is not a standalone certification; use it alongside the matching stage lab and explain the invariant in your own words.
 
-**שאלת פתיחה:** למה retry על POST יכול לייצר כפילות?
+## Core concepts
 
-**ניסוי של 20 דקות:** ייצר שרת mock שמחזיר 429 ושפר את backoff.
+TCP/TLS, HTTP status codes, timeouts, retries, rate limiting, authentication and API contracts.
 
-### מבחן מעבר
-1. הסבר את התופעה ללא שימוש ב-AI ובמונחים המדויקים.
-2. תאר מתי היא אינה רלוונטית ובמה היית בוחר במקום.
-3. הראה מדידה או בדיקה מקומית ושמור את הדרך לשחזר אותה.
+## Think before coding
 
-חזור ל-[תוכנית הגישור](../../docs/COMPUTER-SCIENCE-BRIDGES.he.md) ולשלב הפעיל במסלול.
+1. Why should a 429 response be treated differently from a malformed 400 request?
+2. What happens when a request succeeds but the response never reaches the client?
+
+## Hands-on exercise (15–25 minutes)
+
+Mock HTTP 429/500/timeouts with bounded exponential backoff; prove retries do not duplicate persisted rows.
+
+Record the expected outcome *before* running the experiment, then keep a minimal red-to-green test and a short note about what the result cannot prove.
+
+## Unseen transfer question
+
+How would you constrain a public GET endpoint's parameters to prevent expensive or unsafe queries?
+
+## Reference
+
+[Official or technical documentation](https://developer.mozilla.org/en-US/docs/Web/HTTP) · [Return to curriculum](../modules/00.md)
+
+**Exit criterion:** show a reproducible synthetic example and defend the failure mode without reading the instructor's answer.

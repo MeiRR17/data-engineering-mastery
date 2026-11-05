@@ -1,14 +1,28 @@
-# אבטחת מידע ואמון
+# Computer Science Bridge — Security, Authorization and Trust Boundaries
 
-**למה זה חשוב ב-Data Engineering?** RLS, identity, permissions, least privilege, SQL injection.
+This short unit connects fundamental computer science to practical Data Engineering. It is not a standalone certification; use it alongside the matching stage lab and explain the invariant in your own words.
 
-**שאלת פתיחה:** למה מפתח Publishable לא נותן הרשאת כתיבה?
+## Core concepts
 
-**ניסוי של 20 דקות:** הדגם negative test של שאילתת anon.
+Identity, roles, grants, RLS, least privilege, SQL injection, secret handling and auditability.
 
-### מבחן מעבר
-1. הסבר את התופעה ללא שימוש ב-AI ובמונחים המדויקים.
-2. תאר מתי היא אינה רלוונטית ובמה היית בוחר במקום.
-3. הראה מדידה או בדיקה מקומית ושמור את הדרך לשחזר אותה.
+## Think before coding
 
-חזור ל-[תוכנית הגישור](../../docs/COMPUTER-SCIENCE-BRIDGES.he.md) ולשלב הפעיל במסלול.
+1. Why is a public API key not a substitute for user authorization?
+2. How should database roles differ between ingestion, analytics and an anonymous user?
+
+## Hands-on exercise (15–25 minutes)
+
+Define a viewer/operator/admin authorization matrix, write denial tests and verify raw records cannot be served through the public API.
+
+Record the expected outcome *before* running the experiment, then keep a minimal red-to-green test and a short note about what the result cannot prove.
+
+## Unseen transfer question
+
+What happens when a view bypasses expected RLS policies or leaks a service-role token?
+
+## Reference
+
+[Official or technical documentation](https://www.postgresql.org/docs/current/ddl-rowsecurity.html) · [Return to curriculum](../modules/00.md)
+
+**Exit criterion:** show a reproducible synthetic example and defend the failure mode without reading the instructor's answer.

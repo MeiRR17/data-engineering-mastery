@@ -1,47 +1,51 @@
-# מנוע למידה אדפטיבי — לא משעמם ולא אוטומציה עיוורת
+# Adaptive Learning — personalize the exercise, not the facts
 
-## קלטים (רק באישור הלומד)
+The mentor chooses the next small task based on **demonstrated skills and constraints**, not a degree, job title or unsupported assumptions. Adaptation must be opt-in and must never collect a learner's private information without permission.
 
-- ידע קודם: אבחון עם דוגמאות, שאלות העברה ובדיקות עצמיות. אל תבנה מסקנות רק על תואר או תפקיד.
-- יעד: תפקיד ראשון, התמחות Platform, מחקר, שדרוג ידע.
-- זמן: דקות מפגש ושעות שבועיות.
-- חומרה: סיכום **מקומי ואופציונלי** של CPU/RAM/Free disk, יכולת סביבת Docker/CLI, לא מזהה מכונה.
-- אינדיקציות: אילו בדיקות עוברות, אילו טעויות חוזרות, כמה רמזים נדרשו, ההסבר העצמי.
+## Inputs (only with learner consent)
 
-## מנגנון בחירת פעילות
+- **Previous knowledge:** a short diagnostic, an independent transfer question and observed test results.
+- **Goal:** first Data Engineering role, platform specialization, research or general skill development.
+- **Time:** session minutes and realistic weekly practice capacity.
+- **Hardware:** an *optional local* summary of CPU, RAM, available storage and Docker capability; no hostname, username, serial number or identifying inventory.
+- **Learning evidence:** passed tests, recurring errors, number of hints required and the learner's own explanations.
 
-1. אם יש פער קריטי שמונע שימוש בטוח בכלי — פתח Micro-lesson של CS עם ניסוי ממוקד.
-2. בחר את המשימה הקטנה הבאה מהמודול הפעיל; הגדירו אחד או שניים בלבד בכל מפגש.
-3. התאם סביבה לפי `system_profile.py`: `light` = SQLite/DuckDB, `moderate` = Postgres/Docker לפי בחירה, `full` = Spark/Kafka מקומי *רק כשזה מוצדק*.
-4. פתח עם אירוע/כשל מעורר סקרנות, שאל תחילה את הלומד לנחש מה יקרה ואז הרץ ניסוי.
-5. מדוד הבנה בבחינה חדשה (transfer), לא רק העתקת פתרון תקין.
-6. אם נדרשו 3+ רמזים בנושא, תן רענון קצר וחזרה בשבוע הבא; אחרת שלב אותו בשאלת חזרה בעוד 7–14 ימים.
-7. הצע Quest צדדית אחת למפגש מה-JSON, עד 25 דקות, ואפשר לדלג ללא פגיעה בציון.
+## Choosing the next exercise
 
-## חלופות חומרה
+1. If a safety-critical knowledge gap blocks safe tool use, assign a small Computer Science bridge and a focused experiment.
+2. Choose **one or two** concrete tasks from the current stage, not an entire backlog.
+3. Use the optional resource classification: `light` = Python/SQLite; `moderate` = optional PostgreSQL/dbt/Docker; `full` = PySpark and single-node Kafka if justified.
+4. Start with a curious failure: ask the learner to **predict** the output before running code.
+5. Assess understanding on **a new input**, not by repeating the reference implementation.
+6. When a topic requires three or more hints, schedule a short revision and revisit it later. Otherwise test retention in 7–14 days.
+7. Offer at most one side quest of 15–25 minutes per session, and let the learner skip it if it is not blocking.
 
-| Tier | מה מומלץ להריץ | מה לדחות |
-|---|---|---|
-| light | SQLite, csv/json, Python, DuckDB, fixtures | Spark/Kafka מקומיים; מכולות רבות |
-| moderate | Postgres, Supabase local כשמתאפשר, dbt | Cluster רב שירותים ללא צורך |
-| full | Spark local, Kafka single-node for learning | Cluster יקר ושרותים שמושכים סודות ללא אישור |
+## Hardware-aware modes
 
-אי יכולת להריץ Kafka מקומית אינה סימן לחוסר הבנה. אפשר ללמוד API, guarantees, failure modes בעזרת הדמיה ולתייג את הבדיקה כלא מאומתת בענן.
+| Mode | Suitable work | Defer or simplify |
+| --- | --- | --- |
+| Light | Python, CSV/JSON, SQLite, small fixtures, documentation | Full local Kafka/Spark and many containers |
+| Moderate | PostgreSQL, Docker, dbt, optional local Supabase | Expensive multi-service clusters |
+| Full | Local Spark and a single Kafka broker | Unapproved remote infrastructure or real production secrets |
 
-## גיוון דידקטי מתוכנן
+Not being able to run Kafka locally does **not** imply a lack of conceptual understanding. Record full-mode hands-on practice as *not yet verified* until a real approved environment becomes available.
 
-- **Incident detective:** ניתוח תקלה אמיתית/מדומה, Hypothesis, Experiment, Conclusion.
-- **Build-a-feature:** שיפור בקוד עם Contract Tests.
-- **CS microscope:** חקר מקרה ברמת OS/Network/Algorithm.
-- **Peer review simulation:** התלמיד מסביר PR וקורא הערות ביקורת.
-- **Black-box challenge:** נתון פגום נשמר? מצא את מקור הזליגה.
-- **Tradeoff duel:** פתרון א' מול פתרון ב' תחת עומס/עלות/אמינות.
+## Session formats
 
-## דוגמה למפגש Stage 03
+- **Incident detective:** hypothesis → safe experiment → conclusion → regression.
+- **Build a feature:** add one capability under a data contract.
+- **CS microscope:** investigate OS, network or algorithm-level behavior.
+- **Peer review simulation:** defend design decisions and respond to review feedback.
+- **Black-box challenge:** locate why invalid data escaped a quality gate.
+- **Trade-off duel:** compare two designs on latency, cost, security and recovery.
 
-**Hook:** למה אותו אירוע רעידת אדמה מופיע שלוש פעמים ב-Analytics?  
-**סברה:** המפתח אינו ייחודי או מנגנון retry כותב שוב.  
-**תרגיל:** הרץ את ETL פעמיים על אותה fixture, השווה count ונתוני update.  
-**CS bridge:** Idempotency + distributed retry semantics.  
-**Side Quest:** מה קורה אם השרת נופל לאחר כתיבה ולפני acknowledgment?  
-**Exit question:** כיצד היית מתקן בלי למחוק את כל היסטוריית המקור?
+## Example: Stage 03
+
+**Hook:** Why did one synthetic earthquake event appear three times in analytics?  
+**Prediction:** Retries may be writing duplicate business IDs or using the wrong unique key.  
+**Experiment:** Run the ETL twice on the same fixture and compare counts and revisions.  
+**CS bridge:** Idempotency and distributed retry semantics.  
+**Transfer:** What if a server crashes after committing data but before sending the acknowledgement?  
+**Exit question:** How would you repair the sink without erasing all historical source data?
+
+The learner should end each session with a concrete next action and one piece of **sanitized evidence**, not a generic confidence score.

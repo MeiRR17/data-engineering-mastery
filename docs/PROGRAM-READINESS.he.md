@@ -58,13 +58,13 @@ python3 capstone/demo.py
 - `deployed`: real approved cloud environment with recorded proof.
 - `accredited`: **not claimed** — no external accreditation partnership exists.
 
-Internal completion statements must say "מסלול הכשרה פנימי" and avoid representing a completion certificate as an official vendor or professional credential.
+Internal completion statements must say "internally assessed training program" and must not represent completion as a vendor or officially accredited professional credential.
 
 ## Next maintenance priorities
 
 The next improvements are qualitative, not simply adding more folders: examine teaching clarity across all 14 modules, broaden unseen evaluation coverage, add controlled performance benchmarking for Spark vs local SQL, complete cloud-based auth/RLS and deployment only with explicit authorized sandbox, and gather real learner feedback. These are acceptance processes, not automatic code tasks.
 
-Last checked in the current development cycle: 2026-11-05; the exact last-green commit must be read from the PR's GitHub Actions before declaring any status.
+The exact latest-green commit must be checked from GitHub Actions before declaring CI status.
 
 ### Main integration note
 

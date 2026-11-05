@@ -1,52 +1,52 @@
-# Roadmap 2026–2028 — מההתחלה ועד מעבר לתפקיד
+# Learning roadmap — from foundations to a Data Engineering capstone
 
-המסלול הוא **Competency-Based** ולא רק צבירת שעות. קהל היעד הוא בוגרי הנדסת תוכנה ובעלי רקע קרוב, אך מי שחסר יסוד יכול להיעזר בקישורים למדעי המחשב ובתוכנית גישור.
+This program is **competency-based**, not a fixed-hours checklist. It primarily targets software engineering graduates, but missing prerequisites can be learned using the Computer Science bridges and foundation labs.
 
-| Stage | מומחיות | רמת יעד | פרויקט / ראיה |
-|---|---|---|---|
-| 00 | Onboarding + אבחון מדעי המחשב והחומרה | בסיס | סביבת עבודה + אבחון |
-| 01 | SQL/PostgreSQL | בסיס | חלונות, JOINs, EXPLAIN |
-| 02 | Python Data | בסיס | Parser, typing, tests |
-| 03 | Batch ETL | ליבה | מקור → SQLite (idempotent) |
-| 04 | PostgreSQL + Supabase Sandbox כתוספת | ליבה | migration + RLS + ingest; ענן ייבדק רק בסביבה מאושרת |
-| 05 | Modeling/Warehouse | ליבה | Star Schema + marts |
-| 06 | Orchestration | ליבה | DAG עם Backfill |
-| 07 | Contracts/Quality | ליבה | Quality gate + lineage |
-| 08 | Analytics/Data APIs | ליבה | Dashboard ב-Production-style |
-| 09 | Release Engineering / CI/CD | מתקדם | חבילה שחזורית, אימות, Release ו־Rollback מקומיים |
-| 10 | Spark/Big Data | מתקדם | עיבוד PySpark מקומי, Shuffle, Skew; Benchmark מבוזר בהרחבה |
-| 11 | Kafka/Streaming | מתקדם | duplicate, restart, late event |
-| 12 | Reliability/Governance | מתקדם | incident drill, backup/restore |
-| 13 | Capstone/Career | תיק עבודות | demo, ADR, PR review, mock interview |
+## The 14 stages
 
-## הערכת שלבי יסודות באמצעות קוד
+| Stage | Subject | Track | Practical result |
+| --- | --- | --- | --- |
+| [00](../curriculum/modules/00.md) | Setup, Git and engineering diagnostics | Foundation | Reproducible environment and data-flow sketch |
+| [01](../curriculum/modules/01.md) | SQL and relational correctness | Foundation | JOINs, windows, transactions and EXPLAIN |
+| [02](../curriculum/modules/02.md) | Python for data | Foundation | Type-safe parser and regression tests |
+| [03](../curriculum/modules/03.md) | Incremental batch ETL | Core | Replay-safe synthetic SQLite ingest |
+| [04](../curriculum/modules/04.md) | PostgreSQL security; optional Supabase sandbox | Core | Migrations, grants, RLS negative tests |
+| [05](../curriculum/modules/05.md) | Warehouse modeling and dbt | Core | Star schema, SCD2 and reconciled data marts |
+| [06](../curriculum/modules/06.md) | Orchestration | Core | DAG, retries and bounded backfill |
+| [07](../curriculum/modules/07.md) | Data quality and lineage | Core | Contract gate, safe quarantine and audit |
+| [08](../curriculum/modules/08.md) | Analytics serving | Core | Read-only API and quality-aware dashboard |
+| [09](../curriculum/modules/09.md) | Release engineering / CI/CD | Advanced | Reproducible artifact, health gate and rollback |
+| [10](../curriculum/modules/10.md) | Big Data and Spark | Advanced | Real local PySpark, shuffle and skew analysis |
+| [11](../curriculum/modules/11.md) | Kafka and streaming | Advanced | Consumer offsets, duplicates, replay and broker demo |
+| [12](../curriculum/modules/12.md) | Reliability and governance | Advanced | SLO, risk register, incident, backup and restore |
+| [13](../curriculum/modules/13.md) | Capstone and portfolio | Portfolio | End-to-end demo, ADRs, PR review and assessment |
 
-[Foundations Labs לשלבים 01–03](FOUNDATIONS-LABS.he.md) מאפשרים לבדוק קוד של הלומד באמצעות grader. כל Stage דורש גם הסבר עצמאי ופתרון Transfer חדש; הצלחה בגריידר אינה הסמכה מקצועית.
+[Foundation labs](FOUNDATIONS-LABS.he.md) provide executable SQL/Python/ETL graders. Every other stage also includes a practical lab and an original student implementation. **Passing a reference grader proves only that the exercise is runnable.**
 
-## שלוש שכבות בכל שלב
+## Three layers in each stage
 
-1. **Engineering:** בניית מערכת נתונים מדידה ושחזורית עם בדיקות.
-2. **Computer Science:** `curriculum/cs-bridges/` — מדוע הפתרון עובד, לא רק כיצד להעתיק קוד.
-3. **Side Quest:** הסתעפות מעניינת ומוגבלת בזמן מתוך `curriculum/side-quests.json`.
+1. **Engineering:** Build and test a measurable, reproducible data component.
+2. **Computer Science:** Explain why it works using one [bridge](COMPUTER-SCIENCE-BRIDGES.he.md), not only a copied command.
+3. **Optional side quest:** A small related challenge from [side-quests.json](../curriculum/side-quests.json).
 
-## מסלול רוחב מקביל (Foundations Passport)
+The parallel [Foundations Passport](BREADTH-FOUNDATIONS.he.md) contains 12 cross-discipline quests spanning the 14 stages. They build problem-solving confidence without becoming a second degree.
 
-בכל Stage מצטרף ניסוי קטן ממדעי המחשב או מתחום טכנולוגי משיק. 12 משימות חקר מכסות את 14 השלבים; המטרה היא יכולת להתמודד עם בעיות לא מוכרות, לא השלמת רשימת טכנולוגיות. [מפת הרוחב וכללי הביטחון](BREADTH-FOUNDATIONS.he.md) · `python3 scripts/breadth_quest.py recommend --stage 03`.
+## Flexible time expectations
 
-## הערכת זמן גמישה
+| Weekly practice | Rough planning horizon | Important qualification |
+| --- | --- | --- |
+| 5–7 hours | Often 15–24+ months | Strongly affected by prior skills and runtime availability |
+| 10–15 hours | Roughly 9–15+ months | Includes an initial capstone, not automatic certification |
+| 20+ hours | Can progress faster | Only after independent transfer and code reviews pass |
 
-- 5–7 שעות בשבוע: כ-15–24+ חודשים עד Capstone, מותנה ברקע ונגישות ציוד/ענן.
-- 10–15 שעות בשבוע: כ-9–15+ חודשים לשערי היסוד והליבה ולפרויקט גמר ראשוני.
-- 20+ שעות בשבוע: ניתן להתקדם מהר יותר, אך רק אם מבחני ההעברה והתוצרים אכן מוכיחים הבנה.
+These are **planning estimates, not guarantees**. A learner with established knowledge may move faster; someone encountering SQL or operating systems for the first time may need additional time. The [teaching plan](TEACHING-PLAN.he.md) gives a session structure.
 
-המספרים אינם הסמכה או הבטחה לתעסוקה. החל מ-Stage 03 התיק העיקרי הוא DataPulse שמתפתח מ-ETL מקומי עד deployment ותפעול; Stage 10–12 מוסיפים מערכות גדולות רק כשיש הצדקה.
+## After the capstone: optional specializations
 
-## מסלולי הרחבה אחרי Stage 13 (מומחיות רציפה)
+- **Data platforms:** Iceberg/Delta, schema registries, governance and platform self-service.
+- **Analytics Engineering:** dbt, semantic metrics, SCDs and warehouse tuning.
+- **Streaming:** Flink, event-time windows, state and exactly-once caveats.
+- **AI data infrastructure:** RAG ingestion, chunk quality, embeddings, evaluation and privacy.
+- **Architecture and reliability:** multi-region systems, incident reviews, SLOs and costs.
 
-- **Data Platform:** Iceberg/Delta, schema registry, governance, platform self-service, chargeback/showback.
-- **Analytics Engineering:** dbt, semantic layers, metrics, slowly changing dimensions, warehouse tuning.
-- **Streaming Specialist:** Flink, event-time windows, watermarks, stateful processing, exactly-once caveats.
-- **AI Data Infrastructure:** RAG ingestion, chunk quality, embeddings, lineage/evaluation, vector retrieval and PII governance.
-- **Architecture/Staff:** multi-region tradeoffs, ADRs, mentoring, SLIs/SLOs, incident reviews and cost optimization.
-
-לכל התמחות מתקדמת יש להגדיר Capstone נוסף עם baseline, cost model, tests, security review וכתיבת פוסט טכני.
+Choose one direction and create a new benchmarked, tested, security-reviewed capstone. The base program does not confer seniority or replace professional team experience.

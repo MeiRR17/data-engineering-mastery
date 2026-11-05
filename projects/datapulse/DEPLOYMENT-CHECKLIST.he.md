@@ -1,59 +1,63 @@
-# DataPulse — Deployment checklist, לא מדריך ל-Push עיוור
+# DataPulse — safe deployment checklist, not an automatic push recipe
 
-## שלב 1: ללא ענן
+The course uses **synthetic data**. Cloud deployment is optional, billable and permitted only in an owner-approved sandbox. Passing local tests does not imply cloud deployment or production readiness.
 
-```bash
+## Phase 1 — local and offline
+
+~~~bash
 PYTHONPATH=projects/datapulse/src python3 -m unittest discover -s projects/datapulse/tests -v
-PYTHONPATH=projects/datapulse/src python3 -m datapulse.ingest --fixture projects/datapulse/data/sample.geojson --dry-run
-```
+PYTHONPATH=projects/datapulse/src python3 -m datapulse.ingest \
+  --fixture projects/datapulse/data/sample.geojson --dry-run
+~~~
 
-**המצב הנכון:** `loaded_rows: 0` — Dry Run. הדוגמה סינתטית.
+A correct dry run should **not write to a database** (`loaded_rows: 0`). Verify the input is synthetic before proceeding.
 
-## שלב 2: חשבון ופרויקט נפרדים
+## Phase 2 — separate cloud account and project
 
-1. בחר ארגון Supabase בבעלות הלומד ובדוק עלות לפני יצירה; לעולם אל תשתמש במאגר של מישהו אחר כתרגול.
-2. בחר Region, שמור סיסמאות רק במנהל סודות/סביבה מקומית מאובטחת.
-3. בדוק `supabase --version` ו-`supabase db --help`. CLI v3: פקודות DB מכוונות **לוקאלית** אלא אם משתמשים במפורש ב-`--remote`.
-4. מקומית מתוך `projects/datapulse`, הרץ `supabase init` אם לא קיים `supabase/config.toml`; `bash scripts/create_migration.sh` כדי ליצור מיגרציה באמצעות CLI (ולא שם זמן מומצא).
-5. התנסה לוקאלית לפי `supabase start` / `supabase db reset` **רק בסביבת פיתוח**. אל תריץ reset מול פרויקט מרוחק.
-6. בדוק migration ו-SQL/RLS. לפריסה לפרויקט *שהלומד אישר*, השתמש ב-CLI `db push --remote` לאחר בדיקה עם `--help` וקבלת confirmation, או SQL Editor כמסלול חלופי אחד בלבד.
+1. Choose a learner-owned Supabase organization, cost limit and region. Never use someone else's existing database for an exercise.
+2. Store credentials in an approved secret manager or protected environment, not a frontend file.
+3. Check the current `supabase --version` and `supabase db --help`. Confirm how your CLI distinguishes local and remote operations.
+4. In `projects/datapulse`, initialize an isolated Supabase project if needed and use [the migration creation helper](scripts/create_migration.sh).
+5. Test `supabase start` and any local reset **only in disposable local development**. Never perform a reset against valuable remote data.
+6. Request explicit approval before running a remote migration; review the SQL/permissions and supported CLI syntax first.
 
-## שלב 3: אבטחה לפני Public
+## Phase 3 — security before public exposure
 
-- [ ] `public.raw_earthquakes`, `public.earthquakes`, `public.ingest_runs`: RLS פעיל.
-- [ ] `anon` אינו יכול INSERT/UPDATE/DELETE אף טבלה.
-- [ ] `anon` יכול לקרוא **רק** את טבלת/תצוגת הדשבורד המותרת.
-- [ ] פונקציית ingest אינה ניתנת לביצוע עם publishable key / anon.
-- [ ] `daily_stats` משתמשת ב-`security_invoker=true` ו-GRANT מוגבל.
-- [ ] Secrets בשרת/CI בלבד; Publishable key בדפדפן אך ורק עם RLS נכון.
-- [ ] DB advisors (security+performance) נבדקו; כל חריגה תועדה או תוקנה.
+- [ ] Row-level security is enabled on raw and curated database tables where required.
+- [ ] Anonymous roles cannot INSERT, UPDATE or DELETE internal records.
+- [ ] Anonymous access is limited to explicitly approved dashboard data/views.
+- [ ] Privileged ingest functions cannot execute with public credentials.
+- [ ] A serving view has appropriate security-invoker semantics and restricted grants.
+- [ ] Secret/service-role credentials remain server-side; publishable keys are used only with proven authorization.
+- [ ] Database security/performance advisors have been reviewed and findings resolved or documented.
 
-## שלב 4: טעינה ו-Idempotency
+## Phase 4 — ingestion and idempotency
 
-- `SUPABASE_URL` ו-`SUPABASE_SECRET_KEY` **רק בצד השרת/טרמינל מאובטח**.
-- הרץ feed קטן, בדוק counts ב-SQL Editor ו-confirm source URL.
-- הרץ שוב: אין שורות כפולות לאותו `event_id`; עדכונים חדשים מטופלים כראוי.
-- סמלץ timeout, payload invalid, 429 ומפתח שגוי; אסור שיוצג success שקרי.
-- השווה checksums, מספר rejected rows והסבר את השינויים.
+- Store `SUPABASE_URL` and `SUPABASE_SECRET_KEY` only in protected server-side configuration.
+- Load a **small synthetic** source; compare database counts and provenance.
+- Repeat the batch: there should be no new row for the same business event ID.
+- Inject a timeout, invalid payload, HTTP 429 and bad credential in a safe environment; do not report false success.
+- Compare checksum/quality metrics and document rejected rows.
 
-## שלב 5: Dashboard
+## Phase 5 — dashboard
 
-- הרץ דמו `python3 -m http.server 8080` מתוך `projects/datapulse/web`, ופתח `?demo=1`.
-- לפריסה סטטית, השתמש בספק כגון Vercel, Root Directory=`projects/datapulse/web` כאשר מחברים את הריפו הראשי; הגדר רק משתני Publishable + URL ציבורי.
-- אמת בפועל HTTP, loading/error/empty states, ולעולם אל תסתמך על screenshot לבדו.
+For a purely local demo, serve `projects/datapulse/web` from localhost and open its `?demo=1` mode. If separately approved for static deployment, configure the frontend build's root directory and **public-only** environment values at the hosting provider.
 
-## שלב 6: תזמון מבוקר
+Verify actual HTTP responses and **loading/error/empty** states; screenshots do not prove authorization.
 
-- דוגמת Workflow נמצאת ב-`examples/workflows/ingest.yml.example`. אל תפעיל אותה בלי החלטת הלומד.
-- לאחר אישור, העתק לשורש `.github/workflows/datapulse-ingest.yml`, עדכן את פקודת ההרצה ואת `PYTHONPATH` כך שיתאימו לשורש המונוריפו.
-- הגדר GitHub Repository Secrets בממשק GitHub ואת `DATAPULSE_ENABLED=true` רק לאחר בדיקה.
-- בדוק Run, Logs, resource quotas, alerting, failure paths, review של הוצאות.
+## Phase 6 — optional scheduled ingestion
 
-## ראיות נדרשות בסוף
+The sample workflow is [examples/workflows/ingest.yml.example](../../examples/workflows/ingest.yml.example). Do not activate it automatically. After the owner approves deployment:
+1. Review its commands/`PYTHONPATH` and scope them to the repo.
+2. Configure GitHub repository secrets only through authorized settings.
+3. Set `DATAPULSE_ENABLED=true` only after a successful dry run and budget review.
+4. Inspect logs, quotas, failure alerts, replay and a documented shutdown plan.
 
-- URL לשירות חי (אם אושר Deploy), מדדים שעודכנו בזמן ובדיקת endpoint.
-- PR commit SHA, CI link, query checks ו-RLS negative tests.
-- Runbook: היכן מחפשים לוגים, איך מריצים backfill, איך משחזרים, איך מכבים schedulers.
-- תיעוד עלות משוערת, מגבלות API ותדירות טעינה.
+## Evidence required after an approved remote deployment
 
-**הפריסה עצמה לא מבוצעת בחבילת לימוד זו; אין טענה ל-Production readiness ללא בדיקות בענן.**
+- A live URL **and actual endpoint smoke tests**, not only a screenshot.
+- PR/commit SHA, CI result, SQL queries and negative RLS tests.
+- Runbook for logs, backfill, restore and disabling schedulers.
+- Cost assumptions, API limits and ingestion frequency.
+
+**This checklist does not perform a deployment.** Do not claim a production capability without real remote security, monitoring and restore verification.

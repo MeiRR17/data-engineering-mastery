@@ -1,49 +1,57 @@
-# מחברות Jupyter וסרטוני YouTube — לומדים, מיישמים וממשיכים
+# Jupyter notebooks and video learning — watch, implement, explain
 
-[חזרה ל־README](../README.md). **הפרויקט אינו מארח, מוריד או מפיץ מחדש סרטונים.** הווידאו מופיע באמצעות הפניית צפייה ל־YouTube המקורי. יצירות חיצוניות הן של בעליהן ובכפוף לתנאים שלהם.
+[Home](../README.md) · [Notebook index](../notebooks/README.md) · [Visual VS Code setup](VS-CODE-LEARNING-SETUP.md)
 
-## מה קורה בפועל?
+**This repository does not host, download or redistribute video courses.** It links to the original provider's material. Copyright belongs to the publisher under that publisher's terms.
 
-1. פתחו Notebook ב־VS Code + הרחבת Jupyter, או ב־JupyterLab (`python3 -m pip install jupyterlab ipykernel` בתוך venv נפרד, לאחר בדיקת המשאבים).
-2. פתחו את המחברת והפעילו את תאי ההסבר לפי הסדר. בתא הווידאו, `IPython.display.YouTubeVideo` יכול להציג נגן אם סביבת Jupyter, החיבור לרשת והגדרות הדפדפן מאפשרים זאת.
-3. **חשוב:** GitHub מציג תצוגת Notebook סטטית, ולא מובטח שיציג iframe או נגן YouTube. כל Notebook מכיל גם קישור צפייה ישיר שנפתח ב־YouTube. אין להניח שהווידאו יופעל בתוך GitHub עצמו.
-4. לאחר קטע צפייה *קצר* יש תרגיל לבצע, טעות לגלות ושאלת העברה. צפייה לא מסמנת שלב כהושלם.
-5. אם אין YouTube (רשת מוגבלת/הנגשה), משתמשים בתיעוד הרשמי ובתרגיל שמופיע במחברת; תוצאות הלימוד אינן תלויות בסרטון.
+## How to use the guided notebooks
 
-## מחברות מוכנות להפעלה
+1. Open the repository in VS Code with the **Jupyter extension**, or use JupyterLab in a dedicated virtual environment.
+2. Open `.ipynb` files as **visual cells**, not raw JSON. Select a Python kernel and predict the output before running each exercise.
+3. Some early notebooks use `IPython.display.YouTubeVideo` to embed a player where the browser and network allow it. **GitHub's static notebook preview may not show embedded iframes.** Direct video links are always available.
+4. After one short relevant segment, implement a code task, reproduce an error and answer a transfer question. Watching a video does not count as completing the stage.
+5. Without YouTube access, use official text documentation and the synthetic exercise; the learning path does not depend on video playback.
 
-| Notebook | סוג | קישור צפייה / חומר חיצוני | מושג CS שמתחבר |
-|---|---|---|---|
-| [00: מסע הנתון](../notebooks/00_data_journey.ipynb) | Intro + data flow | [DataTalks.Club — What is orchestration?](https://www.youtube.com/watch?v=-JLnp-iLins) | data provenance, types |
-| [01: בלש SQL](../notebooks/01_sql_detective.ipynb) | Relational reasoning | [Harvard CS50 SQL](https://www.youtube.com/watch?v=WXk7yDqsKxs) | joins, B-Trees, normalization |
-| [02: מעבדת כשל ETL](../notebooks/02_etl_failure_lab.ipynb) | Replay + dedup | [Zoomcamp dlt workshop](https://www.youtube.com/watch?v=5eMytPBgmVs) | invariants, idempotency |
-| [03: ניטור Pipeline](../notebooks/03_pipeline_observatory.ipynb) | Reliability / charts | [Zoomcamp orchestration](https://www.youtube.com/watch?v=1pu_C_oOAMA) | SLIs, failure detection |
+## The first four video-linked notebooks
 
-### סרטון SQL לדוגמה
+| Notebook | Practice | Original educational source | CS connection |
+| --- | --- | --- | --- |
+| [00 — Data Journey](../notebooks/00_data_journey.ipynb) | End-to-end data flow | [DataTalks.Club — Orchestration](https://www.youtube.com/watch?v=-JLnp-iLins) | Provenance and types |
+| [01 — SQL Detective](../notebooks/01_sql_detective.ipynb) | Joins and cardinality | [Harvard CS50 SQL](https://www.youtube.com/watch?v=WXk7yDqsKxs) | Relational algebra and indexes |
+| [02 — ETL Failure Lab](../notebooks/02_etl_failure_lab.ipynb) | Replay and dedup | [dlt / ingestion workshop](https://www.youtube.com/watch?v=5eMytPBgmVs) | Invariants and idempotency |
+| [03 — Pipeline Observatory](../notebooks/03_pipeline_observatory.ipynb) | Freshness and monitoring | [Workflow orchestration](https://www.youtube.com/watch?v=1pu_C_oOAMA) | SLIs and failure detection |
 
-[![צפייה בקורס Harvard CS50 SQL ב־YouTube](https://img.youtube.com/vi/WXk7yDqsKxs/hqdefault.jpg)](https://www.youtube.com/watch?v=WXk7yDqsKxs)
+### Example original source
 
-הקישור הוא לקורס מלא שמסביר יסודות SQL באופן שיטתי. לא חייבים לצפות בכל הקורס לפני שניגשים ל־Notebook 01; אפשר לצפות רק בנושאים שבהם אבחון המנטור זיהה פער.
+[![Harvard CS50 SQL — original course thumbnail](https://img.youtube.com/vi/WXk7yDqsKxs/hqdefault.jpg)](https://www.youtube.com/watch?v=WXk7yDqsKxs)
 
-## קורסי וידאו משלימים לפי נושא
+The linked source is a full SQL course. You do **not** have to watch it all before starting Notebook 01; focus on the actual gap shown by a diagnostic.
 
-| תחום | מקור מבוקר | הוראת שימוש |
-|---|---|---|
-| SQL/DB fundamentals | https://cs50.harvard.edu/sql/ | תרגול SQL לצד Problem Sets |
-| CLI, Git, shell, debugging | https://missing.csail.mit.edu/ | למי שמתקשה ב־Stage 00 |
-| Docker + Terraform | https://github.com/DataTalksClub/data-engineering-zoomcamp/tree/main/01-docker-terraform | לפני ענן |
-| Orchestration | https://github.com/DataTalksClub/data-engineering-zoomcamp/tree/main/02-workflow-orchestration | לפני Stage 06 |
-| BigQuery/warehouse | https://github.com/DataTalksClub/data-engineering-zoomcamp/tree/main/03-data-warehouse | Stage 05 |
+## Additional official learning resources
+
+| Subject | Source | Best used near |
+| --- | --- | --- |
+| SQL fundamentals | https://cs50.harvard.edu/sql/ | Stage 01 |
+| Terminal, Git and debugging | https://missing.csail.mit.edu/ | Stage 00 |
+| Docker and infrastructure | https://github.com/DataTalksClub/data-engineering-zoomcamp/tree/main/01-docker-terraform | Stage 04 |
+| Orchestration | https://github.com/DataTalksClub/data-engineering-zoomcamp/tree/main/02-workflow-orchestration | Stage 06 |
+| Data warehousing | https://github.com/DataTalksClub/data-engineering-zoomcamp/tree/main/03-data-warehouse | Stage 05 |
 | dbt | https://github.com/DataTalksClub/data-engineering-zoomcamp/tree/main/04-analytics-engineering | Stage 05–07 |
 | Spark | https://github.com/DataTalksClub/data-engineering-zoomcamp/tree/main/06-batch | Stage 10 |
-| Kafka/streaming | https://github.com/DataTalksClub/data-engineering-zoomcamp/tree/main/07-streaming | Stage 11 |
+| Kafka | https://github.com/DataTalksClub/data-engineering-zoomcamp/tree/main/07-streaming | Stage 11 |
 
-הרשימה מפנה לתיעוד המקורי שמכיל קישורי וידאו עדכניים לכל שיעור, ולא מקבעת מזהי וידאו שלא אומתו. כך גם אם קורס משנה סרטונים, המקור הרשמי נשאר מקום האמת.
+Prefer the **official course indexes** over copied, unverified video IDs: instructors can update links as training material changes.
 
-## איך המנטור משתמש בווידאו בצורה אפקטיבית?
+## Notebook coverage: all 14 stages
 
-המנטור בוחר **מקטע רלוונטי אחד**, מגדיר לפני הצפייה שתי שאלות, ומשלים אחרי הצפייה שלושה דברים: קוד קצר שעובד; Counterexample שהלומד מתקן; והסבר עצמאי של *למה זה עובד*. מי שכבר עובר את מבחן האבחון יכול לדלג על הצפייה ולבצע אתגר מתקדם. אין לתת לווידאו להחליף עבודה אמיתית עם נתונים.
+Stages **04–13** have English guided notebooks with short synthetic Python examples and official source references instead of embedded videos. Run the self-contained advanced notebook examples with:
 
-### כיסוי מחברות 04–13
+~~~bash
+python3 scripts/notebook_smoke.py
+~~~
 
-[אינדקס 14 המחברות](../notebooks/README.md) מציג את מחברות 04–13: קוד סינתטי והרצה ללא אינטרנט; תרגיל עצמי נוסף במעבדה של כל שלב. בדיקת הקוד האוטומטית: `python3 scripts/notebook_smoke.py`. הסרטונים משולבים במחברות 00–03; בהמשך הקישורים הם לתיעוד רשמי ולא נטען שיש וידאו מקורי לכל שלב. **ב־Release Candidate יש 14 מחברות מונחות (00–13)**, והסרטונים אינם מאוחסנים בשרת הפרויקט.
+These tutorials are **not** substitutes for the independent lab starters, real PostgreSQL/dbt/PySpark/Kafka runtime checks or a qualified capstone review.
+
+## Mentor technique
+
+Select one relevant learning segment. Before playback ask two prediction questions; afterward require a working code example, a counterexample the learner repairs and an explanation of **why** it works. Learners who already demonstrate the skill may skip the video and solve a harder unseen task.

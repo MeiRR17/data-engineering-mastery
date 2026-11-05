@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="he" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -15,59 +15,58 @@
       <div class="identity"><span class="logo" aria-hidden="true">◈</span>
         <div><strong>DataPulse <span class="name-accent">Observatory</span></strong><span class="subtitle">DATA ENGINEERING MASTERY · STAGE 08</span></div>
       </div>
-      <div class="header-actions"><span class="pill">סביבת תרגול · נתונים סינתטיים</span><button id="refresh" type="button">רענון מדדים</button></div>
+      <div class="header-actions"><span class="pill">Training environment · synthetic data</span><button id="refresh" type="button">Refresh metrics</button></div>
     </header>
     <main>
       <section class="hero">
         <div class="eyebrow">READ-ONLY SERVING / QUALITY-AWARE ANALYTICS</div>
-        <h1>מספרים עם <span>הקשר, מקור ובקרת איכות.</span></h1>
-        <p>ההבדל בין דשבורד אמין לדשבורד מטעה הוא לא הצבע של הגרף — אלא היכולת לזהות נתונים ישנים, טעינה שנחסמה ומדד שמבוסס על נתונים חלקיים.</p>
-        <div id="system-status" role="status" aria-live="polite" class="system-status">טוען נתונים מה־API המקומי…</div>
+        <h1>Numbers with <span>context, provenance and quality.</span></h1>
+        <p>A trustworthy dashboard makes stale data, blocked ingestion and incomplete measurements visible — not just colorful charts.</p>
+        <div id="system-status" role="status" aria-live="polite" class="system-status">Loading data from the local API…</div>
       </section>
 
       <section class="alert" id="freshness-panel" aria-live="polite">
         <span class="alert-symbol" aria-hidden="true">◷</span>
-        <div><strong id="freshness-title">בודק עדכניות</strong><p id="freshness-details">מחשב פער בין זמן האירוע האחרון לשעון המקומי.</p></div>
+        <div><strong id="freshness-title">Checking data freshness</strong><p id="freshness-details">Comparing the latest event time with the reporting clock.</p></div>
       </section>
 
-      <section class="kpis" aria-label="מדדים נבחרים">
-        <article class="metric"><span>אירועים שאושרו</span><strong id="event-count">—</strong><small>רשומות Curated, ללא כפילויות</small></article>
-        <article class="metric"><span>עוצמה ממוצעת</span><strong id="magnitude-avg">—</strong><small>NULL אינו נחשב אפס</small></article>
-        <article class="metric"><span>ערכי עוצמה ידועים</span><strong id="magnitude-known">—</strong><small>המכנה לחישוב הממוצע</small></article>
-        <article class="metric"><span>אירוע אחרון</span><strong id="last-event" class="compact">—</strong><small>תאריך ושעה · UTC</small></article>
+      <section class="kpis" aria-label="Key performance indicators">
+        <article class="metric"><span>Approved events</span><strong id="event-count">—</strong><small>Unique curated records</small></article>
+        <article class="metric"><span>Average magnitude</span><strong id="magnitude-avg">—</strong><small>NULL is not zero</small></article>
+        <article class="metric"><span>Known magnitudes</span><strong id="magnitude-known">—</strong><small>Denominator of the average</small></article>
+        <article class="metric"><span>Latest event</span><strong id="last-event" class="compact">—</strong><small>Date and time · UTC</small></article>
       </section>
 
       <section class="panels">
         <article class="panel">
-          <div class="panel-heading"><div><span class="eyebrow">EVENT TIME</span><h2>נפח אירועים לפי יום</h2></div><span class="mini-tag">UTC</span></div>
-          <div id="daily-chart" class="chart" role="img" aria-label="תרשים עמודות: אירועים לפי יום"></div>
-          <p class="caption">האירועים מקובצים לפי תאריך האירוע, לא לפי זמן טעינתם למערכת.</p>
+          <div class="panel-heading"><div><span class="eyebrow">EVENT TIME</span><h2>Event volume by day</h2></div><span class="mini-tag">UTC</span></div>
+          <div id="daily-chart" class="chart" role="img" aria-label="Bar chart of events per UTC day"></div>
+          <p class="caption">Events are grouped by their event date, not ingestion date.</p>
         </article>
         <article class="panel">
-          <div class="panel-heading"><div><span class="eyebrow">DATA CONTRACT</span><h2>דוח הרצות איכות</h2></div><span class="mini-tag">Audit-safe</span></div>
-          <p class="explain">Batch שנחסם לא מפורסם ל־Curated. מוצגות רק סיבות פסילה וספירות — לא Payload גולמי.</p>
+          <div class="panel-heading"><div><span class="eyebrow">DATA CONTRACT</span><h2>Quality run audit</h2></div><span class="mini-tag">Audit-safe</span></div>
+          <p class="explain">A blocked batch never reaches curated data. Only safe counts and reason codes are displayed, never raw payloads.</p>
           <div id="quality-runs" class="quality-list" aria-live="polite"></div>
         </article>
       </section>
 
       <section class="panel table-panel">
-        <div class="panel-heading"><div><span class="eyebrow">CURATED DATA</span><h2>אירועים מאושרים</h2></div>
-          <label class="search-label" for="filter">סינון לפי מזהה או אזור
-            <input id="filter" type="search" placeholder="לדוגמה: N או lab-0701" autocomplete="off">
+        <div class="panel-heading"><div><span class="eyebrow">CURATED DATA</span><h2>Approved events</h2></div>
+          <label class="search-label" for="filter">Filter by event ID or region
+            <input id="filter" type="search" placeholder="For example: N or lab-0701" autocomplete="off">
           </label>
         </div>
         <div class="table-wrap">
-          <table><thead><tr><th>מזהה אירוע</th><th>זמן UTC</th><th>אזור</th><th>עוצמה</th></tr></thead>
-          <tbody id="events"><tr><td colspan="4">טוען…</td></tr></tbody></table>
+          <table><thead><tr><th>Event ID</th><th>UTC time</th><th>Region</th><th>Magnitude</th></tr></thead>
+          <tbody id="events"><tr><td colspan="4">Loading…</td></tr></tbody></table>
         </div>
-        <p class="caption">מוצגות עד 20 רשומות. Endpoint נוסף מאפשר Pagination בגבולות מוגדרים. אין בדוגמה אפשרות כתיבה דרך ה־API.</p>
+        <p class="caption">Up to 20 records are shown. The API supports bounded pagination, and this training service exposes no write operations.</p>
       </section>
     </main>
     <footer>
-      <span>Data Engineering Mastery · Stage 08 · ללא חיבור לענן</span>
-      <span>הדגמה חינוכית בלבד — אינה מערכת ניטור חיה או התרעה בטיחותית.</span>
+      <span>Data Engineering Mastery · Stage 08 · no cloud connection</span>
+      <span>Educational demo only — not a live monitoring system or public-safety alert.</span>
     </footer>
   </div>
 </body>
 </html>
-

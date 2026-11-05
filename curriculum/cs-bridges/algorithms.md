@@ -1,14 +1,28 @@
-# אלגוריתמים ומבני נתונים
+# Computer Science Bridge — Algorithms and Data Structures
 
-**למה זה חשוב ב-Data Engineering?** Big-O, hash table, B-tree, graph traversal, external sort.
+This short unit connects fundamental computer science to practical Data Engineering. It is not a standalone certification; use it alongside the matching stage lab and explain the invariant in your own words.
 
-**שאלת פתיחה:** מדוע חיפוש ב-index מהיר?
+## Core concepts
 
-**ניסוי של 20 דקות:** צור 10,000 נתוני בדיקה, השווה סריקה ליניארית למילון ושפר מדידה.
+Hash maps, sorting, Big-O, B-trees, graph traversal and external sorting.
 
-### מבחן מעבר
-1. הסבר את התופעה ללא שימוש ב-AI ובמונחים המדויקים.
-2. תאר מתי היא אינה רלוונטית ובמה היית בוחר במקום.
-3. הראה מדידה או בדיקה מקומית ושמור את הדרך לשחזר אותה.
+## Think before coding
 
-חזור ל-[תוכנית הגישור](../../docs/COMPUTER-SCIENCE-BRIDGES.he.md) ולשלב הפעיל במסלול.
+1. Why might a hash-table lookup be fast on average but slow in a memory-constrained pipeline?
+2. What does adding an index change about write complexity?
+
+## Hands-on exercise (15–25 minutes)
+
+Generate synthetic events, compare an O(n²) nested-loop match to hash-based key lookup, and describe time and memory usage.
+
+Record the expected outcome *before* running the experiment, then keep a minimal red-to-green test and a short note about what the result cannot prove.
+
+## Unseen transfer question
+
+What changes if the data no longer fits RAM?
+
+## Reference
+
+[Official or technical documentation](https://docs.python.org/3/library/collections.html) · [Return to curriculum](../modules/00.md)
+
+**Exit criterion:** show a reproducible synthetic example and defend the failure mode without reading the instructor's answer.

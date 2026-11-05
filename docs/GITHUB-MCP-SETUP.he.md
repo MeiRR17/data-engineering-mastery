@@ -1,48 +1,40 @@
-# GitHub, ChatGPT ו-GitHub MCP — חיבור בטוח מההתחלה
+# GitHub, ChatGPT and VS Code — safe setup
 
-**שני סוגי חיבור שונים:**
+There are several **distinct authorization surfaces**. A GitHub connector in ChatGPT, a GitHub MCP server in an IDE and a local Git CLI do not automatically have the same permissions. Always inspect the tools and account grants currently available.
 
-1. **GitHub בתוך ChatGPT** — Settings → Plugins → GitHub (ייתכן שהכינוי בממשק שונה). מאשרים את החשבון ואת הריפו. לפי OpenAI, חיבור זה מיועד לחיפוש/קריאה וניתוח קוד, *לא* להבטחת כתיבה או Push מתוך שיחה רגילה.
-2. **GitHub MCP ל-Agent IDE** — VS Code + GitHub Copilot Agent או MCP host תומך. מתקינים את GitHub MCP Server הרשמי, מאשרים OAuth והרשאות לכתיבה *רק אם צריך*. בודקים אילו tools קיימים בפועל. זה מנגנון שונה מחיבור ChatGPT לקריאה. אפשר גם להשתמש ב-Codex או Agent אחר בעל הרשאות כתיבה מתאימות.
+## 1. Make a personal learner repository
 
-## 1 — מאגר ציבורי ותבנית
+- Sign in to GitHub and enable two-factor authentication.
+- Use **Use this template** on the original learning repository, or fork it if you need a shared contribution history.
+- Start with a private personal repository if you prefer. Do not commit learners' private notes to the public source repository.
+- Clone the repo into VS Code and create a `learn/XX-topic` branch for each stage.
+- Prefer OAuth or the GitHub CLI credential manager. **Never paste PATs, passwords or service-role keys into README files, PRs or a chat.**
 
-המפרסם יוצר ריפו ציבורי `data-engineering-mastery` ומפעיל Settings → General → **Template repository**. כל לומד יבחר **Use this template → Create a new repository**. מומלץ ללומד חדש להתחיל בריפו *פרטי* ולהפוך לציבורי רק כשמתאים לו; התבנית המקורית נשארת ציבורית.
+## 2. Connect GitHub to ChatGPT when useful
 
-## 2 — חשבון GitHub של הלומד
+Open ChatGPT Settings → Plugins or the available GitHub connection interface and authorize the appropriate account/repositories. Check the actions actually offered by the connected integration: some support search/read only; others may provide authorized write workflows. Do **not** assume the connection can push code.
 
-- פתח GitHub, בחר חשבון, הפעל 2FA, התקן Git/VS Code.
-- צור עותק Template בחשבון **שלך**, לא בחשבון המורה. Clone ל-IDE שלך.
-- אל תוסיף PAT או סיסמאות ל-README/PR/ChatGPT. התחבר ב-OAuth / GitHub CLI או דרך מנהל סודות מקומי.
-- עבוד עם `learn/XX-feature`, פר-שלב Issue ו-PR; אל תפתח commit ישירות ל-main כשיש PR workflow.
+For a mentor, use [the English agent guide](../prompts/MASTER-AGENT.en.md) and identify your repository and stage. Verify the mentor can cite and read a specific file before relying on its answer. If a repository is missing, check account/org permissions; indexing can be delayed.
 
-## 3 — ChatGPT
+## 3. GitHub MCP in VS Code (optional)
 
-- פתח ChatGPT → Settings → Plugins → GitHub, Connect/Authorize. בחר רק את הריפו שלך.
-- בשיחה חדשה העתק את `prompts/MASTER-AGENT.he.md` או בקש לקרוא אותו מהריפו המחובר, ציין את full repo name, ובקש לאבחן את Stage 00.
-- ודא שהמנטור מצליח לקרוא קובץ לדוגמה מה-repo ולהציג מקור מדויק. אם הוא לא מצליח, בדוק הרשאות והמתן עד להופעת ריפו חדש.
-- **אל תניח שהחיבור יכול לדחוף קוד**; תכונה זו תלויה במוצר ובכלי הסוכן הזמינים בפועל.
+If your VS Code/IDE supports GitHub MCP, consult GitHub's [official MCP setup guidance](https://docs.github.com/en/copilot/how-tos/provide-context/use-mcp-in-your-ide/set-up-the-github-mcp-server) and the [GitHub MCP Server repository](https://github.com/github/github-mcp-server).
 
-## 4 — GitHub MCP בתוך VS Code
+1. Install only the official integration from its documented publisher.
+2. Open the Command Palette and inspect configured MCP servers.
+3. Use the authorized OAuth login flow; do not paste tokens into agent instructions.
+4. Begin with a read-only issue/file lookup.
+5. Grant repository write permissions only when needed, then try a harmless branch or draft PR.
+6. Review every proposed command and diff before merging.
 
-- לפי התיעוד העדכני של GitHub, אפשר לפתוח Extensions ולחפש `@mcp github`, להתקין את GitHub MCP Server הרשמי ולאשר התקנה.
-- פתח Command Palette → `MCP: List Servers`, וודא שהשרת מופיע.
-- השלם login OAuth בחלון המאושר; הימנע מהקלדת token אל צ'אט.
-- פתח את תיקיית הריפו ב-VS Code ובחר Agent mode אם זמין, וודא שה-agent רואה את GitHub tools המורשים.
-- בדיקת יכולת: קריאה של Issue קיים. לבדיקה עם הרשאות כתיבה, פתח **Issue ניסיוני או branch** רק לאחר שהלומד אישר פעולה זו.
+MCP support, names and permissions vary by IDE and account configuration; follow the current in-product documentation.
 
-תיעוד רשמי: https://docs.github.com/en/copilot/how-tos/provide-context/use-mcp-in-your-ide/set-up-the-github-mcp-server
+## 4. Visual editing is separate from GitHub permissions
 
-שרת רשמי: https://github.com/github/github-mcp-server
+For rendered `.md` lessons, interactive `.ipynb` notebooks and the four recommended extensions, see [Visual Studio Code learning setup](VS-CODE-LEARNING-SETUP.md). Installing Markdown and Jupyter extensions **does not grant repository write access**.
 
-ChatGPT: https://help.openai.com/en/articles/11145903-connecting-github-to-chatgpt
+## 5. Cloud deployment and costs
 
-## 5 — פריסה ועלויות
+Supabase is an additional, separate authorization context. Use only an owner-approved sandbox with explicit cost bounds. Confirm CLI syntax and project selection before any remote command; never treat a successful local PR check as permission to deploy. CI for untrusted pull requests must not receive deployment secrets.
 
-- Supabase חיבור נפרד, בפרויקט/ארגון שהלומד בחר, ורק לאחר בדיקת העלות וההרשאות.
-- לפני כל CLI שמגיע לענן: `supabase --version`, `supabase db --help`, פקודת `--remote` מפורשת ב-CLI v3; אין Deploy אוטומטי ללא review.
-- בדיקות CI ב-PR לא מקבלות secrets. Workflows עם credentials/deploy מתאפשרים רק אחרי אישור מפורש של הבעלים.
-
-## תקלה נפוצה: ריפו לא מופיע בצ'אט
-
-בדוק חשבון GitHub נכון, הרשאת App לריפו המסוים, אישור Org owner אם דרוש, והבדלי זמינות בין Chat ו-Work. GitHub search index עשוי להתעדכן באיחור. אין לשלוח פרטי התחברות למנטור כפתרון.
+If GitHub does not appear in a connected tool, verify the signed-in account, repository installation permissions and organization approval. Do not share credentials as a troubleshooting step.

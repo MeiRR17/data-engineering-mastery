@@ -46,7 +46,7 @@ def audit(root=ROOT):
             content=course.read_text(encoding="utf8")
             if len(content)<500:
                 errors.append(f"{sid}: course content too sparse")
-            if not any(word in content.lower() for word in ("exit","מעבר","gate")):
+            if not any(word in content.lower() for word in ("exit","gate")):
                 errors.append(f"{sid}: missing assessment gate in course")
         lab=(root/stage.get("readme","nonexistent"))
         if lab.exists() and len(lab.read_text(encoding="utf8"))<400:

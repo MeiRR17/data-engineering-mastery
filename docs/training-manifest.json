@@ -4,7 +4,6 @@
   "stages": [
     {
       "id": "00",
-      "title_he": "הקמה ואבחון",
       "track": "Foundation",
       "prerequisites": [],
       "module": "curriculum/modules/00.md",
@@ -12,11 +11,11 @@
       "readme": "labs/00-onboarding/README.md",
       "grader": "python3 labs/00-onboarding/grade.py --reference",
       "notebook": "notebooks/00_data_journey.ipynb",
-      "grade_scope": "offline-or-optional-local-runtime"
+      "grade_scope": "offline-or-optional-local-runtime",
+      "title": "Onboarding and engineering foundations"
     },
     {
       "id": "01",
-      "title_he": "SQL וניתוח יחסיים",
       "track": "Foundation",
       "prerequisites": [
         "00"
@@ -26,11 +25,11 @@
       "readme": "labs/01-sql/README.md",
       "grader": "python3 labs/01-sql/grade.py --reference",
       "notebook": "notebooks/01_sql_detective.ipynb",
-      "grade_scope": "offline-or-optional-local-runtime"
+      "grade_scope": "offline-or-optional-local-runtime",
+      "title": "SQL and relational correctness"
     },
     {
       "id": "02",
-      "title_he": "Python לנתונים",
       "track": "Foundation",
       "prerequisites": [
         "01"
@@ -40,11 +39,11 @@
       "readme": "labs/02-python/README.md",
       "grader": "python3 labs/02-python/grade.py --reference",
       "notebook": "notebooks/02_etl_failure_lab.ipynb",
-      "grade_scope": "offline-or-optional-local-runtime"
+      "grade_scope": "offline-or-optional-local-runtime",
+      "title": "Python parsing and validation"
     },
     {
       "id": "03",
-      "title_he": "Batch ETL",
       "track": "Core",
       "prerequisites": [
         "02"
@@ -54,11 +53,11 @@
       "readme": "labs/03-etl/README.md",
       "grader": "python3 labs/03-etl/grade.py --reference",
       "notebook": "notebooks/03_pipeline_observatory.ipynb",
-      "grade_scope": "offline-or-optional-local-runtime"
+      "grade_scope": "offline-or-optional-local-runtime",
+      "title": "Batch ETL and transaction safety"
     },
     {
       "id": "04",
-      "title_he": "PostgreSQL והרשאות",
       "track": "Core",
       "prerequisites": [
         "03"
@@ -68,11 +67,11 @@
       "readme": "labs/04-postgres/README.md",
       "grader": "python3 labs/04-postgres/run_lab.py --reference",
       "notebook": "notebooks/04_postgres_security.ipynb",
-      "grade_scope": "real-local-PostgreSQL"
+      "grade_scope": "real-local-PostgreSQL",
+      "title": "PostgreSQL permissions and RLS"
     },
     {
       "id": "05",
-      "title_he": "Data Modeling ו־dbt",
       "track": "Core",
       "prerequisites": [
         "04"
@@ -82,11 +81,11 @@
       "readme": "labs/05-modeling/README.md",
       "grader": "python3 labs/05-modeling/run_lab.py --reference",
       "notebook": "notebooks/05_scd2_modeling.ipynb",
-      "grade_scope": "real-local-PostgreSQL"
+      "grade_scope": "real-local-PostgreSQL",
+      "title": "Star schema, SCD2 and dbt"
     },
     {
       "id": "06",
-      "title_he": "Orchestration ו־Backfill",
       "track": "Core",
       "prerequisites": [
         "05"
@@ -96,11 +95,11 @@
       "readme": "labs/06-orchestration/README.md",
       "grader": "python3 labs/06-orchestration/grade.py --reference",
       "notebook": "notebooks/06_dag_recovery.ipynb",
-      "grade_scope": "offline-or-optional-local-runtime"
+      "grade_scope": "offline-or-optional-local-runtime",
+      "title": "Orchestration and backfill recovery"
     },
     {
       "id": "07",
-      "title_he": "Data Quality ו־Lineage",
       "track": "Core",
       "prerequisites": [
         "06"
@@ -110,11 +109,11 @@
       "readme": "labs/07-quality/README.md",
       "grader": "python3 labs/07-quality/grade.py --reference",
       "notebook": "notebooks/07_quality_contracts.ipynb",
-      "grade_scope": "offline-or-optional-local-runtime"
+      "grade_scope": "offline-or-optional-local-runtime",
+      "title": "Data contracts, quality and lineage"
     },
     {
       "id": "08",
-      "title_he": "Serving ו־Dashboard",
       "track": "Core",
       "prerequisites": [
         "07"
@@ -124,11 +123,11 @@
       "readme": "labs/08-serving/README.md",
       "grader": "python3 labs/08-serving/grade.py",
       "notebook": "notebooks/08_readonly_serving.ipynb",
-      "grade_scope": "offline-or-optional-local-runtime"
+      "grade_scope": "offline-or-optional-local-runtime",
+      "title": "Read-only serving and analytics"
     },
     {
       "id": "09",
-      "title_he": "CI/CD ו־Rollback",
       "track": "Advanced",
       "prerequisites": [
         "08"
@@ -138,11 +137,11 @@
       "readme": "labs/09-cicd/README.md",
       "grader": "python3 labs/09-cicd/grade.py --reference",
       "notebook": "notebooks/09_releases_rollback.ipynb",
-      "grade_scope": "offline-or-optional-local-runtime"
+      "grade_scope": "offline-or-optional-local-runtime",
+      "title": "CI/CD, reproducible releases and rollback"
     },
     {
       "id": "10",
-      "title_he": "Spark ו־Data Skew",
       "track": "Advanced",
       "prerequisites": [
         "09"
@@ -152,11 +151,11 @@
       "readme": "labs/10-spark/README.md",
       "grader": "python3 labs/10-spark/grade.py --reference",
       "notebook": "notebooks/10_spark_partitioning.ipynb",
-      "grade_scope": "offline-or-optional-local-runtime"
+      "grade_scope": "offline-or-optional-local-runtime",
+      "title": "Spark DataFrame, shuffle and skew"
     },
     {
       "id": "11",
-      "title_he": "Streaming ו־Kafka",
       "track": "Advanced",
       "prerequisites": [
         "10"
@@ -166,11 +165,11 @@
       "readme": "labs/11-streaming/README.md",
       "grader": "python3 labs/11-streaming/grade.py --reference",
       "notebook": "notebooks/11_streaming_offsets.ipynb",
-      "grade_scope": "offline-or-optional-local-runtime"
+      "grade_scope": "offline-or-optional-local-runtime",
+      "title": "Kafka partitions, offsets and replay"
     },
     {
       "id": "12",
-      "title_he": "Reliability, Recovery ו־Governance",
       "track": "Advanced",
       "prerequisites": [
         "11"
@@ -180,11 +179,11 @@
       "readme": "labs/12-reliability/README.md",
       "grader": "python3 labs/12-reliability/grade.py --reference",
       "notebook": "notebooks/12_slo_recovery.ipynb",
-      "grade_scope": "offline-or-optional-local-runtime"
+      "grade_scope": "offline-or-optional-local-runtime",
+      "title": "SLO, restore, RBAC and governance"
     },
     {
       "id": "13",
-      "title_he": "Capstone ומבחן מסכם",
       "track": "Portfolio",
       "prerequisites": [
         "12"
@@ -194,7 +193,8 @@
       "readme": "capstone/README.md",
       "grader": "python3 capstone/grade.py --reference",
       "notebook": "notebooks/13_integrated_capstone.ipynb",
-      "grade_scope": "offline-or-optional-local-runtime"
+      "grade_scope": "offline-or-optional-local-runtime",
+      "title": "Integrated capstone and independent oral assessment"
     }
   ],
   "external_review_gates": [

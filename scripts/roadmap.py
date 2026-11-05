@@ -85,7 +85,7 @@ def next_stage(modules, state):
     if not m:
         print("All modules self-reported complete; see docs/ROADMAP.he.md for advanced paths.")
         return
-    print(f"Stage {m['id']}: {m['title_he']}\nModule: {m['module']}\nDeliverable: {m['deliverable']}\nExit: {m['exit_criteria']}")
+    print(f"Stage {m['id']}: {m['title']}\nModule: {m['module']}\nDeliverable: {m['deliverable']}\nExit: {m['exit_criteria']}")
     q = json.loads((ROOT / "curriculum" / "side-quests.json").read_text(encoding="utf8"))
     quest = next((x for x in q if x["stage"] == m["id"]), None)
     if quest:
