@@ -1,0 +1,11 @@
+{
+  "name": "synthetic-earthquake-events",
+  "schema_version": "1.0.0",
+  "required_fields": ["event_id", "observed_at", "source_updated_at", "region_code", "magnitude"],
+  "max_future_skew_minutes": 5,
+  "max_freshness_hours": 48,
+  "min_valid_ratio": 0.75,
+  "min_magnitude_completeness": 0.75,
+  "max_stale_ratio": 0.25,
+  "description": "Learning-only public synthetic event data. Unknown fields are rejected to surface schema drift."
+}

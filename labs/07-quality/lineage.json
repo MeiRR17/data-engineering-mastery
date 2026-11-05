@@ -1,0 +1,10 @@
+{
+  "assets": ["source_api", "contract_validator", "quarantine", "curated_events", "daily_metrics"],
+  "edges": [
+    ["source_api", "contract_validator"],
+    ["contract_validator", "quarantine"],
+    ["contract_validator", "curated_events"],
+    ["curated_events", "daily_metrics"]
+  ],
+  "description": "Logical data lineage of the learning pipeline. Row-level lineage is separately stored in SQLite."
+}

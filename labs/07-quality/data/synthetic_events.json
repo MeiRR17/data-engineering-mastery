@@ -1,0 +1,30 @@
+[
+  {
+    "event_id": "lab-0701",
+    "observed_at": "2026-01-03T10:00:00Z",
+    "source_updated_at": "2026-01-03T10:02:00Z",
+    "region_code": "N",
+    "magnitude": 1.9
+  },
+  {
+    "event_id": "lab-0702",
+    "observed_at": "2026-01-03T10:20:00Z",
+    "source_updated_at": "2026-01-03T10:21:00Z",
+    "region_code": "E",
+    "magnitude": 4.2
+  },
+  {
+    "event_id": "lab-0703",
+    "observed_at": "2026-01-03T10:25:00Z",
+    "source_updated_at": "2026-01-03T10:27:00Z",
+    "region_code": "W",
+    "magnitude": null
+  },
+  {
+    "event_id": "lab-0704",
+    "observed_at": "2026-01-03T10:30:00Z",
+    "source_updated_at": "2026-01-03T10:31:00Z",
+    "region_code": "S",
+    "magnitude": 2.5
+  }
+]
