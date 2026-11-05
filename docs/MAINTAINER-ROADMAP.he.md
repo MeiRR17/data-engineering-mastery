@@ -1,6 +1,6 @@
 # Maintainer Roadmap — תוכנית להשלמת המסלול הציבורי
 
-[README](../README.md). **המסמכים החדשים אינם הוכחה שכל מעבדות השלבים הושלמו.** זהו Backlog להרחבה איכותית, עם תנאי קבלה מפורשים.
+[README](../README.md). **טבלת הגרסאות שלהלן היא תוכנית היסטורית, לא דוח על הקוד הנוכחי.** כל 14 המעבדות קיימות בקוד המשולב, אך תנאי הפריסה בענן, הביקורת האנושית והאימות החיצוני טרם הושלמו.
 
 | Release | תוכן | Gate לפני תיוג |
 |---|---|---|
@@ -18,7 +18,7 @@
 
 ### Foundation-labs increment
 
-The Stage 01–03 offline SQL/Python/ETL reference graders and learner starters are under development on a feature branch; **v0.3 is not complete** until notebook 04–07, SQL/PostgreSQL coverage and release gates are implemented and independently reviewed.
+Historical plan before integrated PR #15: the initial Stage 01–03 labs preceded the Stage 04–13 curriculum. Notebooks, PostgreSQL and independent graders are now part of the integrated course, while the **cloud, human peer review, and certification release gates remain independent** of code coverage.
 
 ### Stage 05 implementation increment (in review)
 

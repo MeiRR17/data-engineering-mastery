@@ -8,13 +8,13 @@
 | 01 | SQL/PostgreSQL | בסיס | חלונות, JOINs, EXPLAIN |
 | 02 | Python Data | בסיס | Parser, typing, tests |
 | 03 | Batch ETL | ליבה | מקור → SQLite (idempotent) |
-| 04 | Supabase/Postgres Cloud | ליבה | migration + RLS + ingest |
+| 04 | PostgreSQL + Supabase Sandbox כתוספת | ליבה | migration + RLS + ingest; ענן ייבדק רק בסביבה מאושרת |
 | 05 | Modeling/Warehouse | ליבה | Star Schema + marts |
 | 06 | Orchestration | ליבה | DAG עם Backfill |
 | 07 | Contracts/Quality | ליבה | Quality gate + lineage |
 | 08 | Analytics/Data APIs | ליבה | Dashboard ב-Production-style |
-| 09 | Cloud Delivery | מתקדם | CI/CD, recovery, secrets |
-| 10 | Spark/Big Data | מתקדם | benchmark מבוזר |
+| 09 | Release Engineering / CI/CD | מתקדם | חבילה שחזורית, אימות, Release ו־Rollback מקומיים |
+| 10 | Spark/Big Data | מתקדם | עיבוד PySpark מקומי, Shuffle, Skew; Benchmark מבוזר בהרחבה |
 | 11 | Kafka/Streaming | מתקדם | duplicate, restart, late event |
 | 12 | Reliability/Governance | מתקדם | incident drill, backup/restore |
 | 13 | Capstone/Career | תיק עבודות | demo, ADR, PR review, mock interview |

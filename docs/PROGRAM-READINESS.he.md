@@ -2,7 +2,7 @@
 
 [Course manifest](training-manifest.json) · [Learner handbook](LEARNER-HANDBOOK.he.md) · [Assessment governance](FINAL-ASSESSMENT.he.md) · [Release Candidate PR](https://github.com/MeiRR17/data-engineering-mastery/pull/15)
 
-## What is implemented in this release candidate?
+## What is implemented in the integrated curriculum?
 
 **All 14 stage curricula (00–13)** have a matching lesson and a lab/capstone, an instructor grader, a deliberately unfinished student starter or independent implementation task, and a guided notebook. The repo includes scripts to validate structural coverage, a synthetic end-to-end capstone, an independent transfer-exam generator and an evidence schema validator.
 
@@ -47,7 +47,7 @@ python3 capstone/demo.py
 3. A security reviewer checks SQL privileges, API exposure, logging/PII policy, pinned dependencies, artifact provenance and whether production claims are appropriately scoped.
 4. For a **cloud-deployed** claim: an owner-authorized, isolated Supabase/PostgreSQL sandbox must demonstrate RLS-negative smoke tests, secrets management, identity, monitoring, cost controls and verified restore; this is not run or funded from this repository automatically.
 5. For **multi-node big data** or **streaming exactly-once across systems**: additional nonlocal infrastructure and dedicated failure tests are needed. Spark `local[2]` and a single Kafka broker are not equivalent.
-6. Maintainer approves a clean Release Candidate, changelog/version, peer review and final documentation audit. Until then the integration remains a Draft PR against `main`.
+6. Maintainer approves a clean Release Candidate, changelog/version, peer review and final documentation audit. The curriculum can be integrated into `main` while these independent external evaluation gates remain open; do not represent it as a certified professional program.
 
 ## Release language and claims
 
@@ -65,3 +65,7 @@ Internal completion statements must say "מסלול הכשרה פנימי" and a
 The next improvements are qualitative, not simply adding more folders: examine teaching clarity across all 14 modules, broaden unseen evaluation coverage, add controlled performance benchmarking for Spark vs local SQL, complete cloud-based auth/RLS and deployment only with explicit authorized sandbox, and gather real learner feedback. These are acceptance processes, not automatic code tasks.
 
 Last checked in the current development cycle: 2026-11-05; the exact last-green commit must be read from the PR's GitHub Actions before declaring any status.
+
+### Main integration note
+
+Last green pre-merge evidence: [GitHub Actions 41988672097](https://github.com/MeiRR17/data-engineering-mastery/actions/runs/41988672097) at `1fb780d` (8/8). The final documentation-change commit and post-merge `main` CI must be checked separately. Completion of the code-level curriculum does not waive the original human and cloud acceptance gates.
