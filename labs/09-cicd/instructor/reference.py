@@ -192,12 +192,16 @@ def verify_release_named(archive, metadata):
 
 def verify_release_proxy(archive, metadata, data):
     """Recheck saved archive using temporary original filename validation in memory."""
-    if not isinstance(data, dict) or not isinstance(data.get("artifact"), str):
+    if not isinstance(data, dict) or not isinstance(data.get("version"), str):
         raise ValueError("bad saved manifest")
+    _version(data["version"])
+    expected_name = "datapulse-" + data["version"] + ".zip"
+    if data.get("artifact") != expected_name:
+        raise ValueError("unexpected saved artifact name")
     # Same bytes, same checks as verify_release; the filename is an internal digest key.
     from tempfile import TemporaryDirectory
     with TemporaryDirectory(prefix="stage09-verify-") as directory:
-        copy = Path(directory) / data["artifact"]
+        copy = Path(directory) / expected_name
         _atomic(copy, Path(archive).read_bytes())
         return verify_release(copy, metadata)
 
