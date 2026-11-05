@@ -46,7 +46,7 @@ Official quickstart and Docker image instructions: [Apache Kafka quickstart](htt
 
 ~~~bash
 # Local disposable Kafka broker, loopback port only; no cloud or remote host:
-docker run -d --rm --name dem-stage11-kafka -e KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://127.0.0.1:9092 -p 127.0.0.1:9092:9092 apache/kafka:4.4.0
+docker run -d --rm --name dem-stage11-kafka -p 127.0.0.1:9092:9092 apache/kafka:4.4.0
 python3 -m pip install "confluent-kafka==2.16.1"
 # After the broker reports ready, run the full real producer/consumer exercise:
 python3 labs/11-streaming/kafka_demo.py --broker 127.0.0.1:9092

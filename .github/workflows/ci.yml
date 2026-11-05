@@ -20,6 +20,10 @@ jobs:
           python-version: '3.12'
       - name: Validate learning content
         run: python3 scripts/validate_repo.py
+      - name: Audit all 14 stage learning assets
+        run: python3 scripts/audit_program.py
+      - name: Execute all 10 advanced guided notebook checks
+        run: python3 scripts/notebook_smoke.py
       - name: Tutor tool tests
         run: python3 -m unittest discover -s tests -v
       - name: DataPulse tests
@@ -198,7 +202,6 @@ jobs:
       - name: Launch disposable loopback-only Kafka broker
         run: |
           docker run -d --rm --name dem-stage11-kafka \
-            -e KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://127.0.0.1:9092 \
             -p 127.0.0.1:9092:9092 apache/kafka:4.4.0
       - name: Real Kafka produce/consume/replay and broker offset check
         run: python3 labs/11-streaming/kafka_demo.py --broker 127.0.0.1:9092

@@ -34,7 +34,8 @@ def run_demo(broker):
     except ImportError as exc:
         raise RuntimeError("Install confluent-kafka==2.16.1 for broker mode") from exc
 
-    admin=AdminClient({"bootstrap.servers":broker,"socket.timeout.ms":2000,
+    admin=AdminClient({"bootstrap.servers":broker,"broker.address.family":"v4",
+                       "socket.timeout.ms":2000,
                        "request.timeout.ms":5000})
     deadline=time.monotonic()+120
     while True:
@@ -74,6 +75,7 @@ def run_demo(broker):
     errors=[]
     producer=Producer({
         "bootstrap.servers":broker,
+        "broker.address.family":"v4",
         "enable.idempotence":True,
         "acks":"all",
         "message.timeout.ms":20000,
@@ -96,6 +98,7 @@ def run_demo(broker):
 
     consumer=Consumer({
         "bootstrap.servers":broker,
+        "broker.address.family":"v4",
         "group.id":group,
         "auto.offset.reset":"earliest",
         "enable.auto.commit":False,
