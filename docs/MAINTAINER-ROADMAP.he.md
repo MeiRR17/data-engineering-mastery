@@ -23,3 +23,7 @@ The Stage 01–03 offline SQL/Python/ETL reference graders and learner starters 
 ### Stage 05 implementation increment (in review)
 
 A standalone PostgreSQL 17 modeling exercise now covers event-grain fact data, versioned region dimension (SCD2), nonoverlap constraint, as-of join, reconciliation, NULL-aware metrics, idempotent reruns and a late-correction scenario. It is tested in a disposable Docker container by a reference solution. This is not a complete dbt project and not a remote Supabase deployment; these remain later acceptance gates.
+
+### Stage 08 development increment (Draft PR)
+
+A local, standard-library HTTP/SQLite read-only serving lab with synthetic Stage 07 data, overview/daily/events/quality JSON routes, safe pagination, stale and blocked-run UX, security headers and black-box loopback tests is available for review. It is not a deployed cloud dashboard, not a production API and not a substitute for real Supabase Auth/RLS verification.

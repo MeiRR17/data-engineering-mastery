@@ -179,6 +179,10 @@ python3 scripts/session_plan.py --style investigator --level intermediate --minu
 
 [**מעבדת איכות נתונים עם 27 תרחישי בדיקה**](labs/07-quality/README.md) עוסקת בזיהוי Schema Drift, נתונים חסרים, כפילויות, Freshness, Quarantine ופרסום אטומי. פועלת ללא שירות ענן, עם תרגול לא פתור ובדיקות Reference ב־CI.
 
+## Stage 08 — דשבורד API מאובטח להדגמה
+
+[**DataPulse Observatory — API לקריאה בלבד ודשבורד עם מדדי איכות**](labs/08-serving/README.md). שרת Python מקומי משרת מדדים מקובץ SQLite סינתטי, מציג אזהרות Freshness, מידע על ריצות חסומות, ומונע גישה לנתונים גולמיים ולפעולות כתיבה. נתיב ההפעלה: `python3 labs/08-serving/serve.py`. זו הדגמה מקומית ולא שירות Production.
+
 ## הפרויקט המרכזי — DataPulse
 
 [DataPulse](projects/datapulse/README.md) קולט אירועי רעידות אדמה מ־USGS, מבצע Validation, טוען נתונים ושולח ל־Dashboard. מתחילים ב־Fixture סינתטי, אחר כך SQLite/SQL, בהמשך Supabase, Orchestration, QA, Monitoring, פריסה ו־Recovery. **כל הרחבה היא PR נפרד עם Definition of Done**. ראו [מפת הפרויקטים](docs/PROJECT-LADDER.he.md).

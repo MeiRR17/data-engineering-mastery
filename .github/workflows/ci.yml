@@ -37,6 +37,11 @@ jobs:
       - name: Stage 07 quality reference grader (27 tests)
         run: python3 labs/07-quality/grade.py --reference
 
+      - name: Stage 08 HTTP read-only and dashboard asset tests
+        run: |
+          python3 labs/08-serving/grade.py
+          node --check labs/08-serving/web/app.js
+
   postgres-stage04:
     runs-on: ubuntu-latest
     timeout-minutes: 12
