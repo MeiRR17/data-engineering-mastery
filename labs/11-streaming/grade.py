@@ -12,7 +12,7 @@ TARGET=None
 
 
 def sample():
-    return [json.loads(x) for x in (LAB/"data/synthetic_log.jsonl").read_text().splitlines()]
+    return [json.loads(x) for x in (LAB/"data/synthetic_log.jsonl").read_text().splitlines() if x.strip()]
 
 
 def event(event_id="A",time="2026-01-01T10:00:00Z",
