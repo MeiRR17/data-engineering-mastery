@@ -9,6 +9,13 @@ $ErrorActionPreference = "Stop"
 $root = (Resolve-Path (Join-Path $PSScriptRoot "..")).Path
 Push-Location $root
 try {
+    # A stale PASS from a previous run must never masquerade as today's result.
+    if (-not $VerifyOnly) {
+        $report = Join-Path $root "learner\setup-check.local.json"
+        if (Test-Path -LiteralPath $report) {
+            Remove-Item -LiteralPath $report -Force
+        }
+    }
     $python = $null
     if ($env:COURSE_PYTHON -and (Test-Path -LiteralPath $env:COURSE_PYTHON -PathType Leaf)) {
         $python = @($env:COURSE_PYTHON)
@@ -50,17 +57,18 @@ try {
     }
 
     $venvPython = ".venv\Scripts\python.exe"
-    $verifyArgs = @("scripts\verify_learning_environment.py", "--mode", $Mode)
-    if (-not $VerifyOnly) { $verifyArgs += "--write-report" }
-    & $venvPython @verifyArgs
-    if ($LASTEXITCODE -ne 0) { throw "Jupyter/Markdown readiness check failed." }
-
     foreach ($script in @("scripts\validate_repo.py", "scripts\audit_program.py", "scripts\check_english_content.py")) {
         & $venvPython $script
         if ($LASTEXITCODE -ne 0) { throw "Local CI check failed: $script" }
     }
     & $venvPython -m unittest discover -s tests -q
     if ($LASTEXITCODE -ne 0) { throw "Local unit tests failed." }
+
+    # Never publish a PASS report until the full local test suite succeeded.
+    $verifyArgs = @("scripts\verify_learning_environment.py", "--mode", $Mode)
+    if (-not $VerifyOnly) { $verifyArgs += "--write-report" }
+    & $venvPython @verifyArgs
+    if ($LASTEXITCODE -ne 0) { throw "Jupyter/Markdown readiness check failed." }
 
     Write-Host "PASS: local course setup and CI checks finished successfully."
     if (-not $VerifyOnly) {
