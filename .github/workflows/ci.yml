@@ -20,6 +20,8 @@ jobs:
           python-version: '3.12'
       - name: Validate learning content
         run: python3 scripts/validate_repo.py
+      - name: English-first Markdown, Jupyter and VS Code experience
+        run: python3 scripts/check_english_content.py
       - name: Audit all 14 stage learning assets
         run: python3 scripts/audit_program.py
       - name: Execute all 10 advanced guided notebook checks
