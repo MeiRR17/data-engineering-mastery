@@ -147,7 +147,7 @@ class ReliabilityTests(unittest.TestCase):
         restore=self.base/"restored.sqlite"
         result=TARGET.restore_to_new(archive,manifest,restore)
         self.assertEqual(result["restored_rows"],3)
-        with sqlite3.connect(restore) as db:
+        with closing(sqlite3.connect(restore)) as db, db:
             self.assertEqual(db.execute("select count(*) from curated").fetchone()[0],3)
 
     def test_restore_cannot_overwrite_live_file(self):
