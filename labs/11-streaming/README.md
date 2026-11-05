@@ -46,7 +46,7 @@ Official quickstart and Docker image instructions: [Apache Kafka quickstart](htt
 
 ~~~bash
 # Local disposable Kafka broker, loopback port only; no cloud or remote host:
-docker run -d --rm --name dem-stage11-kafka -p 127.0.0.1:9092:9092 apache/kafka:4.4.0
+docker run -d --rm --name dem-stage11-kafka -e KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://127.0.0.1:9092 -p 127.0.0.1:9092:9092 apache/kafka:4.4.0
 python3 -m pip install "confluent-kafka==2.16.1"
 # After the broker reports ready, run the full real producer/consumer exercise:
 python3 labs/11-streaming/kafka_demo.py --broker 127.0.0.1:9092
@@ -70,4 +70,3 @@ The optional Kafka step needs a running broker and available local memory. Do **
 **Exit gate:** 25 local tests on student-owned code, a correction/replay case not in the grader, an incident explanation without AI, and **Kafka broker evidence** if claiming to have mastered Kafka itself. A Light-mode pass alone demonstrates streaming semantics but not broker operations.
 
 **Not yet covered:** schema registry, Kafka Connect, KRaft cluster faults, multi-node throughput, exactly-once Kafka transactions, stateful Flink, full production monitoring and RBAC. These require separate advanced work beyond the single-broker exercise.
-

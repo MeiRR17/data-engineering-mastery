@@ -51,8 +51,24 @@ def run_demo(broker):
     suffix=uuid.uuid4().hex[:12]
     topic="dem-stage11-"+suffix
     group="dem-stage11-"+suffix
-    future=admin.create_topics([NewTopic(topic,num_partitions=2,replication_factor=1)])
-    future[topic].result(timeout=30)
+    # The broker can publish metadata before its KRaft controller is elected.
+    # Retry only this disposable topic's creation during bounded startup.
+    created=False
+    topic_deadline=time.monotonic()+90
+    while not created:
+        try:
+            future=admin.create_topics([
+                NewTopic(topic,num_partitions=2,replication_factor=1)
+            ])
+            future[topic].result(timeout=20)
+            created=True
+        except KafkaException as exc:
+            if "TOPIC_ALREADY_EXISTS" in str(exc):
+                created=True  # prior timed-out create was actually committed
+            elif time.monotonic()>topic_deadline:
+                raise RuntimeError("local Kafka topic creation timed out") from exc
+            else:
+                time.sleep(2)
 
     sent=read_log(LAB/"data/synthetic_log.jsonl")
     errors=[]
@@ -158,4 +174,3 @@ def main():
 
 if __name__=="__main__":
     main()
-

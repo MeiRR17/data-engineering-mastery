@@ -198,6 +198,7 @@ jobs:
       - name: Launch disposable loopback-only Kafka broker
         run: |
           docker run -d --rm --name dem-stage11-kafka \
+            -e KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://127.0.0.1:9092 \
             -p 127.0.0.1:9092:9092 apache/kafka:4.4.0
       - name: Real Kafka produce/consume/replay and broker offset check
         run: python3 labs/11-streaming/kafka_demo.py --broker 127.0.0.1:9092
