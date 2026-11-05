@@ -205,6 +205,16 @@ def process_batch(
         if db.execute("select 1 from quality_runs where run_id=?", (run_id,)).fetchone():
             raise ValueError("run_id already exists")
         status = "passed" if assessment["passed"] else "blocked"
+        db.execute("""
+            insert into quality_runs(
+                run_id, contract_version, total_rows, valid_rows,
+                quarantined_rows, stale_rows, published_rows, status, issue_codes
+            ) values(?,?,?,?,?,?,?,?,?)
+        """, (
+            run_id, VERSION, assessment["total_rows"], assessment["valid_rows"],
+            assessment["quarantined_rows"], assessment["stale_rows"], 0,
+            status, json.dumps(assessment["issues"])
+        ))
         if assessment["passed"]:
             for _, event, digest in assessment["validated"]:
                 cursor = db.execute("""
@@ -231,16 +241,7 @@ def process_batch(
                         run_id, event_id, source_sha256, contract_version, was_applied
                     ) values(?,?,?,?,?)
                 """, (run_id, event["event_id"], digest, VERSION, applied))
-        db.execute("""
-            insert into quality_runs(
-                run_id, contract_version, total_rows, valid_rows,
-                quarantined_rows, stale_rows, published_rows, status, issue_codes
-            ) values(?,?,?,?,?,?,?,?,?)
-        """, (
-            run_id, VERSION, assessment["total_rows"], assessment["valid_rows"],
-            assessment["quarantined_rows"], assessment["stale_rows"], published,
-            status, json.dumps(assessment["issues"])
-        ))
+        db.execute("update quality_runs set published_rows=? where run_id=?", (published, run_id))
         for index, reason, digest in assessment["quarantine"]:
             db.execute("""
                 insert into quarantine_records(run_id,row_index,reason_code,payload_sha256)
