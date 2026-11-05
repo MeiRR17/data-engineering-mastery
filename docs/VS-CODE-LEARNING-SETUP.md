@@ -42,6 +42,32 @@ code --install-extension shd101wyy.markdown-preview-enhanced
 
 Open the project folder, then choose **Terminal → Run Task** and select **Course: Install VS Code Markdown and Jupyter extensions**. This is a user-triggered task: it runs the included PowerShell installer on Windows, or the Bash installer on macOS/Linux. You can also choose **Course: Validate English lessons and notebooks** to check the files without installing anything. If your system blocks scripts, install the four extensions manually through the VS Code Extensions sidebar; do not change system-wide security policy just for this course.
 
+## Full local macOS qualification (one task)
+
+**This is the actual learner-Mac test, not GitHub's disposable macOS CI runner.**
+Open the current project checkout in the local VS Code app, then choose:
+**Terminal → Run Task → Course: Qualify this Mac (full local CI)**.
+
+The task runs `bash scripts/mac-qualification.sh` locally. It installs and verifies
+all four VS Code Marketplace extensions in the active CLI context, creates the
+isolated Python environment, validates the curriculum, runs repository tests,
+executes **all fourteen real Jupyter notebooks**, and checks the resulting
+gitignored `learner/setup-check.local.json` is PASS. It prints
+`LOCAL_MAC_COURSE_CI=PASS` and the tested Git commit only after every gate
+passes. Failures return nonzero, never a success banner.
+
+To run the identical on-Mac qualification from Terminal, use
+`bash scripts/mac-qualification.sh` from the root of the repository.
+The script opens a Markdown lesson and a Jupyter notebook in VS Code for
+immediate visual confirmation. It does **not** claim that a CLI check can certify
+graphical preview activation, every VS Code profile, or the device's identity.
+Nothing is uploaded automatically; the sanitized local report stays gitignored.
+
+Before using this Mac task, make sure you are in the **qualification branch** that
+contains it, not an older version of `main`. Do not run scripts directly from
+unreviewed websites and do not install a public pull-request self-hosted runner
+on a personal computer.
+
 ## Real computer setup and local CI (recommended)
 
 **One action inside VS Code:** Open the whole repository folder, select **Terminal → Run Task → Course: Set up and verify this computer**. It requests no cloud account and performs actual setup on the machine/context running the task:
