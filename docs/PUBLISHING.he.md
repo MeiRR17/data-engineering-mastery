@@ -1,59 +1,57 @@
-# איך מפרסמים את הריפו לציבור — צעד אחר צעד
+# Publishing and maintaining a public course repository
 
-> **סטטוס:** בשלב זה ארכיון מקומי מוכן לבדיקה; לא נוצר מאגר GitHub חדש ולא פורסמה גרסה בענן. הפרסום הוא פעולה שבעל החשבון מאשר במפורש.
+> **Current status:** The Data Engineering Mastery source repository already exists on GitHub. These instructions describe **creating another copy**, not a claim that a remote repository has not yet been created. Publishing or pushing to a new owner account requires that owner's explicit approval.
 
-## מסלול א': סקריפט מאומת, פרסום ראשוני בלבד
+## Option A — user-initiated first-time publishing script
 
-ב-Mac עם Homebrew:
+On a Mac with Homebrew:
 
-```bash
+~~~bash
 brew install gh git
-# היכנס לחשבון GitHub שלך דרך מסך אימות, ללא העברת סיסמה לצ'אט
 gh auth login
-```
+~~~
 
-חלץ את ZIP ופתח Terminal מתוך תיקיית `data-engineering-mastery`:
+Authenticate through the GitHub browser/device flow. Do not share account passwords or PATs in chat. From the local repository root:
 
-```bash
+~~~bash
 python3 scripts/validate_repo.py
+python3 scripts/audit_program.py
 python3 -m unittest discover -s tests -v
 PYTHONPATH=projects/datapulse/src python3 -m unittest discover -s projects/datapulse/tests -v
 bash scripts/publish_to_github.sh
-```
+~~~
 
-הסקריפט בודק הרשאת GitHub, מציג את כל הקבצים שנכנסים ל-Git, **דורש אישור מפורש** לפני יצירת מאגר ציבורי, ואינו כופה Push על מאגר קיים.
+Review the script **before** running it. It checks the GitHub account, shows the files it would publish and requires confirmation; it must not force-push over an existing repository.
 
-## מסלול ב': GitHub Web + Git ידני
+## Option B — GitHub website and manual Git
 
-1. פתח https://github.com/new והיכנס לחשבון שאמור להיות בעל הריפו (המפרסם, לא הלומד).
-2. Repository name: `data-engineering-mastery` ; Visibility: **Public**. אל תבחר 'Add README' או `.gitignore` כי הם כבר כלולים.
-3. בתיקייה המקומית:
+1. Open [GitHub's new repository page](https://github.com/new) under the intended account.
+2. Choose a repository name and appropriate public/private visibility. Do not add duplicate README or ignore files when importing an existing Git tree.
+3. If starting from a local directory with no Git history, use:
 
-```bash
+~~~bash
 git init -b main
 git add .
-git commit -m "feat: publish open Data Engineering Mastery roadmap"
-git remote add origin https://github.com/YOUR_GITHUB_USERNAME/data-engineering-mastery.git
+git commit -m "feat: publish learning course"
+git remote add origin https://github.com/YOUR_ACCOUNT/data-engineering-mastery.git
 git push -u origin main
-```
+~~~
 
-4. בדוק ש-`README.md` מופיע וש-GitHub Actions של `Learning repository checks` עובר.
-5. Settings → General → **Template repository**. ב-Settings → Branches / Rulesets הגדר הגנה על `main` ו-required CI, לפי זמינות בחשבון.
-6. צור Release בשם `v0.1.0` רק לאחר שהבדיקות עברו.
-7. שלח לחבר קישור לריפו הציבורי. הוא יבחר **Use this template** וייצור ריפו בבעלותו, ציבורי או פרטי לפי העדפתו.
+If the folder already has history, **do not blindly reinitialize it**; inspect `git status` and `git remote -v` first.
 
-## חניכת החבר לאחר יצירת העותק
+4. Confirm that README renders visually and the GitHub Actions learning checks pass.
+5. Enable **Template repository**, PR review and branch protection/rulesets as appropriate for the account plan.
+6. Create a semantic release tag only when all applicable gates are satisfied and the changelog is accurate.
+7. Share the source URL with the learner. They should create a **learner-owned copy**, not commit personal progress into upstream.
 
-1. הורד/שכפל את הריפו לחשבון שלו ופתח ב-VS Code.
-2. הרץ `python3 scripts/system_profile.py --tier-only` — אופציונלי. אם רוצה, `--write-local` שומר פרופיל **מקומי**.
-3. הרץ `python3 scripts/roadmap.py init --alias learner` ו-`python3 scripts/roadmap.py next`.
-4. חבר GitHub ל-ChatGPT לצורך קריאת הקוד, ו-GitHub MCP ל-Agent IDE כשצריך פעולות כתיבה. המדריך ב-[GITHUB-MCP-SETUP](GITHUB-MCP-SETUP.he.md).
-5. העתק את [פרומפט המנטור הראשי](../prompts/MASTER-AGENT.he.md) לתוך שיחה, והתחל Stage 00.
-6. בסוף כל שלב: Branch → PR → CI → Evidence → מעבר שער הערכה. התקדמות הלומד לא משנה את הריפו המקורי.
+## Onboard a new learner
 
-## תחזוקה ציבורית
+- Install Python, Git and VS Code with the recommended [Markdown and Jupyter extensions](VS-CODE-LEARNING-SETUP.md).
+- Optionally classify hardware with `python3 scripts/system_profile.py --tier-only`.
+- Initialize local/private progress using `python3 scripts/roadmap.py init --alias learner` and view the next task.
+- Connect GitHub to ChatGPT or an IDE agent **only when useful and with explicit permissions**; see [GitHub setup](GITHUB-MCP-SETUP.he.md).
+- Use the [English mentor prompt](../prompts/MASTER-AGENT.en.md), start Stage 00 and work through branch → PR → tests → evidence → review.
 
-- שחרר גרסאות סמנטיות; תעד breaking changes ב-CHANGELOG.
-- אסוף משוב דרך Issues ו-Discussions. אל תפרסם מבחני ידע אישיים או נתוני חומרה פרטיים.
-- קבל PRs שמשפרים תרגילים, בדיקות, מקורות רשמיים ותמיכה ב-OS נוספים.
-- תמוך בהרחבות נוספות אחרי Stage 13; אין להציג תוצאה מתרגיל כלשהו כהסמכה מקצועית רשמית.
+## Public maintenance
+
+Use meaningful semantic releases and a clear CHANGELOG. Gather feedback via Issues/Discussions without exposing learner assessment data or full machine profiles. Encourage original corrections to tests, datasets, English docs and OS support. Neither the template nor a single exercise outcome should be described as an externally accredited professional certificate.

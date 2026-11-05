@@ -1,41 +1,51 @@
-# Maintainer Roadmap — תוכנית להשלמת המסלול הציבורי
+# Maintainer Roadmap — historical releases and current acceptance gates
 
-[README](../README.md). **טבלת הגרסאות שלהלן היא תוכנית היסטורית, לא דוח על הקוד הנוכחי.** כל 14 המעבדות קיימות בקוד המשולב, אך תנאי הפריסה בענן, הביקורת האנושית והאימות החיצוני טרם הושלמו.
+[Home](../README.md) · [Program readiness](PROGRAM-READINESS.he.md) · [Assessment](FINAL-ASSESSMENT.he.md)
 
-| Release | תוכן | Gate לפני תיוג |
-|---|---|---|
-| v0.2.x | README מלא, Visuals, Notebook tutorials 00–03, קישורי וידאו | 4 מחברות רצות, בדיקות יחידה, המחברות ו־DataPulse תקינות, קישורים תקינים |
-| v0.3 | Notebook 04–07, SQL/Postgres exercises + automated grader, סביבות light/full | Expected outputs + adversarial tests |
-| v0.4 | Supabase isolated project + migrations + security tests | Cloud smoke, RLS negative tests, no secrets in frontend |
-| v0.5 | Analytics Engineering/dbt, warehouse/modeling | full data lineage + recomputable metrics |
-| v0.6 | Orchestration, incremental/backfills, quality | replay and fault-injection passes |
-| v0.7 | CI/CD, monitoring, recovery + costs | deploy, rollback, recovery evidence |
-| v0.8 | Spark + Kafka labs light/full alternatives | benchmark + replay tests |
-| v0.9 | Capstone grading, community review, multilingual materials | peer review and reproducible portfolio |
-| v1.0 | Fully implemented end-to-end curriculum | external review + comprehensive CI + audited docs |
+The following **release labels are historical planning milestones**, not a claim that the related products were deployed or externally certified. All 14 instructional stages now have tutorials, labs, reference tests and an integrated capstone.
 
-**פיתוח קהילתי:** פתחו Issue עבור תרגיל חדש, ציינו רמת קושי, מטרות, test oracle, dataset provenance, privacy, resource requirements ו־failure cases; לאחר מכן PR אחד עם fixture קטן, הבדיקות, פתרון למדריך בנפרד (לא בנתיב שהלומד אמור לראות) וקישור תיעוד. אין להעלות סרטונים או חומרים מוגנים שהועתקו. גם לגרסה ציבורית 'מושלמת' יש תחזוקה מתמדת, כי כלים ותיעוד משתנים.
+| Planning milestone | Educational increment | Evidence still needed before a corresponding release claim |
+| --- | --- | --- |
+| v0.2.x | README, visuals and the first four notebooks | Content, notebook and local tests |
+| v0.3 | Guided notebooks and SQL/Python/Postgres labs | Instructor graders and learner tasks |
+| v0.4 | Supabase cloud isolation and migration security | Authorized cloud smoke and negative RLS tests |
+| v0.5 | Analytics Engineering, star schema and dbt | Reconciliation, lineage and model tests |
+| v0.6 | Orchestration, backfills and quality | Deterministic replay and injected failures |
+| v0.7 | CI/CD, monitoring, recovery and cost analysis | Deployment, rollback and restore proof |
+| v0.8 | Spark and Kafka light/full learning modes | Runtime correctness and representative benchmarks |
+| v0.9 | Capstone, community review, English materials | Independent solution and reviewer evidence |
+| v1.0 | Complete reviewed learning program | Comprehensive CI, qualified learner pilot and content review |
 
-### Foundation-labs increment
+## Implemented course infrastructure
 
-Historical plan before integrated PR #15: the initial Stage 01–03 labs preceded the Stage 04–13 curriculum. Notebooks, PostgreSQL and independent graders are now part of the integrated course, while the **cloud, human peer review, and certification release gates remain independent** of code coverage.
+The integrated course currently includes:
+- All 14 stages, guided notebooks and separate student/reference paths.
+- Local PostgreSQL 17 and dbt integration, SCD2 historical joins and NULL-aware metrics.
+- Orchestration, data quality, lineage and read-only analytics API/dashboard.
+- Local release packaging, synthetic promotion/rollback, Stage 10 PySpark and a disposable Kafka broker.
+- Stage 12 incident, SLO, backup/restore and governance exercises.
+- A cross-stage DataPulse capstone and an independently reviewed, separately seeded assessment framework.
 
-### Stage 05 implementation increment (in review)
+These **prove the instructor code is executable under the tested environments**, not that a novice learner or any specific student has mastered all the tasks.
 
-A standalone PostgreSQL 17 modeling exercise now covers event-grain fact data, versioned region dimension (SCD2), nonoverlap constraint, as-of join, reconciliation, NULL-aware metrics, idempotent reruns and a late-correction scenario. It is tested in a disposable Docker container by a reference solution. This is not a complete dbt project and not a remote Supabase deployment; these remain later acceptance gates.
+## Contribution and review process
 
-### Stage 08 development increment (Draft PR)
+1. Open an issue stating the learner level, business question, dataset provenance, privacy constraints, runtime requirements and at least one failure mode.
+2. Submit a focused PR with synthetic fixtures, an unfinished learner starter, a separate instructor reference and black-box tests.
+3. Review code safety, test determinism, portability, licensing, secrets, local links and English readability.
+4. Require a green CI run on the exact review commit; independent student evidence is reviewed separately.
+5. Do not host copied copyrighted training videos or upload real personal information.
 
-A local, standard-library HTTP/SQLite read-only serving lab with synthetic Stage 07 data, overview/daily/events/quality JSON routes, safe pagination, stale and blocked-run UX, security headers and black-box loopback tests is available for review. It is not a deployed cloud dashboard, not a production API and not a substitute for real Supabase Auth/RLS verification.
+## Remaining gates
 
-### Stage 09 — Release simulator in the consolidated RC
+- **Teaching:** run a complete pilot with a learner unfamiliar with the instructor references; measure blockers and learning outcomes.
+- **Security:** review SQL grants/RLS, API exposure, dependencies, provenance and secret boundaries.
+- **Cloud:** only a separately authorized and budgeted sandbox can verify authenticated cloud access, restore, monitoring and production-like deployment.
+- **Scaling:** single-host Spark and single-node Kafka do not demonstrate multi-node throughput or cross-system exactly-once.
+- **Credentials:** no external accreditation has been granted, and CI must never issue certificates.
 
-The offline Stage 09 lesson implements reproducible versioned ZIP bundles, integrity verification, separate simulated environment pointers, health-gated atomic promotion and verified rollback. A dedicated CI job runs the instructor's 26 fault scenarios and end-to-end demo. It does **not** publish a GitHub Release, deploy to real infrastructure, handle real secrets or run irreversible PostgreSQL migrations; those remain explicit acceptance gates for a genuine delivery milestone.
+## Versioning discipline
 
-### Stage 10 implementation increment (in RC)
+Use semantic versions and a changelog after the appropriate acceptance gates. Keep test artifacts and a clear commit SHA. The English-language conversion does not change graded business semantics; if it does change a task, update its grader and assessment description in the same PR.
 
-A deterministic pure-Python MapReduce learning fallback (21 instructor-graded scenarios) and a real Java 17 + PySpark 4.0.5 local DataFrame job (9 instructor-graded scenarios, light/Spark parity check, physical-plan explanation and a synthetic skew demonstration). A separate optional CI job installs PySpark and runs locally; running local Spark on one machine is **not** the same as distributed cluster verification. No DuckDB performance benchmark, Kafka, Parquet lake or cloud cluster has been claimed.
-
-### Integrated 00–13 learning coverage — 2026-11-05
-
-The Draft RC now includes 14 stage notebooks, Stage 00–12 labs, a Stage 13 integrated capstone, and an independent review/examination framework. `python3 scripts/audit_program.py` verifies structure, and instructor graders run in CI, including real local PostgreSQL, dbt, Spark and single-broker Kafka. These are *local teaching integrations*, not authorized production deployments. Full release acceptance still requires pilot feedback, examiner review, security review and optional real cloud sandbox proof. See [PROGRAM-READINESS.he.md](PROGRAM-READINESS.he.md).
+See [the program readiness ledger](PROGRAM-READINESS.he.md) for supported claims and unverified work.

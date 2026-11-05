@@ -1,111 +1,127 @@
-# מדריך הלומד — מבוגר הנדסת תוכנה ועד מערכת נתונים שפועלת
+# Learner Handbook — from software engineer to an operational data product
 
-חזרה ל־[README](../README.md). זהו ה־Runbook ללומד ולמנטור. המטרה היא **ללמוד כיצד לעשות**, לא למסור את כל העבודה ל־AI. התואר מאפשר דילוג מושכל על יסודות שנבדקו, לא דילוג אוטומטי.
+[Home](../README.md) · [Visual VS Code setup](VS-CODE-LEARNING-SETUP.md) · [Assessment](FINAL-ASSESSMENT.he.md)
 
-## יום 0 — הקמה ללא ענן
+This is the learner's **runbook**, not a shortcut for making an AI agent do every exercise. Prior software engineering experience can shorten genuinely understood topics, but prerequisites should be assessed rather than skipped automatically.
 
-1. צרו חשבון GitHub משלכם, הגדירו 2FA ושמרו על אישורי הכניסה במנהל סודות. הורידו Git, Python 3.11+ ו־VS Code. זכרו את המקום שאליו שמרתם את הפרויקט.
-2. העתיקו את הריפו דרך Template, או חלצו ZIP. פתחו אותו ב־VS Code ובדקו שתיקיית השורש מכילה `scripts/` ו־`curriculum/`.
-3. ב־Terminal הריצו `python3 --version`, `git --version`, ואז `python3 scripts/system_profile.py`. לא מריצים `sudo` או התקנות שרירותיות.
-4. הריצו `python3 scripts/validate_repo.py` ו־`python3 -m unittest discover -s tests -v`.
-5. בצעו `python3 scripts/roadmap.py init --alias learner` (פעם אחת) ואז `status`, `next`, `start 00`.
-6. פתחו את [מחברת 00](../notebooks/00_data_journey.ipynb) ב־JupyterLab או ב־VS Code עם Jupyter extension והפעילו **Run All**; קראו קודם את מטרת כל תא. אם אין Jupyter, עברו על התאים ב־GitHub והריצו את קוד Python בקובץ מקומי — הלמידה אינה חסומה.
-7. פתחו Issue ראשון בריפו הפרטי או הציבורי שלכם. כותרת: `Stage 00 — environment + initial assessment`; גוף: מטרות, פקודות, תוצאה, בעיה, ראיות מסוננות. לאחר מכן Branch `learn/00-foundation`.
-8. התחילו שיחת ChatGPT חדשה והדביקו את הפקודה בסוף [MASTER-AGENT](../prompts/MASTER-AGENT.he.md). בלי חיבור GitHub, ציינו את שם המודול והעתיקו רק קבצים רלוונטיים.
+## Day 0 — set up without a cloud account
 
-## מבנה תיקיות — מה עושים בכל מקום?
+1. Create your own GitHub account, enable two-factor authentication, and install Git, Python 3.11+ and Visual Studio Code.
+2. Use the repository template or clone the source. Open the **whole project folder** in VS Code; verify that you can see `scripts/` and `curriculum/`.
+3. Install the recommended [Markdown and Jupyter extensions](VS-CODE-LEARNING-SETUP.md) to open `.md` as formatted pages and `.ipynb` as visual interactive cells.
+4. Check `python3 --version` and `git --version`. Optionally run `python3 scripts/system_profile.py`. Never run arbitrary `sudo` commands to make a tutorial work.
+5. Run the curriculum audit and local tests:
 
-| מקום | תפקיד הלומד | ניתן לערוך? |
-|---|---|---|
-| `README.md` | מפה והתחלה מהירה | כן, דרך PR |
-| `curriculum/modules/XX.md` | דרישות השלב, שאלות ו־Exit Gate | אל תדלגו על הדרישות |
-| `curriculum/cs-bridges/` | עקרונות מדעי המחשב שקשורים למשימה | קריאה + ניסוי |
-| `notebooks/` | ניסויים קצרים עם וידאו, קוד וגרפים | ב־PR שלכם; אל תשמרו סודות |
-| `labs/` | אתגרי מעבדה ומקרי כשל | כן |
-| `projects/datapulse/` | המערכת המתפתחת העיקרית | כן, בהדרגה |
-| `scripts/` | אבחון, תכנון מפגש, מעקב התקדמות | שינויים רק עם בדיקות |
-| `learner/progress.json` | הערות וראיות פרטיות | **מקומי בלבד** |
-| `docs/` | runbooks, פריסה, תרחישי כשל | כן, בתרומות |
-| `.github/` | CI, PR ו־Issue templates | עיינו לפני שינוי |
+~~~bash
+python3 scripts/validate_repo.py
+python3 scripts/audit_program.py
+python3 -m unittest discover -s tests -v
+~~~
 
-## אבחון והתאמה אישית
+6. Initialize your **private, local** progress record once:
 
-המנטור מעריך 0–4 בחמישה ממדים (הבנת מושגים, ביצוע עצמאי, בדיקות, תכנון, תפעול), ובודק תחילה: SQL (`JOIN`, `GROUP BY`, `NULL`), Python (dict/list, exceptions, modules, tests), Linux (process, files, environment variables), networking (HTTP, DNS, retry), DB (keys, indexes, ACID), Git/PR ו־complexity. כל טעות משמשת לבחירת שיעור; לא לתווית קבועה.
+~~~bash
+python3 scripts/roadmap.py init --alias learner
+python3 scripts/roadmap.py status
+python3 scripts/roadmap.py next
+python3 scripts/roadmap.py start 00
+~~~
 
-חוזה למידה לכל מפגש: `Stage`, בעיה מעשית, מה תסביר לבד, אורך המפגש, מנגנון בדיקה, Side Quest אופציונלי. המנטור משאיר ללומד לפחות ניסיון עצמאי אחד לפני הצגת פתרון; אם נתקעים, נותן רמז בשלוש רמות (כיוון, טכניקה, דוגמה חלקית). עיקרון: **הפחתת תמיכה בהדרגה**.
+7. Open [Notebook 00](../notebooks/00_data_journey.ipynb), predict the outputs and run the cells. If you do not have a notebook kernel, use the documented VS Code setup before installing heavyweight data services.
+8. Create a personal issue titled `Stage 00 — setup and diagnostic` and a branch such as `learn/00-foundations`.
+9. If you use ChatGPT as a tutor, share only the safe stage context and the [English mentor instructions](../prompts/MASTER-AGENT.en.md). Do not share passwords, full system profiles or private learner reflections.
 
-### בחירת סביבת ריצה
+## Where to work
 
-- `light`: SQLite / DuckDB / notebooks קטנים; להכיר Spark/Kafka דרך סימולציה וצפייה, לא להסתיר את המגבלה.
-- `moderate`: PostgreSQL ב־Docker *אם זמין*, בדיקות לוקאליות, דאטה קטן והגבלת זיכרון; אפשר לבחור Supabase בענן אחרי בדיקת עלות.
-- `full`: ניסויי Spark/Kafka מקומיים בנפרד, עם נפחי נתונים שמצדיקים זאת; גם כאן קודם baseline של SQL/DuckDB.
+| Directory | Your responsibility |
+| --- | --- |
+| `README.md` | Understand the roadmap and open the next lesson |
+| `curriculum/modules/XX.md` | Follow objectives, prerequisites and exit criteria |
+| `curriculum/cs-bridges/` | Revisit the relevant algorithms/OS/networking concepts |
+| `notebooks/` | Predict and run visual tutorials with synthetic data |
+| `labs/` | Implement independent starters, tests and failure investigations |
+| `projects/datapulse/` | Grow the primary event-to-analytics product |
+| `capstone/` | Combine previous stages into a defensible portfolio project |
+| `scripts/` | Check environment, select the next activity and validate files |
+| `learner/progress.json` | Keep **private and local**, never submit unredacted |
+| `docs/` | Read operational instructions, deployment boundaries and review rubrics |
+| `.github/` | Review CI/PR configuration before proposing changes |
 
-אין חובת GPU. אם יש הגבלות פרטיות/מחשב ארגוני, משתמשים ב־GitHub Codespaces או שירות ענן רק לאחר בדיקת המדיניות והעלות, בלי להעתיק מידע ארגוני.
+## Diagnostic and learning plan
 
-## מחזור העבודה בכל שלב — 11 פעולות
+The mentor uses five 0–4 dimensions: conceptual understanding, independent implementation, testing/debugging, architecture and operations/security. Check SQL JOIN/GROUP BY/NULL, Python modules/exceptions/tests, Linux process/files/environment, HTTP/retries, database keys/indexes/ACID, Git PRs and algorithmic complexity.
 
-1. **הגדר בעיה:** מי צורך את הנתונים? אילו freshness/accuracy/cost/security constraints קיימים?
-2. **שרטט Data Flow:** מקור, קליטה, סכימה, עיבוד, אחסון, צרכן; סמן מה ידוע ומה הנחה.
-3. **כתוב Definition of Done:** תוצר, מדד אחד לפחות, שגיאות קלט, חזרה על הרצה, תיעוד ותהליך בדיקה.
-4. **התחל מהפתרון הפשוט:** SQL / Python / SQLite / Postgres; אל תבחר Spark/Kafka בלי צורך מדיד.
-5. **צור Issue ו־Branch:** `learn/XX-topic`, Commit קטן, PR שמציג תוצאה שניתן לשחזר.
-6. **נסה בכוחות עצמך:** 20–30 דקות לפני פתרון מלא; אם אין התקדמות, בקש רמז ממוקד או הסבר מושגי.
-7. **בצע ניסוי מדעי המחשב:** למשל index לעומת sequential scan, memory מול disk, at-least-once מול dedup.
-8. **בדוק הצלחות וכשלים:** unit, integration, schema, duplicate, null, retry, malformed, access, load; תעד *מה באמת רץ*.
-9. **אמת מקור ו־Lineage:** מזהה אירוע, זמן, source URL או קובץ, hash / batch ID; אל תערבב נתוני דוגמה עם אמת.
-10. **ערוך Review:** מה מחיר הפתרון, למה האלטרנטיבות לא נבחרו, איך עושים rollback, האם המפתח הסודי מוגן?
-11. **מבחן מעבר:** הסבר בעל פה/בכתב, שינוי לא צפוי, מציאת באג, ביקורת עמית/מנטור; רק אז תעד את השלב כ־self-reported והמשך.
+For each session, record a **problem**, expected outcome, independent attempt, exact command, test result, brief CS bridge and one transfer question. The mentor gives graduated hints (direction → technique → partial example) only when needed.
 
-## למידה במפגש בודד של 75 דקות
+Choose exercises by available resources: **Light** (SQLite, notebook, Python), **Moderate** (optional Docker/PostgreSQL/dbt), **Full** (optional real local Spark/Kafka). A GPU is not needed. Corporate devices and cloud environments must follow local policy and cost approval.
 
-| זמן | שלב | למה |
-|---|---|---|
-| 0–8 | חידה תפעולית: פלט שגוי/קוד איטי | סקרנות ויכולת לאבחן |
-| 8–23 | ניסיון עצמאי + סימון הנחות | לא להיות תלוי ב־AI |
-| 23–35 | סרטון/תיעוד ממוקד + CS bridge | ללמוד מושג בהקשר |
-| 35–55 | מימוש + בדיקות | למידה באמצעות בנייה |
-| 55–65 | Failure injection קטן ומבוקר | לא להניח ש־happy path מספיק |
-| 65–75 | הסבר עצמי + משימת מחר | שימור ידע וידע העברה |
+## Eleven-step workflow for every stage
 
-אם עייפים או יש רק 25 דקות: בחרו בעיה אחת, ניסוי אחד ושאלת הבנה אחת. אל תדחסו שלוש טכנולוגיות חדשות למפגש.
+1. Define who consumes the data and the expected accuracy, freshness, cost and security.
+2. Draw source → ingest → validation → storage → consumer; mark assumptions.
+3. Define Done: deliverables, schema, at least one metric, negative tests, replay behavior and documentation.
+4. Start with the smallest working system, often Python/SQLite/PostgreSQL before Spark/Kafka.
+5. Create a personal issue, `learn/XX-topic` branch and focused commits.
+6. Attempt the task **independently for 20–30 minutes** before asking for a full answer.
+7. Run one Computer Science bridge experiment relevant to the failure.
+8. Test happy paths **and** duplicates, NULL, invalid input, retry, permission denial and recovery.
+9. Check source provenance, business keys, event timestamps and lineage.
+10. Review complexity, cost, privacy, secrets, compatibility and rollback alternatives.
+11. Explain the result without AI, solve an unseen variation, obtain review, then record only **self-reported** completion until an independent examiner approves it.
 
-## תרחישי אמת שחייבים לשלוט בהם
+## A 75-minute practice session
 
-| תרחיש | למה זה קורה | הוכחה מעשית |
-|---|---|---|
-| API מחזיר 429/503 | Rate limit / outage | backoff, limit retries, no silent data loss |
-| API מחזיר אותן רשומות | At-least-once ingest | unique keys ו־idempotent upsert |
-| JSON חסר שדה | Schema drift | quarantine ותיעוד חוזה |
-| timestamp עם timezone | UTC/local ambiguity | datetime מודע לאזור זמן |
-| NULL, duplicates, outliers | איכות מקור | tests + metrics + rejection policy |
-| מחיקת קובץ raw | חוסר reproducibility | checksum / raw retention policy |
-| טעינה חלקית ונפילה | Partial transaction | retry / checkpoint / consistency check |
-| SQL איטי | Full scan, skew, no index | EXPLAIN + baseline + benchmark |
-| טבלת Fact מנופחת | join cardinality / bad grain | query assertions + grain docs |
-| DAG רץ פעמיים | retries / overlap | dedup + concurrency policy |
-| Backfill כבד | historical recomputation | partition scope + cost cap |
-| Kafka אירועים לא בסדר | async partitions | event time + dedup + late events |
-| Spark איטי | shuffle/spill/data skew | measurements, repartitioning |
-| Dashboard חושף נתונים | RLS / view / API policy | anon tests + negative tests |
-| secret הועלה ל־Git | leakage | revoke/rotate + clean history safely |
-| ענן עולה כסף | unbounded jobs/storage | budget alerts, limits, cleanup plan |
-| טעות migration | schema changes | migrations versioned + backup + rollback strategy |
-| מחיקה/שחזור | recovery | backup/restore smoke test בסביבת dev |
-| QA עובר אבל תוצאה שגויה | wrong business definition | compare expected counts & samples |
-| חוסר ב־observability | errors without signals | freshness/volume/error SLI + alert |
+| Minute | Activity | Reason |
+| --- | --- | --- |
+| 0–8 | Interesting broken result or slow query | Build curiosity and diagnostic skill |
+| 8–23 | Independent attempt and assumptions | Avoid dependence on generated solutions |
+| 23–35 | Focused video/documentation and CS bridge | Learn just enough theory |
+| 35–55 | Write code and run tests | Learn by implementation |
+| 55–65 | Safe failure injection and repair | Avoid happy-path-only learning |
+| 65–75 | Explain, record and choose tomorrow's task | Strengthen retention and transfer |
 
-[ספר פתרון התקלות](TROUBLESHOOTING.he.md) כולל שיטות אבחון פרטניות.
+On a shorter 25-minute day, do **one problem, one experiment and one explanation** instead of rushing through multiple new technologies.
 
-## כיצד לממש פריסה בפועל (אחרי שלבים 03–09)
+## Failure scenarios you must master
 
-**Phase A — local:** ריצה עם fixture, בדיקות, הסבר סכימה ו־`--dry-run`. **Phase B — isolated dev:** פרויקט Supabase חדש של הלומד בלבד, בדיקת עלות באזור/ארגון נבחרים. **Phase C — migrations:** בדיקה במחשב או בענן מבודד; שמירת SQL בספריית migrations וב־PR. **Phase D — secure app:** שרת ETL שומר secrets; דפדפן מקבל רק publishable key ו־RLS/GRANT שהוגדרו במפורש. **Phase E — scheduled delivery:** runner נפרד, rate limits, health checks, no production secrets in PR CI. **Phase F — ops:** checks, dashboard, error reporting, documented rollback, budget alarm, backup/restore rehearsal. ראו [Deployment checklist](../projects/datapulse/DEPLOYMENT-CHECKLIST.he.md).
+| Incident | Evidence of competence |
+| --- | --- |
+| API responds 429/503 | Bounded backoff, timeouts and no hidden loss |
+| Repeated source rows | Unique business keys and replay-safe upsert |
+| Missing JSON field / schema drift | Contract test and safe quarantine |
+| Mixed timezone timestamps | Correct aware datetime normalization to UTC |
+| NULL, duplicates or outliers | Quality policy with explicit numerator/denominator |
+| Raw dataset missing | Retention/lineage plan and verifiable reproducibility |
+| Crash after partial processing | Atomic transaction and recovery checkpoint |
+| Slow SQL | EXPLAIN, baseline and workload-specific benchmark |
+| Inflated fact table | Correct grain and JOIN cardinality tests |
+| DAG task runs twice | Idempotent execution and concurrency policy |
+| Unbounded backfill | Partition/time range and cost limits |
+| Out-of-order Kafka event | Event time, deduplication and lateness policy |
+| Slow Spark job | Inspect shuffle/spill/skew and collect measurements |
+| Dashboard leaks data | Negative authorization tests and private schemas |
+| Secret committed to Git | Immediate revoke/rotation and safe incident response |
+| Uncontrolled cloud bill | Budget alerts, environment isolation and cleanup |
+| Breaking migration | Versioning, compatible rollout and restore strategy |
+| Data loss / disaster | Verified backup and isolated restore rehearsal |
+| Green tests but wrong KPI | Reconcile expected business counts |
+| Missing observability | Freshness/volume/error SLIs and useful alert thresholds |
 
-**אין לבצע `supabase db reset --remote` במערכת עם מידע חשוב**. לפני פקודות CLI בודקים `supabase --version` ו־`supabase <command> --help`, כי חתימות משתנות. מדריך עדכני: https://supabase.com/docs/guides/local-development/cli-workflows
+Use the [troubleshooting guide](TROUBLESHOOTING.he.md) to investigate specific errors.
 
-## כשמסיימים שלב
+## Deploying a project later (not required to start)
 
-פותחים PR עם: מטרה, סכימה, source + sample, פקודות הרצה, דוגמאות פלט, בדיקות כולל negatives, אבטחה, עלויות, rollback, מה קרה כששברנו את המערכת, ושתי תשובות עצמיות. מבקשים Reviewer. לאחר review מעדכנים `roadmap.py complete` כ**דיווח עצמי**. כדי להציג סטטוס מסונן לחיבור GitHub: `python3 scripts/roadmap.py export-summary`, בודקים את הקובץ ו**רק אז** מחליטים אם לבצע Commit לריפו האישי.
+1. **Local:** fixture-based run, tests, schema and dry-run behavior.
+2. **Isolated dev:** optional owner-approved Supabase training project with cost review.
+3. **Migrations:** versioned SQL and negative permission tests.
+4. **Secure app:** secrets stay server-side; browser has only appropriate public keys and authorized queries.
+5. **Delivery:** a separate runner, bounded retries, checks and no deploy secrets in untrusted PR CI.
+6. **Operations:** real monitoring, rollback, backups, restore rehearsal and explicit budgets.
 
-## למידה מתמשכת ותיק עבודות
+Never use destructive remote reset commands against important data. Check the actual Supabase CLI version and its help output first. See the [deployment checklist](../projects/datapulse/DEPLOYMENT-CHECKLIST.he.md) and [official Supabase guidance](https://supabase.com/docs/guides/local-development/cli-workflows).
 
-אחרי Stage 13 בחרו התמחות אחת: Analytics (dbt/semantic), Streaming (Kafka/Flink), Platform (Iceberg/Delta), AI Data (RAG/embeddings), או Architecture/SRE. לכל הרחבה צריך benchmark, עלות, security review, incident drill ו־case study. התקדמות במסלול אינה תחליף לניסיון צוותי או חובת מעסיק.
+## Stage completion and portfolio
+
+A learner PR should include problem, source/fixture, schema, reproducible commands, expected and actual outputs, positive and negative tests, risks, cost/security limits, rollback approach, a broken-then-repaired test and two independent explanations.
+
+After Stage 13, select one specialization rather than claiming mastery of everything: analytics/dbt, streaming/Kafka, data platform/lakehouse, AI data pipelines or reliability/architecture. Real work experience and qualified review remain distinct from course completion.
