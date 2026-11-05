@@ -1,14 +1,28 @@
-# הסתברות וסטטיסטיקה
+# Computer Science Bridge — Probability, Statistics and Measurement
 
-**למה זה חשוב ב-Data Engineering?** sampling, distributions, anomaly detection, confidence intervals.
+This short unit connects fundamental computer science to practical Data Engineering. It is not a standalone certification; use it alongside the matching stage lab and explain the invariant in your own words.
 
-**שאלת פתיחה:** האם מדגם קטן מייצג את כל האירועים?
+## Core concepts
 
-**ניסוי של 20 דקות:** מדוד השפעת threshold על false alarms.
+Sampling bias, distributions, aggregation grain, missing data, confidence intervals and anomaly detection.
 
-### מבחן מעבר
-1. הסבר את התופעה ללא שימוש ב-AI ובמונחים המדויקים.
-2. תאר מתי היא אינה רלוונטית ובמה היית בוחר במקום.
-3. הראה מדידה או בדיקה מקומית ושמור את הדרך לשחזר אותה.
+## Think before coding
 
-חזור ל-[תוכנית הגישור](../../docs/COMPUTER-SCIENCE-BRIDGES.he.md) ולשלב הפעיל במסלול.
+1. Why can a correct average be misleading when many measurements are NULL?
+2. How can changing the sample population alter a KPI without code changes?
+
+## Hands-on exercise (15–25 minutes)
+
+Build synthetic unbalanced groups and compare overall mean, group means and known-value counts.
+
+Record the expected outcome *before* running the experiment, then keep a minimal red-to-green test and a short note about what the result cannot prove.
+
+## Unseen transfer question
+
+Which additional data do you need before treating a freshness anomaly as a real incident?
+
+## Reference
+
+[Official or technical documentation](https://docs.python.org/3/library/statistics.html) · [Return to curriculum](../modules/00.md)
+
+**Exit criterion:** show a reproducible synthetic example and defend the failure mode without reading the instructor's answer.
