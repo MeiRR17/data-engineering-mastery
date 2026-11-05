@@ -99,6 +99,28 @@ def validate_visual_setup(root: Path = ROOT) -> list[str]:
         except OSError as error:
             failures.append(f"Missing or unreadable installer {installer.name}: {error}")
 
+    required_setup_files = (
+        "scripts/bootstrap-learning.sh",
+        "scripts/bootstrap-learning.ps1",
+        "scripts/verify_learning_environment.py",
+        "notebooks/requirements-vscode.txt",
+    )
+    for name in required_setup_files:
+        if not (root / name).is_file():
+            failures.append(f"Missing real local setup asset: {name}")
+    try:
+        taskfile = json.loads((root / ".vscode" / "tasks.json").read_text(encoding="utf-8"))
+        tasklabels = {task.get("label") for task in taskfile["tasks"]}
+        required = {
+            "Course: Set up and verify this computer",
+            "Course: Run local CI (no installations)",
+            "Course: Full 14-notebook Jupyter integration",
+        }
+        if not required.issubset(tasklabels):
+            failures.append("One-click setup/local CI VS Code tasks are missing")
+    except (OSError, ValueError, KeyError, TypeError):
+        failures.append("VS Code tasks.json cannot be read or parsed")
+
     guide = root / "docs" / "VS-CODE-LEARNING-SETUP.md"
     if not guide.is_file():
         failures.append("Missing visual-learning setup guide")

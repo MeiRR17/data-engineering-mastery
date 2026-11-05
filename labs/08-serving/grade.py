@@ -4,6 +4,7 @@ All HTTP requests are made to an ephemeral loopback server backed by a
 disposable synthetic SQLite fixture. No external network or cloud is used.
 """
 from __future__ import annotations
+from contextlib import closing
 
 from datetime import datetime, timezone
 from http.server import ThreadingHTTPServer
@@ -58,7 +59,7 @@ class Stage08ServingTests(unittest.TestCase):
         return status, headers, json.loads(payload)
 
     def test_demo_fixture_has_good_and_blocked_quality_runs(self):
-        with sqlite3.connect(self.database) as db:
+        with closing(sqlite3.connect(self.database)) as db, db:
             self.assertEqual(db.execute("SELECT count(*) FROM curated_events").fetchone()[0], 4)
             self.assertEqual(db.execute("SELECT count(*) FROM quality_runs").fetchone()[0], 2)
             self.assertEqual(db.execute(
@@ -233,7 +234,7 @@ class Stage08ServingTests(unittest.TestCase):
     def test_empty_curated_table_is_reported_as_empty(self):
         with TemporaryDirectory() as folder:
             dbpath = Path(folder) / "empty.sqlite"
-            with sqlite3.connect(dbpath) as db:
+            with closing(sqlite3.connect(dbpath)) as db, db:
                 load_stage07().ensure_schema(db)
             result = AnalyticsService(dbpath, clock=lambda: FIXED_NOW).overview()
             self.assertEqual(result["freshness_status"], "empty")
