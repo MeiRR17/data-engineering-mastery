@@ -20,13 +20,16 @@ try {
         exit 2
     }
 
+    $pythonArgs = @()
+    if ($python.Count -gt 1) { $pythonArgs = @($python[1]) }
+
     if (-not $VerifyOnly) {
-        & $python[0] @($python[1..($python.Count - 1)]) -c "import sys; sys.exit(0 if sys.version_info >= (3, 11) else 2)"
+        & $python[0] @pythonArgs -c "import sys; sys.exit(0 if sys.version_info >= (3, 11) else 2)"
         if ($LASTEXITCODE -ne 0) { throw "Python 3.11+ is required." }
-        & powershell -NoProfile -File "$root\scripts\install-vscode-extensions.ps1"
+        & powershell -NoProfile -ExecutionPolicy RemoteSigned -File "$root\scripts\install-vscode-extensions.ps1"
         if ($LASTEXITCODE -ne 0) { throw "VS Code extension installation failed." }
         if (-not (Test-Path ".venv\Scripts\python.exe")) {
-            & $python[0] @($python[1..($python.Count - 1)]) -m venv .venv
+            & $python[0] @pythonArgs -m venv .venv
             if ($LASTEXITCODE -ne 0) { throw "Could not create the Python virtual environment." }
         }
         & ".venv\Scripts\python.exe" -m pip install --disable-pip-version-check -r notebooks\requirements-vscode.txt

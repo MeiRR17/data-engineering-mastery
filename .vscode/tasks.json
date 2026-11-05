@@ -13,6 +13,8 @@
         "command": "powershell",
         "args": [
           "-NoProfile",
+          "-ExecutionPolicy",
+          "RemoteSigned",
           "-File",
           "${workspaceFolder}\\scripts\\bootstrap-learning.ps1"
         ]
@@ -36,6 +38,8 @@
         "command": "powershell",
         "args": [
           "-NoProfile",
+          "-ExecutionPolicy",
+          "RemoteSigned",
           "-File",
           "${workspaceFolder}\\scripts\\bootstrap-learning.ps1",
           "-VerifyOnly"
@@ -60,6 +64,8 @@
         "command": "powershell",
         "args": [
           "-NoProfile",
+          "-ExecutionPolicy",
+          "RemoteSigned",
           "-File",
           "${workspaceFolder}\\scripts\\bootstrap-learning.ps1",
           "-Mode",
@@ -83,6 +89,8 @@
         "command": "powershell",
         "args": [
           "-NoProfile",
+          "-ExecutionPolicy",
+          "RemoteSigned",
           "-File",
           "${workspaceFolder}\\scripts\\install-vscode-extensions.ps1"
         ]
