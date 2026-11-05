@@ -41,6 +41,7 @@ jobs:
         run: |
           python3 labs/08-serving/grade.py
           node --check labs/08-serving/web/app.js
+          python3 labs/08-serving/learner/grade.py --reference
 
   postgres-stage04:
     runs-on: ubuntu-latest

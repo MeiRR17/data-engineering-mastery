@@ -24,3 +24,10 @@ class Stage08Assets(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stdout + "\n" + result.stderr)
         self.assertIn("Ran 24 tests", result.stderr)
 
+    def test_region_challenge_reference_grader(self):
+        result = subprocess.run(
+            [sys.executable, str(LAB / "learner/grade.py"), "--reference"],
+            capture_output=True, text=True, timeout=45, cwd=ROOT,
+        )
+        self.assertEqual(result.returncode, 0, result.stdout + "\n" + result.stderr)
+        self.assertIn("Ran 11 tests", result.stderr)
