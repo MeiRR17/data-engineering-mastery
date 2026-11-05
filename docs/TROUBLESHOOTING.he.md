@@ -1,72 +1,80 @@
-# Troubleshooting — ספר אבחון תקלות ללומד
+# Troubleshooting — learn the root cause, not just the workaround
 
-[חזרה ל־README](../README.md). **כלל בסיס:** אל תעתיק פקודה הרסנית מ־AI בלי לקרוא אותה. שמור על מקור המידע ועל סודות. התקדמות טובה כוללת *למה נכשל*, לא רק *מה תקנתי*.
+[Home](../README.md) · [Visual VS Code setup](VS-CODE-LEARNING-SETUP.md)
 
-## קודם כל, פרוטוקול אבחון
+**Rule:** never run a destructive command suggested by AI without reading and understanding it. Protect source data and credentials. A successful fix should include **why the failure happened** and a regression test.
 
-1. רשום **Expected vs Actual** ובאיזה שלב אירע הכשל (Extract / Validate / Transform / Load / Serve).
-2. העתק את הודעת השגיאה **ללא טוקנים, כתובות פרטיות, שמות משתמש או dump של נתונים רגישים**.
-3. בצע Reproduction מינימלי על fixture קטן; אל תרוץ שוב ושוב על Production.
-4. בדוק גרסאות, Config, סכימה, רשת, הרשאות ולוגים. בצע שינוי יחיד בכל ניסיון.
-5. תן לסוכן AI לתאר שלוש השערות, ובחן אותן. בסיום הוסף בדיקה שמונעת רגרסיה.
+## Five-step diagnostic protocol
 
-## תקלות התחלה
+1. Record **Expected vs Actual** and the failing data stage: Extract, Validate, Transform, Load or Serve.
+2. Preserve an error message **without** tokens, personal paths, usernames or confidential payloads.
+3. Reproduce with the smallest synthetic fixture; do not repeatedly experiment on production data.
+4. Check versions, configuration, schema, network, permissions and logs, changing one variable at a time.
+5. Compare multiple hypotheses, establish the root cause, and add a test that prevents recurrence.
 
-| סימפטום | אבחון בטוח | פתרון ראשון |
-|---|---|---|
-| `python3: command not found` | `python --version` או `py -3 --version` | התקנת Python דרך מקור רשמי; Windows לרוב `py -3` |
-| `ModuleNotFoundError` | נתח מסלול import ו־venv | פתח root נכון, הפעל venv והתקן רק dependencies מוסכמות |
-| Git לא מזהה Branch | `git status`, `git branch --show-current` | ודא clone ותיקיית root; אל תמחק `.git` |
-| `roadmap.py init` נכשל | `learner/progress.json` קיים | שמור אותו: השתמש ב־status, לא ב־init חוזר |
-| `No module named datapulse` | `pwd` והגדרת `PYTHONPATH` | השתמש בפקודה המדויקת ב־README |
-| Test נכשל אחרי Windows newline | בדוק encoding/line endings | השתמש ב־UTF-8 ונרמל את ה־fixture |
-| Jupyter לא מציג וידאו | בדוק חסימת iframe / GitHub preview | פתח קישור YouTube רגיל; המשך בתאים גם בלי וידאו |
-| Docker לא עולה | `docker info` ו־RAM פנוי | פתח Docker Desktop/engine; למסלול Light עבור ל־SQLite |
-| `port already allocated` | תהליך אחר מאזין בפורט | בחר פורט אחר; אל תעצור שירות שאינו שלך |
+## Editor and environment problems
 
-## תקלות Data Engineering
+| Symptom | Safe diagnosis | First action |
+| --- | --- | --- |
+| `python3: command not found` | Check `python --version` or `py -3 --version` | Install official Python; Windows often uses `py -3` |
+| `ModuleNotFoundError` | Check cwd, interpreter and virtual environment | Activate the project venv; install documented dependencies only |
+| Wrong Git branch | `git status` and `git branch --show-current` | Check the cloned root; never delete `.git` to fix confusion |
+| `roadmap.py init` fails | `learner/progress.json` already exists | Preserve it and run `status`; initialization is one-time |
+| `No module named datapulse` | Verify repository root and `PYTHONPATH` | Use the exact DataPulse lab command |
+| `.md` shows raw text | VS Code is in the text editor | Press Cmd/Ctrl+Shift+V for Markdown preview |
+| `.ipynb` shows JSON | Wrong editor association | **Reopen Editor With... → Jupyter Notebook** |
+| Notebook cannot run | No kernel selected / missing `ipykernel` | Choose a Python environment and install kernel support |
+| Notebook video is blank | iframe/network disabled | Use the original YouTube link; code exercises still work |
+| Docker will not start | `docker info`, memory availability | Start Docker or use the Light SQLite path |
+| Port already in use | Another process owns the port | Choose an unused port; do not kill someone else's service |
 
-| סימפטום | בדיקה | תיקון/לקח |
-|---|---|---|
-| 429 API | status, Retry-After | backoff מוגבל + caching; לא לולאה אינסופית |
-| Timeout | latency, connect vs read timeout | bounded retries, pagination, circuit breaking אם צריך |
-| Schema drift | diff בין payloads | validation + quarantine + versioned contract |
-| חסרים אירועים | watermark, timestamps, pagination | overlapping window, late arrivals, dedup |
-| כפילויות | unique business key, run ID | upsert עם idempotent semantics |
-| Rows עוברות אף ששגויות | assert business invariants | tests ב־ingest וגם ב־curated |
-| Spurious NULL | inspect parsing and locale | explicit timezone/type handling |
-| SQL לא תואם | inspect join grain and grouping | one-to-many diagnostic query |
-| SQL איטי | EXPLAIN (ANALYZE) על dev ומדידת baseline | index/partition רק לאחר אבחון |
-| שמירה חלקית | run logs, transaction state | transaction + checkpoint + retry safety |
-| Pipeline נתקע ב־DAG | task dependency, worker logs | retries מוגבלים + alert + backfill |
-| Spark OOM | partitions, shuffle spill, RAM | sample+measure; reduce input/concurrency |
-| Kafka replays | offsets, partitions, consumer group | dedup, checkpoint, event semantics |
-| אירוע מגיע מאוחר | event time vs processing time | allowed lateness + correction strategy |
-| Data staleness | source/ingest/processed timestamps | freshness SLI and alert |
+## Data Engineering incidents
 
-## Supabase / GitHub / ענן
+| Symptom | Check | Repair principle |
+| --- | --- | --- |
+| HTTP 429 | `Retry-After` and rate limits | Bounded backoff; no infinite loop |
+| Timeout | Connect/read timeout, latency | Time-bounded retries and pagination |
+| Schema drift | Field/type differences | Versioned contract, validation and quarantine |
+| Missing events | Watermarks, timestamps and pagination | Bounded overlap, dedup and late-correction handling |
+| Duplicates | Business key and run ID | Idempotent upsert |
+| Invalid data reaches curated layer | Business invariants | Assertions at ingest and publishing |
+| Incorrect NULL or date | Parsing, locale and timezone | Explicit type and UTC normalization |
+| Wrong SQL count | JOIN grain and group cardinality | Detect one-to-many fan-out before aggregate |
+| Slow SQL | Query plan on isolated dev data | Baseline before adding indexes/partitions |
+| Partial batch committed | Transactions and checkpoints | Atomic state and replay safety |
+| DAG stalls | Dependencies and worker logs | Bounded retries, alert and scoped backfill |
+| Spark runs out of memory | Shuffle, spill and partition load | Sample, measure and limit concurrency |
+| Kafka replays events | Consumer group offsets | Replay-safe sink, explicit offset policy |
+| Late event changes metric | Event vs processing time | Documented allowed lateness and correction |
+| Stale dashboard | Source vs processed timestamps | Freshness SLI and clear user-visible warning |
 
-| סימפטום | שורש אפשרי | מה בודקים |
-|---|---|---|
-| REST table לא נגישה | GRANT / Data API exposure / RLS | expose schema, GRANT מתאים ו־RLS |
-| `permission denied` | role/policy/column access | test anon/authenticated, לא לבטל RLS כפתרון |
-| View חושפת נתונים | view definer behavior | `security_invoker = true` כשנתמך ו־GRANT מוגבל |
-| Secret מופיע בדפדפן | env prefix או קובץ frontend | revoke + rotate immediately; להעביר לשרת |
-| `supabase` command unknown | CLI version mismatch | `supabase --help`, `supabase db --help`, docs רשמיים |
-| Missing migrations | CLI local/remote out of sync | migration list + review; לא `db reset --remote` |
-| PR CI נכשל | dependency/OS/path/version | reproduce local, inspect exact failing step |
-| PR לא נוצר | missing GitHub tool permissions | בדוק capabilities; manual CLI fallback |
-| Cloud bill rises | jobs/egress/storage | stop authorized job, budget monitoring, cost review |
-| Secrets leaked in repo | tracked `.env` or key | revoke/rotate, scan history, investigate access |
+## Cloud, GitHub and security
 
-## דיווח תקלה יעיל ב־Issue
+| Symptom | Investigate |
+| --- | --- |
+| REST table inaccessible | GRANT, RLS, Data API exposure, session |
+| `permission denied` | Role and row policies; do **not** disable RLS as a workaround |
+| View leaks raw rows | Definer behavior, `security_invoker` and grants |
+| Secret appears in browser | Revoke/rotate immediately and move privileged credentials server-side |
+| Supabase CLI command missing | Inspect installed version and official `--help` |
+| Migration missing | Review migration history; never blindly remote-reset |
+| GitHub CI fails | Reproduce the exact failing job and pinned dependency |
+| No available GitHub write action | Check connector permissions, then use an authorized local workflow |
+| Cloud costs grow | Identify authorized compute/storage/egress and enforce a budget |
+| Secret committed to Git | Rotate, investigate exposure and clean history safely with owner review |
 
-**What I expected:** …  
-**What happened:** …  
-**Smallest reproduce:** …  
-**Versions/system category:** light/moderate/full (לא מפרט מלא)  
-**What I tried:** …  
-**What might break if we change it:** …  
-**Redacted logs and test command:** …
+## Useful issue report template
 
-תהליך האבחון עצמו הוא חלק ממבחן המעבר: אם פתרת בגלל copy/paste, תן לעצמך הזדמנות להסביר מה היה שגוי ולכתוב regression test.
+~~~text
+Expected behavior:
+Observed behavior:
+Failing stage:
+Smallest synthetic reproduction:
+Runtime versions / hardware tier (light/moderate/full only):
+What I already tried:
+Potential side effects of the proposed fix:
+Redacted logs and exact test command:
+Root cause and new regression test:
+~~~
+
+If you copied a fix without understanding it, explain the failure and write an independent test before marking the exercise complete.
