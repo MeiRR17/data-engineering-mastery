@@ -1,7 +1,7 @@
 # Quickstart — zero account, zero cloud cost
 
 1. Use GitHub's **Use this template** for your own learning repository, or download and unpack the source.
-2. Install Python 3.11+, Git and an editor. Cloud and Docker are **optional** for Stage 00.
+2. Install Python 3.11+, Git and Visual Studio Code. Open [the visual editor setup](VS-CODE-LEARNING-SETUP.md) and install the recommended Markdown/Jupyter extensions. Cloud and Docker are **optional** for Stage 00.
 3. From the root run:
 
 ```bash

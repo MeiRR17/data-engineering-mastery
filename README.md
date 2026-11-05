@@ -36,6 +36,13 @@ You can install all four VS Code extensions on macOS/Linux from a terminal in th
 bash scripts/install-vscode-extensions.sh
 ~~~
 
+
+On **Windows**, open PowerShell in the repository and run:
+
+~~~powershell
+powershell -NoProfile -File .\scripts\install-vscode-extensions.ps1
+~~~
+
 The installation is **optional and user-initiated**. The repository cannot install extensions in your local editor without your action.
 
 ## What you will learn
@@ -149,4 +156,3 @@ See [program readiness](docs/PROGRAM-READINESS.he.md), [the maintainers' roadmap
 | Work with GitHub and security-aware coding agents | [Agent guide](prompts/MASTER-AGENT.en.md) |
 
 The course, examples and reference implementations are provided for learning. [Contribute](CONTRIBUTING.md) with original work, safe test fixtures and clear change notes.
-

@@ -19,6 +19,14 @@ To install all four on **macOS/Linux/WSL** from the repository root:
 bash scripts/install-vscode-extensions.sh
 ~~~
 
+For **Windows PowerShell**, run this from the repository root:
+
+~~~powershell
+powershell -NoProfile -File .\scripts\install-vscode-extensions.ps1
+~~~
+
+The Windows helper verifies that the four extensions appear in VS Code's installed list. If PowerShell's execution policy blocks scripts, use the four manual `code --install-extension` commands below or install through **Extensions (Ctrl+Shift+X)**. Do not change a machine-wide execution policy to follow a lesson.
+
 Or install manually on macOS, Linux or Windows when VS Code's `code` CLI is available:
 
 ~~~bash

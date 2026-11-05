@@ -16,6 +16,6 @@ python3 scripts/check_english_content.py
 python3 -m unittest discover -s tests -v
 ~~~
 
-The VS Code extension script is opt-in: it installs **Python**, **Jupyter**, **Markdown All in One** and **Markdown Preview Enhanced** on your computer if you choose to run it. Opening `.md` files in Markdown Preview or `.ipynb` files in the Jupyter Notebook editor makes the lessons visual, with formatted text, diagrams, executable cells and plots.
+On Windows use `powershell -NoProfile -File .\scripts\install-vscode-extensions.ps1` from the repository root. The VS Code extension scripts are opt-in: it installs **Python**, **Jupyter**, **Markdown All in One** and **Markdown Preview Enhanced** on your computer if you choose to run it. Opening `.md` files in Markdown Preview or `.ipynb` files in the Jupyter Notebook editor makes the lessons visual, with formatted text, diagrams, executable cells and plots.
 
 [Assessment](docs/FINAL-ASSESSMENT.he.md) · [Safe GitHub setup](docs/GITHUB-MCP-SETUP.he.md) · [Security policy](SECURITY.md).
