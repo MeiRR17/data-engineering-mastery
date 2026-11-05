@@ -34,6 +34,9 @@ jobs:
       - name: Stage 06 orchestration grader (reference)
         run: python3 labs/06-orchestration/grade.py --reference
 
+      - name: Stage 07 quality reference grader (27 tests)
+        run: python3 labs/07-quality/grade.py --reference
+
   postgres-stage04:
     runs-on: ubuntu-latest
     timeout-minutes: 12
