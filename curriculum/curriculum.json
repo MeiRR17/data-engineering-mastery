@@ -1,186 +1,172 @@
 {
   "schema_version": "1.0.0",
   "title": "Data Engineering Mastery",
-  "language": "he",
+  "language": "en",
   "modules": [
     {
       "id": "00",
       "slug": "foundation-and-setup",
-      "title": "Foundation & Setup",
-      "title_he": "הקמה ואבחון",
+      "title": "Foundation and setup",
       "track": "Foundation",
       "prerequisites": [],
-      "deliverable": "חבילת אבחון, סביבת פיתוח ועץ החלטות אישי",
-      "exit_criteria": "מפעיל בדיקות מקומיות, יודע להסביר את מסלול הנתון ומציג צילום/פלט מאומת של סביבה מוכנה",
+      "deliverable": "Readiness report, development environment and a safe learning plan",
+      "exit_criteria": "Run local tests, explain the data flow and provide sanitized setup evidence",
       "module": "curriculum/modules/00.md"
     },
     {
       "id": "01",
       "slug": "sql-and-postgresql",
-      "title": "SQL & PostgreSQL",
-      "title_he": "SQL, טרנזקציות וביצועים",
+      "title": "SQL, transactions and performance",
       "track": "Foundation",
       "prerequisites": [
         "00"
       ],
-      "deliverable": "שאילתות על נתוני אירועי רעידות אדמה עם explain plans",
-      "exit_criteria": "5 שאילתות תקינות + 2 תוכניות ביצוע מנומקות + בדיקות מפתח/ייחודיות",
+      "deliverable": "SQL event queries and explained execution plans",
+      "exit_criteria": "Five correct queries, two justified plans and uniqueness checks",
       "module": "curriculum/modules/01.md"
     },
     {
       "id": "02",
       "slug": "python-data-foundations",
-      "title": "Python Data Foundations",
-      "title_he": "Python לעיבוד מידע",
+      "title": "Python data foundations",
       "track": "Foundation",
       "prerequisites": [
         "01"
       ],
-      "deliverable": "מודול parse/normalize עם בדיקות יחידה",
-      "exit_criteria": "קורא את קובץ הדוגמה, פוסל רשומות שגויות ומריץ suite ירוק",
+      "deliverable": "Parse/normalize module with unit tests",
+      "exit_criteria": "Read synthetic input, reject malformed records and pass the test suite",
       "module": "curriculum/modules/02.md"
     },
     {
       "id": "03",
       "slug": "batch-etl-and-incremental-loads",
-      "title": "Batch ETL & Incremental Loads",
-      "title_he": "ETL וטיפול בנתונים חוזרים",
+      "title": "Incremental batch ETL",
       "track": "Core",
       "prerequisites": [
         "02"
       ],
-      "deliverable": "Pipeline SQLite קטן שמשכפל להרצות בלי להכפיל רשומות",
-      "exit_criteria": "בדיקת טעינה כפולה, עדכון event חדש ו-error quarantine",
+      "deliverable": "A replay-safe local SQLite ETL pipeline",
+      "exit_criteria": "Verify duplicate loads, late updates and safe error quarantine",
       "module": "curriculum/modules/03.md"
     },
     {
       "id": "04",
       "slug": "supabase-and-postgres-cloud",
-      "title": "Supabase & Postgres Cloud",
-      "title_he": "Supabase בענן",
+      "title": "PostgreSQL access and RLS",
       "track": "Core",
       "prerequisites": [
         "03"
       ],
-      "deliverable": "Supabase project נפרד עם סכמת raw+curated",
-      "exit_criteria": "migration מקומית עוברת; auth/anon אינם יכולים לכתוב; query לקריאה עובד",
+      "deliverable": "Disposable PostgreSQL migration and safe role separation",
+      "exit_criteria": "Local migrations and negative RLS tests pass; cloud deployment is optional and separately authorized",
       "module": "curriculum/modules/04.md"
     },
     {
       "id": "05",
       "slug": "modeling-and-warehouse",
-      "title": "Modeling & Warehouse",
-      "title_he": "מידול אנליטי",
+      "title": "Dimensional modeling and dbt",
       "track": "Core",
       "prerequisites": [
         "04"
       ],
-      "deliverable": "analytics mart עם עובדות, ממדים ו-daily rollups",
-      "exit_criteria": "גרעיניות ו-SCD מתועדים; שאילתות תואמות אקספקטציות",
+      "deliverable": "A tested fact/dimension mart with SCD2 and daily metrics",
+      "exit_criteria": "Explain grain and temporal joins; pass modeled metric reconciliations",
       "module": "curriculum/modules/05.md"
     },
     {
       "id": "06",
       "slug": "orchestration-and-scheduling",
-      "title": "Orchestration & Scheduling",
-      "title_he": "תזמור ובקרה",
+      "title": "Pipeline orchestration",
       "track": "Core",
       "prerequisites": [
         "05"
       ],
-      "deliverable": "DAG אוטומטי להפעלת pipeline",
-      "exit_criteria": "הרצה ידנית, חוזרת וכושלת מבוקרת עם לוגים",
+      "deliverable": "Durable DAG/retry/backfill orchestration exercise",
+      "exit_criteria": "Demonstrate bounded retries, checkpoints and crash-safe recovery",
       "module": "curriculum/modules/06.md"
     },
     {
       "id": "07",
       "slug": "data-quality,-contracts-and-lineage",
-      "title": "Data Quality, Contracts & Lineage",
-      "title_he": "איכות, חוזים ומקור",
+      "title": "Data contracts and lineage",
       "track": "Core",
       "prerequisites": [
         "06"
       ],
-      "deliverable": "quality gates + data contract ו-lineage map",
-      "exit_criteria": "קלט פגום נחסם, דוח quality מפורש ומקור נתון ניתן למעקב",
+      "deliverable": "Quality gates, versioned contract and traceable lineage",
+      "exit_criteria": "Block invalid data without exposing payload and provide a clear quality audit",
       "module": "curriculum/modules/07.md"
     },
     {
       "id": "08",
       "slug": "analytics-serving-and-dashboards",
-      "title": "Analytics Serving & Dashboards",
-      "title_he": "הצגת מידע ואנליטיקה",
+      "title": "Read-only analytics serving",
       "track": "Core",
       "prerequisites": [
         "07"
       ],
-      "deliverable": "Dashboard מקור נתונים בטוח + data API",
-      "exit_criteria": "דשבורד עובד ללא secret in browser, לא נגיש write אנונימי",
+      "deliverable": "Safe data API and quality-aware dashboard",
+      "exit_criteria": "Read-only UI works without secrets or anonymous writes",
       "module": "curriculum/modules/08.md"
     },
     {
       "id": "09",
       "slug": "cloud-delivery-and-ci-cd",
-      "title": "Cloud Delivery & CI/CD",
-      "title_he": "פריסה ו-DevOps",
+      "title": "Release engineering and CI/CD",
       "track": "Advanced",
       "prerequisites": [
         "08"
       ],
-      "deliverable": "Pipeline שנבדק ב-PR ונפרס ידנית עם Rollback",
-      "exit_criteria": "כל בדיקות CI עוברות, שחזור מתועד, אין secrets בקוד",
+      "deliverable": "Versioned release with integrity checks and simulated rollback",
+      "exit_criteria": "CI passes and a verified recovery path exists without exposing credentials",
       "module": "curriculum/modules/09.md"
     },
     {
       "id": "10",
       "slug": "big-data-and-spark",
-      "title": "Big Data & Spark",
-      "title_he": "עיבוד מבוזר",
+      "title": "Big Data and Spark",
       "track": "Advanced",
       "prerequisites": [
         "09"
       ],
-      "deliverable": "Batch אנליטי ב-PySpark עם בדיקות ביצועים",
-      "exit_criteria": "מדידות wall time+resources וניתוח tradeoffs",
+      "deliverable": "Local PySpark data transformation with correctness and partition-skew tests",
+      "exit_criteria": "Explain measured workload and resource tradeoffs without unsupported scale claims",
       "module": "curriculum/modules/10.md"
     },
     {
       "id": "11",
       "slug": "streaming-and-kafka",
-      "title": "Streaming & Kafka",
-      "title_he": "מידע בזמן אמת",
+      "title": "Streaming and Kafka",
       "track": "Advanced",
       "prerequisites": [
         "10"
       ],
-      "deliverable": "Streaming simulation ותיעוד semantic guarantees",
-      "exit_criteria": "בדיקות duplicate/out-of-order/restart עוברות",
+      "deliverable": "Transactional stream exercise plus real local Kafka broker integration",
+      "exit_criteria": "Pass duplicate, out-of-order, restart and broker offset checks",
       "module": "curriculum/modules/11.md"
     },
     {
       "id": "12",
       "slug": "production-reliability-and-governance",
-      "title": "Production Reliability & Governance",
-      "title_he": "תפעול ואבטחה",
+      "title": "Reliability and governance",
       "track": "Advanced",
       "prerequisites": [
         "11"
       ],
-      "deliverable": "מערכת עם incident drill ובדיקת שחזור",
-      "exit_criteria": "SLO+alert ברור, restore smoke test, הרשאות מינימליות",
+      "deliverable": "SLO report, incident drill and verified backup/restore",
+      "exit_criteria": "Explain SLO, recovery verification and least-privilege rules",
       "module": "curriculum/modules/12.md"
     },
     {
       "id": "13",
       "slug": "capstone,-interview-and-career",
-      "title": "Capstone, Interview & Career",
-      "title_he": "פרויקט גמר ותעסוקה",
+      "title": "Capstone and portfolio review",
       "track": "Portfolio",
       "prerequisites": [
         "12"
       ],
-      "deliverable": "Capstone נפרס ו-portfolio case study",
-      "exit_criteria": "PR/CI/מסמך ADR, demo, בדיקות איכות, ראיון mock ו-proof of work",
+      "deliverable": "Integrated DataPulse capstone and evidence-based portfolio",
+      "exit_criteria": "Present reproducible PR/CI/ADR, quality tests, recovery demo and an independent interview",
       "module": "curriculum/modules/13.md"
     }
   ]

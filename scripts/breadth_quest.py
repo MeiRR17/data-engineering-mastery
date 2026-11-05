@@ -10,7 +10,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 QUEST_PATH = ROOT / "curriculum" / "breadth-quests.json"
 STAGES = {f"{index:02d}" for index in range(14)}
-REQUIRED = {"id", "domain", "title_he", "stages", "minutes", "question",
+REQUIRED = {"id", "domain", "title", "stages", "minutes", "question",
             "experiment", "evidence", "transfer", "requirements"}
 
 def load_quests(path=QUEST_PATH):
@@ -44,13 +44,13 @@ def validate_quests(quests):
 
 def show(quest):
     for field, label in [
-        ("title_he", "אתגר"), ("domain", "תחום"),
-        ("question", "שאלת חקר"), ("experiment", "ניסוי"),
-        ("evidence", "הוכחה"), ("transfer", "מבחן העברה"),
-        ("requirements", "משאבים"),
+        ("title", "Challenge"), ("domain", "Domain"),
+        ("question", "Research question"), ("experiment", "Experiment"),
+        ("evidence", "Evidence"), ("transfer", "Transfer challenge"),
+        ("requirements", "Requirements"),
     ]:
         print(f"{label}: {quest[field]}")
-    print(f"Stage: {', '.join(quest['stages'])} | דקות: {quest['minutes']}")
+    print(f"Stage: {', '.join(quest['stages'])} | minutes: {quest['minutes']}")
 
 def main():
     parser = argparse.ArgumentParser(description="Offline breadth-quest explorer")
@@ -73,13 +73,13 @@ def main():
         print(f"OK: {len(quests)} quests cover {len(STAGES)} stages.")
     elif args.command == "list":
         for quest in quests:
-            print(f"{quest['id']} ({'/'.join(quest['stages'])}) {quest['title_he']}")
+            print(f"{quest['id']} ({'/'.join(quest['stages'])}) {quest['title']}")
     elif args.command == "recommend":
         if args.limit < 1:
             parser.error("--limit must be positive")
         candidates = [q for q in quests if args.stage in q["stages"]]
         for quest in candidates[:args.limit]:
-            print(f"{quest['id']}: {quest['title_he']} — {quest['minutes']} דקות")
+            print(f"{quest['id']}: {quest['title']} — {quest['minutes']} minutes")
     else:
         matching = next((q for q in quests if q["id"] == args.id), None)
         if matching is None:

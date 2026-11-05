@@ -5,173 +5,173 @@
     {
       "id": "Q01",
       "domain": "systems",
-      "title_he": "מה המחשב שלי באמת מסוגל להריץ?",
       "stages": [
         "00"
       ],
       "minutes": 35,
-      "question": "למה תהליך Python צורך זיכרון גם כשקובץ הנתונים קטן?",
-      "experiment": "הפעל באופן מקומי סקריפט שמייצר מערך קטן וגדול ומדוד זמן וזיכרון; השווה לקריאה במנות. אל תשתף פרטים מזהים או פלט מלא של המחשב.",
-      "evidence": "מדידה לפני/אחרי בטבלה והסבר מתי לבחור streaming",
-      "transfer": "כיצד תעבד קובץ הגדול מ-RAM?",
-      "requirements": "Python בלבד, ללא ענן"
+      "question": "Why does Python use memory even when the source file is small?",
+      "experiment": "Generate a small and a large synthetic in-memory dataset; compare latency and memory with bounded chunked reading. Do not collect device identifiers.",
+      "evidence": "A before/after measurement table and an explanation of when to stream.",
+      "transfer": "How would you process a file that is larger than RAM?",
+      "requirements": "Local Python only; no cloud service",
+      "title": "What can my computer safely run?"
     },
     {
       "id": "Q02",
       "domain": "algorithms",
-      "title_he": "מדוע אינדקס יכול להיות איטי יותר מסריקה?",
       "stages": [
         "01"
       ],
       "minutes": 40,
-      "question": "מתי חיפוש בינארי מועיל ומתי העלות של אינדקס לא משתלמת?",
-      "experiment": "צור SQLite עם 10000 רשומות דוגמה, הרץ EXPLAIN QUERY PLAN לשאילתה לפני ואחרי CREATE INDEX והשווה זמנים.",
-      "evidence": "שאילתות, תוכניות ביצוע והסבר cardinality",
-      "transfer": "מה משתנה כשמסננים 90% מהשורות?",
-      "requirements": "Python sqlite3 מובנה"
+      "question": "When does binary search help, and when does index maintenance cost more than it saves?",
+      "experiment": "Generate 10,000 synthetic SQLite rows. Compare EXPLAIN QUERY PLAN and timings before and after CREATE INDEX.",
+      "evidence": "Queries, execution plans and an explanation of selectivity and cardinality.",
+      "transfer": "What changes if the filter selects 90% of the rows?",
+      "requirements": "Built-in Python sqlite3",
+      "title": "When is an index slower than a table scan?"
     },
     {
       "id": "Q03",
       "domain": "engineering",
-      "title_he": "איך יודעים שבאג באמת נפתר?",
       "stages": [
         "02"
       ],
       "minutes": 35,
-      "question": "מדוע קוד שעובד על דוגמה אחת עדיין עלול להיכשל?",
-      "experiment": "כתוב parser ל-JSON עם 3 קלטים פגומים, כתוב בדיקות שמכשילות אותו לפני התיקון, ולאחר מכן תקן.",
-      "evidence": "פלט בדיקה אדומה ולאחר מכן ירוקה, עם הסבר ל-root cause",
-      "transfer": "מהו קלט חדש שהבדיקות לא כיסו?",
-      "requirements": "Python unittest"
+      "question": "Why might code pass one example but fail on real inputs?",
+      "experiment": "Write a JSON parser with three malformed inputs. Write tests that fail first, then repair the parser.",
+      "evidence": "Red and green test output with a short root-cause analysis.",
+      "transfer": "Which new input might the tests still miss?",
+      "requirements": "Python unittest only",
+      "title": "How do you prove a bug is really fixed?"
     },
     {
       "id": "Q04",
       "domain": "networking",
-      "title_he": "מה קורה כשה-API מפסיק לענות?",
       "stages": [
         "03"
       ],
       "minutes": 40,
-      "question": "למה retry ללא גבול עלול להפיל שירות?",
-      "experiment": "בנה שרת HTTP מקומי או Mock שמחזיר 429, 500 ו-timeout; נסה retry עם גבול ו-backoff.",
-      "evidence": "בדיקות מספר ניסיונות, זמן מקסימלי ומניעת כפילויות",
-      "transfer": "כיצד תבחין בין כשל זמני לבין תגובה קבועה של 400?",
-      "requirements": "Python ו-Mock מקומי"
+      "question": "Why can unlimited retries overload a service?",
+      "experiment": "Use a local HTTP mock that returns 429, 500 and timeouts. Implement bounded retries and backoff.",
+      "evidence": "Attempt-count and maximum-delay tests proving no duplicate effects.",
+      "transfer": "How does a temporary failure differ from a permanent HTTP 400?",
+      "requirements": "Python and a local mock; no external network",
+      "title": "What if the API stops responding?"
     },
     {
       "id": "Q05",
       "domain": "security",
-      "title_he": "מפתח ציבורי אינו הרשאת כתיבה",
       "stages": [
         "04"
       ],
       "minutes": 35,
-      "question": "למה Auth ו-Authorization אינם אותו דבר?",
-      "experiment": "שרטט מטריצת read/write לפי anon/authenticated/service; הכן בדיקות שליליות על מסד בדיקה מבודד, בלי לשתף מפתחות.",
-      "evidence": "מטריצת הרשאות, בדיקות חסימה והסבר RLS+GRANT",
-      "transfer": "איזו בדיקה מגלה דליפה של שורות בין משתמשים?",
-      "requirements": "טבלת דמו או ניתוח סטטי; ענן אופציונלי"
+      "question": "How do authentication and authorization differ?",
+      "experiment": "Draft a read/write matrix for anon, authenticated and service roles. Test negative permissions using an isolated database, never real secrets.",
+      "evidence": "A permissions matrix, denial tests and an explanation of RLS vs GRANT.",
+      "transfer": "Which negative test reveals cross-user row leakage?",
+      "requirements": "Local demo; cloud optional with explicit approval",
+      "title": "A public key is not write authorization"
     },
     {
       "id": "Q06",
       "domain": "statistics",
-      "title_he": "למה מדד נכון מתמטי יכול להטעות?",
       "stages": [
         "05",
         "07"
       ],
       "minutes": 40,
-      "question": "כיצד missing values ו-selection bias משנים את התוצאה?",
-      "experiment": "צור dataset סינתטי עם קבוצות לא מאוזנות וחסרים; השווה ממוצע כולל לממוצעים לפי קבוצה.",
-      "evidence": "טבלת השוואה והסבר של אוכלוסייה, יחידות ומכנה",
-      "transfer": "כיצד תבדוק ש-Dashboard לא משנה משמעות אחרי סינון?",
-      "requirements": "Python statistics בלבד"
+      "question": "How do missing values and selection bias change a result?",
+      "experiment": "Generate synthetic unbalanced groups with NULLs; compare group averages and overall averages.",
+      "evidence": "A comparison table with a documented population, units and denominator.",
+      "transfer": "How can you prove a dashboard filter does not change metric meaning?",
+      "requirements": "Python statistics only",
+      "title": "How can a mathematically correct KPI mislead?"
     },
     {
       "id": "Q07",
       "domain": "computer-science",
-      "title_he": "למה DAG אינו יכול להכיל מעגל?",
       "stages": [
         "06"
       ],
       "minutes": 35,
-      "question": "מדוע תזמור משימות הוא בעיה בתורת הגרפים?",
-      "experiment": "בנה DAG קטן כ-dict, בצע topological sort והוסף cycle מכוון.",
-      "evidence": "סדר ריצה תקין, זיהוי cycle והסבר תלות",
-      "transfer": "מה תעשה כשהשלב האחרון נכשל ויש לבצע רק את התלויים בו?",
-      "requirements": "Python סטנדרטי בלבד, ללא רשת או שירות ענן"
+      "question": "Why is workflow scheduling also a graph-theory problem?",
+      "experiment": "Represent a small DAG as a dictionary, topologically sort it and inject a cycle.",
+      "evidence": "A correct execution order, cycle rejection and a dependency explanation.",
+      "transfer": "What should run again when only the final task fails?",
+      "requirements": "Python standard library; no cloud",
+      "title": "Why must a DAG be acyclic?"
     },
     {
       "id": "Q08",
       "domain": "governance",
-      "title_he": "האם מותר לפרסם את הנתונים האלה?",
       "stages": [
         "07",
         "12"
       ],
       "minutes": 35,
-      "question": "מה ההבדל בין נתון ציבורי, נתון מותר לשימוש ומידע אישי?",
-      "experiment": "בנה Data Inventory לדוגמאות סינתטיות: מקור, רישיון, רגישות, retention, גישה והסרת נתונים.",
-      "evidence": "טבלת provenance ומדיניות גישה קצרה, ללא נתוני אדם אמיתיים",
-      "transfer": "כיצד תטפל בבקשת מחיקה כשיש גיבויים וגרסאות?",
-      "requirements": "מסמך מקומי בלבד"
+      "question": "How do public, licensed and personal data differ?",
+      "experiment": "Create a synthetic data inventory covering source, license, sensitivity, retention, access and deletion.",
+      "evidence": "A provenance table and a minimal access policy with no real personal information.",
+      "transfer": "What happens to a deletion request when backups and snapshots exist?",
+      "requirements": "Local document only",
+      "title": "Can these data legally be shared?"
     },
     {
       "id": "Q09",
       "domain": "product",
-      "title_he": "למה ה-Dashboard אינו עונה לשאלה של המשתמש?",
       "stages": [
         "08"
       ],
       "minutes": 40,
-      "question": "איך מגדירים metric כך ששני אנשים יקבלו אותה תשובה?",
-      "experiment": "נסח user story, הגדר grain ומכנה למדד אחד וצור בדיקת SQL שמגלה fan-out.",
-      "evidence": "Metric contract, שאילתה ודוגמת פלט",
-      "transfer": "מה משתנה במדד כאשר יש מידע מאוחר?",
-      "requirements": "SQLite מקומי"
+      "question": "How do you define a KPI so two people get the same answer?",
+      "experiment": "Write a user story, define fact grain and KPI denominator, and construct a SQL test that detects JOIN fan-out.",
+      "evidence": "A metric contract, query and reproducible result.",
+      "transfer": "What changes when late source data arrives?",
+      "requirements": "Local SQLite",
+      "title": "Why doesn't the dashboard answer the user's question?"
     },
     {
       "id": "Q10",
       "domain": "cloud-finops",
-      "title_he": "כמה עולה להריץ Pipeline?",
       "stages": [
         "09"
       ],
       "minutes": 35,
-      "question": "למה פתרון מהיר אינו בהכרח זול או אמין?",
-      "experiment": "השווה על הנייר שתי חלופות: הרצה מתוזמנת קטנה מול שירות שרץ תמיד; חשב זמן CPU/אחסון/תעבורה בהנחות מפורשות.",
-      "evidence": "טבלת הנחות, עלות יחסית, סיכונים וללא חיוב אמיתי",
-      "transfer": "מתי caching מצדיק את עלותו?",
-      "requirements": "ללא חשבון ענן"
+      "question": "Why can the fastest design be expensive or unreliable?",
+      "experiment": "Compare a scheduled small job against an always-on service; estimate CPU, storage and bandwidth with explicit assumptions.",
+      "evidence": "A cost-assumption table, relative costs and risks with no real billing.",
+      "transfer": "When does caching justify its cost?",
+      "requirements": "No cloud account",
+      "title": "How much does a pipeline cost?"
     },
     {
       "id": "Q11",
       "domain": "distributed-systems",
-      "title_he": "איך כפילות נוצרת גם עם קוד תקין?",
       "stages": [
         "10",
         "11"
       ],
       "minutes": 45,
-      "question": "מה ההבדל בין at-least-once, at-most-once ו-exactly-once?",
-      "experiment": "סמלץ consumer שמתרסק אחרי כתיבה ולפני acknowledgment; בצע replay ובדוק idempotency key.",
-      "evidence": "בדיקה שמדגימה כפילות לפני תיקון ומניעתה אחרי תיקון",
-      "transfer": "איך מטפלים באירועים שמגיעים מחוץ לסדר?",
-      "requirements": "Python/SQLite; Kafka לא נדרש"
+      "question": "What do at-most-once, at-least-once and exactly-once actually guarantee?",
+      "experiment": "Simulate a consumer crashing after a write but before an acknowledgement, then replay with an idempotency key.",
+      "evidence": "An initial failing duplicate test followed by a repaired passing test.",
+      "transfer": "How should out-of-order events be handled?",
+      "requirements": "Python/SQLite; Kafka not required",
+      "title": "How do duplicates arise in correct-looking code?"
     },
     {
       "id": "Q12",
       "domain": "ai-and-communication",
-      "title_he": "האם אפשר לסמוך על תשובה מבוססת נתונים?",
       "stages": [
         "13"
       ],
       "minutes": 45,
-      "question": "מה ההבדל בין תשובה משכנעת לבין תשובה שניתנת לאימות?",
-      "experiment": "קח שלוש טענות על נתונים סינתטיים, צרף שאילתת מקור, מדוד נכונות והצג case study קצר עם מגבלות.",
-      "evidence": "דו״ח מקור, בדיקות, נימוק החלטות ושקף אחד",
-      "transfer": "כיצד תזהה סיכום AI שממציא מספר שלא מופיע במקור?",
-      "requirements": "SQL ומסמך; AI אופציונלי"
+      "question": "What separates a persuasive claim from a reproducible one?",
+      "experiment": "Take three synthetic-data claims, attach source queries and tests, and present limitations in a short case study.",
+      "evidence": "A sourced report, tests, design reasoning and one clear slide.",
+      "transfer": "How can you detect an AI summary that invents a number?",
+      "requirements": "SQL and a document; AI optional",
+      "title": "Can you verify a data-driven answer?"
     }
   ]
 }
