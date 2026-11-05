@@ -1,0 +1,16 @@
+{"event_id":"evt-A","observed_at":"2026-01-01T10:00:00Z","source_updated_at":"2026-01-01T10:10:00Z","region_code":"N","magnitude":1.5}
+{"event_id":"evt-B","observed_at":"2026-01-01T11:00:00Z","source_updated_at":"2026-01-01T11:10:00Z","region_code":"E","magnitude":4.1}
+{"event_id":"evt-C","observed_at":"2026-01-02T08:00:00Z","source_updated_at":"2026-01-02T08:10:00Z","region_code":"E","magnitude":5.7}
+{"event_id":"evt-D","observed_at":"2026-01-02T09:00:00Z","source_updated_at":"2026-01-02T09:10:00Z","region_code":"W","magnitude":null}
+{"event_id":"evt-B","observed_at":"2026-01-01T11:00:00Z","source_updated_at":"2026-01-01T11:05:00Z","region_code":"E","magnitude":9}
+{"event_id":"evt-B","observed_at":"2026-01-01T11:00:00Z","source_updated_at":"2026-01-03T11:00:00Z","region_code":"E","magnitude":4.4}
+{"event_id":"evt-E","observed_at":"2026-01-02T16:30:00+02:00","source_updated_at":"2026-01-02T16:31:00+02:00","region_code":"N","magnitude":2.2}
+{"event_id":"evt-F","observed_at":"2026-01-03T01:20:00+03:00","source_updated_at":"2026-01-03T01:30:00+03:00","region_code":"W","magnitude":0.6}
+{"event_id":"evt-G","observed_at":"2026-01-02T00:30:00+02:00","source_updated_at":"2026-01-02T00:40:00+02:00","region_code":"N","magnitude":3}
+{"event_id":"evt-A","observed_at":"2026-01-01T10:00:00Z","source_updated_at":"2026-01-01T10:10:00Z","region_code":"N","magnitude":1.5}
+{"event_id":"evt-L","observed_at":"2026-01-01T12:00:00Z","source_updated_at":"2026-01-01T12:10:00Z","region_code":"E","magnitude":null}
+{"event_id":"evt-M","observed_at":"2026-01-03T00:00:00Z","source_updated_at":"2026-01-03T00:10:00Z","region_code":"S","magnitude":null}
+{"observed_at":"2026-01-02T10:00:00Z","source_updated_at":"2026-01-02T10:01:00Z","region_code":"E","magnitude":2}
+{"event_id":"evt-I","observed_at":"2026-01-02T10:00:00Z","source_updated_at":"2026-01-02T10:01:00Z","region_code":"E","magnitude":15}
+{"event_id":"evt-J","observed_at":"2026-01-02T10:00:00","source_updated_at":"2026-01-02T10:01:00Z","region_code":"E","magnitude":1}
+{"event_id":"evt-K","observed_at":"2026-01-02T10:00:00Z","source_updated_at":"2026-01-02T10:01:00Z","region_code":"east","magnitude":1}
