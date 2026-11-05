@@ -1,8 +1,8 @@
 "use strict";
 
 const $ = (id) => document.getElementById(id);
-const number = new Intl.NumberFormat("he-IL");
-const decimal = new Intl.NumberFormat("he-IL", { maximumFractionDigits: 1 });
+const number = new Intl.NumberFormat("en-US");
+const decimal = new Intl.NumberFormat("en-US", { maximumFractionDigits: 1 });
 let recentEvents = [];
 
 async function config() {
@@ -44,7 +44,7 @@ function renderRows(filterText = "") {
     const row = document.createElement("tr");
     const cell = document.createElement("td");
     cell.colSpan = 4;
-    cell.textContent = "לא נמצאו אירועים להצגה";
+    cell.textContent = "No events to display";
     row.appendChild(cell);
     root.appendChild(row);
     return;
@@ -79,12 +79,12 @@ function renderChart(days) {
     item.append(label, bar, date);
     root.appendChild(item);
   }
-  if (!ordered.length) root.textContent = "עדיין לא נטענו נתונים.";
+  if (!ordered.length) root.textContent = "No data has been loaded yet.";
 }
 
 async function refresh() {
   $("refresh").disabled = true;
-  setStatus("מסנכרן נתונים…", "");
+  setStatus("Synchronizing data…", "");
   try {
     const isDemo = new URLSearchParams(window.location.search).get("demo") === "1";
     let days, events;
@@ -94,7 +94,7 @@ async function refresh() {
       const demo = await response.json();
       days = demo.daily_stats;
       events = demo.earthquakes;
-      document.querySelector(".source-label").textContent = "נתונים סינתטיים · DEMO";
+      document.querySelector(".source-label").textContent = "Synthetic data · DEMO";
     } else {
       const cfg = await config();
       [days, events] = await Promise.all([
@@ -114,10 +114,10 @@ async function refresh() {
     recentEvents = events;
     renderRows($("filter").value);
     renderChart(days);
-    setStatus(isDemo ? "מצב הדגמה — נתונים סינתטיים בלבד" : `נתוני הדשבורד נטענו · ${new Date().toLocaleTimeString("he-IL")}`, "ok");
+    setStatus(isDemo ? "Demo mode — synthetic data only" : `Dashboard updated · ${new Date().toLocaleTimeString("en-US")}`, "ok");
   } catch (error) {
     console.error(error);
-    setStatus(`שגיאה: ${error.message}`, "error");
+    setStatus(`Error: ${error.message}`, "error");
     $("rows").replaceChildren();
   } finally {
     $("refresh").disabled = false;

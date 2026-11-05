@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="he" dir="rtl">
+<html lang="en" dir="ltr">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="DataPulse — פרויקט Data Engineering מעשי עם USGS, Python ו-Supabase" />
+    <meta name="description" content="DataPulse — practical Data Engineering with USGS, Python and Supabase" />
     <title>DataPulse | Global Seismic Data</title>
     <link rel="stylesheet" href="./styles.css" />
     <script defer src="./config.local.js"></script>
@@ -13,35 +13,35 @@
     <div class="shell">
       <header class="topbar">
         <div class="brand"><div class="brand-icon">◈</div><div><strong>DataPulse</strong><small>GLOBAL SEISMIC DATA · SUPABASE</small></div></div>
-        <div class="actions"><span class="source-label">מקור: USGS</span><button id="refresh" type="button">↻ רענן נתונים</button></div>
+        <div class="actions"><span class="source-label">Source: USGS</span><button id="refresh" type="button">↻ Refresh data</button></div>
       </header>
       <main>
         <section class="intro">
           <div class="eyebrow">DATA ENGINEERING · LIVE ANALYTICS</div>
-          <h1>מה קורה מתחת לפני השטח?</h1>
-          <p>מידע על פעילות סייסמית בעולם. נתונים שנאספים אוטומטית, עוברים בדיקות איכות ונשמרים ב־Supabase PostgreSQL.</p>
-          <div class="status"><span id="dot" class="dot"></span><span id="status" role="status" aria-live="polite">טוען נתונים…</span></div>
+          <h1>What's happening beneath the surface?</h1>
+          <p>Explore global seismic activity through a learning pipeline that collects, validates and stores event data in PostgreSQL. Enable demo mode to use synthetic data without credentials.</p>
+          <div class="status"><span id="dot" class="dot"></span><span id="status" role="status" aria-live="polite">Loading data…</span></div>
         </section>
-        <section class="kpis" aria-label="מדדים מרכזיים">
-          <article class="metric"><span>אירועים ב־14 הימים המוצגים</span><strong id="event-count">—</strong><small>בהתאם לימי הנתונים הזמינים</small></article>
-          <article class="metric"><span>עוצמה מרבית</span><strong id="max-mag">—</strong><small>Magnitude</small></article>
-          <article class="metric"><span>ממוצע עוצמה</span><strong id="avg-mag">—</strong><small>באירועים עם עוצמה מדווחת</small></article>
-          <article class="metric"><span>רשומה אחרונה</span><strong id="last-event">—</strong><small>שעון UTC</small></article>
+        <section class="kpis" aria-label="Key metrics">
+          <article class="metric"><span>Events across 14 displayed dates</span><strong id="event-count">—</strong><small>Based on available daily records</small></article>
+          <article class="metric"><span>Maximum magnitude</span><strong id="max-mag">—</strong><small>Magnitude</small></article>
+          <article class="metric"><span>Average magnitude</span><strong id="avg-mag">—</strong><small>Only events with a known magnitude</small></article>
+          <article class="metric"><span>Latest record</span><strong id="last-event">—</strong><small>UTC time</small></article>
         </section>
         <section class="panels">
-          <article class="panel chart-panel"><div class="panel-head"><div><div class="eyebrow">TIME SERIES</div><h2>מספר אירועים לפי יום</h2></div><span class="subtle">UTC</span></div><div id="chart" class="bar-chart" aria-label="גרף אירועים לפי יום"></div></article>
-          <article class="panel about-panel"><div class="panel-head"><div><div class="eyebrow">THE PIPELINE</div><h2>איך המידע מגיע לכאן?</h2></div></div>
+          <article class="panel chart-panel"><div class="panel-head"><div><div class="eyebrow">TIME SERIES</div><h2>Event count by day</h2></div><span class="subtle">UTC</span></div><div id="chart" class="bar-chart" aria-label="Chart of events per day"></div></article>
+          <article class="panel about-panel"><div class="panel-head"><div><div class="eyebrow">THE PIPELINE</div><h2>How does the data get here?</h2></div></div>
             <ol class="steps">
-              <li><span>01</span><div><b>Extract</b><p>שליפת GeoJSON מ־USGS באמצעות Python.</p></div></li>
-              <li><span>02</span><div><b>Validate</b><p>סכמות, מיקום, זמנים, כפילויות ו־Checksums.</p></div></li>
-              <li><span>03</span><div><b>Load</b><p>כתיבה אטומית ל־Raw ולנתונים מעובדים.</p></div></li>
-              <li><span>04</span><div><b>Serve</b><p>PostgreSQL View מאובטח וממשק REST.</p></div></li>
+              <li><span>01</span><div><b>Extract</b><p>Fetch USGS GeoJSON using Python.</p></div></li>
+              <li><span>02</span><div><b>Validate</b><p>Validate schema, location, time, duplicates and checksums.</p></div></li>
+              <li><span>03</span><div><b>Load</b><p>Atomically store raw and curated records.</p></div></li>
+              <li><span>04</span><div><b>Serve</b><p>Expose an access-controlled PostgreSQL view and REST API.</p></div></li>
             </ol>
           </article>
         </section>
-        <section class="panel table-panel"><div class="panel-head"><div><div class="eyebrow">LATEST RECORDS</div><h2>אירועים אחרונים</h2></div><input id="filter" type="search" placeholder="סנן לפי אזור…" aria-label="סנן אירועים לפי אזור" /></div>
-          <div class="table-wrap"><table><thead><tr><th>זמן (UTC)</th><th>אזור</th><th>עוצמה</th><th>עומק (ק״מ)</th></tr></thead><tbody id="rows"><tr><td colspan="4">טוען נתונים…</td></tr></tbody></table></div>
-          <p class="table-note">המפה והנתונים נועדו להדגמת Data Engineering, ואינם מערכת התרעה על רעידות אדמה.</p>
+        <section class="panel table-panel"><div class="panel-head"><div><div class="eyebrow">LATEST RECORDS</div><h2>Recent events</h2></div><input id="filter" type="search" placeholder="Filter by region…" aria-label="Filter events by region" /></div>
+          <div class="table-wrap"><table><thead><tr><th>Time (UTC)</th><th>Region</th><th>Magnitude</th><th>Depth (km)</th></tr></thead><tbody id="rows"><tr><td colspan="4">Loading data…</td></tr></tbody></table></div>
+          <p class="table-note">This educational dashboard does not provide earthquake warnings or other public-safety alerts.</p>
         </section>
       </main>
       <footer><span>DataPulse v0.1.0 · Python + PostgreSQL + Supabase</span><a href="https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php" target="_blank" rel="noopener noreferrer">Data source: USGS</a></footer>

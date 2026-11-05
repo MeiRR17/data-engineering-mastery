@@ -2,8 +2,8 @@
 
 // Never turn API values into HTML. All user-visible data goes through textContent.
 const byId = (id) => document.getElementById(id);
-const num = new Intl.NumberFormat("he-IL");
-const decimal = new Intl.NumberFormat("he-IL", {maximumFractionDigits: 2});
+const num = new Intl.NumberFormat("en-US");
+const decimal = new Intl.NumberFormat("en-US", {maximumFractionDigits: 2});
 let eventRows = [];
 
 async function getJSON(route) {
@@ -26,28 +26,28 @@ function utc(value) {
 function renderFreshness(data) {
   const panel = byId("freshness-panel");
   const states = {
-    fresh: ["נתונים עדכניים ביחס לשעון הדוגמה", "שעת האירוע האחרון נמצאת בתוך חלון העדכניות."],
-    stale: ["אזהרה: המידע מיושן", "אל תפרש את המספרים כנתונים בזמן אמת."],
-    future: ["אזהרה: זמן אירוע עתידי", "יש לבדוק את שעוני המקור וה־Pipeline."],
-    empty: ["אין אירועים להצגה", "ייתכן שה־Pipeline טרם פרסם נתונים."]
+    fresh: ["Data is fresh relative to the sample clock", "The latest event falls within the allowed freshness window."],
+    stale: ["Warning: stale data", "Do not interpret these measurements as live data."],
+    future: ["Warning: event timestamp is in the future", "Check source and pipeline clock synchronization."],
+    empty: ["No events available", "The pipeline may not have published any data yet."]
   };
   const state = states[data.freshness_status] ? data.freshness_status : "empty";
   const values = states[state];
   panel.dataset.state = state;
   setText("freshness-title", values[0]);
-  const age = data.age_hours == null ? "" : " גיל אירוע אחרון: " +
-    decimal.format(data.age_hours) + " שעות.";
+  const age = data.age_hours == null ? "" : " Latest event age: " +
+    decimal.format(data.age_hours) + " hours.";
   const blocked = data.last_quality_status === "blocked"
-    ? " ההרצה האחרונה נחסמה בשער איכות הנתונים." : "";
+    ? " The latest batch failed its quality gate." : "";
   setText("freshness-details", values[1] + age + blocked +
-    " נתונים סינתטיים בלבד; סף לימודי: " + data.freshness_limit_hours + " שעות.");
+    " Synthetic data only; training threshold: " + data.freshness_limit_hours + " hours.");
 }
 
 function renderChart(items) {
   const root = byId("daily-chart");
   root.replaceChildren();
   if (!items.length) {
-    root.textContent = "אין נתונים להציג.";
+    root.textContent = "No data to display.";
     return;
   }
   const days = [...items].reverse();
@@ -74,7 +74,7 @@ function renderQuality(items) {
   const root = byId("quality-runs");
   root.replaceChildren();
   if (!items.length) {
-    root.textContent = "עדיין אין בדיקות איכות.";
+    root.textContent = "No quality checks recorded yet.";
     return;
   }
   for (const item of items) {
@@ -84,14 +84,14 @@ function renderQuality(items) {
     const title = document.createElement("strong");
     title.textContent = item.run_id;
     const details = document.createElement("p");
-    const failures = item.issue_codes.length ? " · סיבות: " + item.issue_codes.join(", ") : "";
-    details.textContent = "תקינות: " + num.format(item.valid_rows) +
-      " · הסגר: " + num.format(item.quarantined_rows) +
-      " · פורסמו: " + num.format(item.published_rows) + failures;
+    const failures = item.issue_codes.length ? " · Reasons: " + item.issue_codes.join(", ") : "";
+    details.textContent = "Valid: " + num.format(item.valid_rows) +
+      " · Quarantined: " + num.format(item.quarantined_rows) +
+      " · Published: " + num.format(item.published_rows) + failures;
     description.append(title, details);
     const state = document.createElement("span");
     state.className = "quality-state" + (item.status === "blocked" ? " blocked" : "");
-    state.textContent = item.status === "passed" ? "עבר" : "נחסם";
+    state.textContent = item.status === "passed" ? "Passed" : "Blocked";
     container.append(description, state);
     root.appendChild(container);
   }
@@ -114,7 +114,7 @@ function renderEvents(filter = "") {
     const tr = document.createElement("tr");
     const td = document.createElement("td");
     td.colSpan = 4;
-    td.textContent = "לא נמצאו אירועים תואמים.";
+    td.textContent = "No matching events found.";
     tr.appendChild(td);
     root.appendChild(tr);
     return;
@@ -132,7 +132,7 @@ function renderEvents(filter = "") {
 async function refresh() {
   byId("refresh").disabled = true;
   byId("system-status").className = "system-status";
-  setText("system-status", "טוען נתונים מה־API המקומי…");
+  setText("system-status", "Loading data from the local API…");
   try {
     const [overview, daily, events, quality] = await Promise.all([
       getJSON("/api/v1/overview"), getJSON("/api/v1/daily?limit=14"),
@@ -151,13 +151,13 @@ async function refresh() {
     renderQuality(quality.items);
     eventRows = events.items;
     renderEvents(byId("filter").value);
-    setText("system-status", "API לקריאה בלבד · מקור: SQLite מקומי · נתונים סינתטיים");
+    setText("system-status", "Read-only API · local SQLite · synthetic data");
   } catch (_error) {
     byId("system-status").className = "system-status error";
-    setText("system-status", "לא ניתן לטעון את נתוני ההדגמה. בדוק את שרת ה־API ונסה שוב.");
+    setText("system-status", "Unable to load the training data. Check the local API server and retry.");
     byId("freshness-panel").dataset.state = "unavailable";
-    setText("freshness-title", "נתונים לא זמינים — אין להסיק מסקנות");
-    setText("freshness-details", "השרת אינו זמין או מחזיר שגיאה. מוצגת הודעת כשל במקום נתונים ישנים.");
+    setText("freshness-title", "Data unavailable — no conclusions can be drawn");
+    setText("freshness-details", "The API is unreachable or returned an error. We show an error instead of misleading stale metrics.");
     setText("event-count", "—");
     setText("magnitude-avg", "—");
     setText("magnitude-known", "—");
@@ -174,4 +174,3 @@ async function refresh() {
 byId("refresh").addEventListener("click", refresh);
 byId("filter").addEventListener("input", (event) => renderEvents(event.target.value));
 refresh();
-
