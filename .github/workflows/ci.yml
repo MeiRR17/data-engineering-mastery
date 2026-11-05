@@ -211,7 +211,7 @@ jobs:
         if: always()
         run: docker rm -f dem-stage11-kafka || true
 
-desktop-vscode-jupyter-e2e:
+  desktop-vscode-jupyter-e2e:
     name: "Real VS Code/Jupyter on OS: ${{ matrix.os }}"
     strategy:
       fail-fast: false
