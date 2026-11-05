@@ -164,7 +164,7 @@ class AssessmentTests(unittest.TestCase):
     def test_exam_generator_refuses_bad_seed(self):
         for seed in (-1,0,True,2**70):
             with self.subTest(seed=seed),self.assertRaises(ValueError):
-                self.exam.generate(seed,self.dir/"exam"+str(seed))
+                self.exam.generate(seed,self.dir/("exam"+str(seed)))
 
     def test_generated_answer_key_reconciles_events(self):
         output=self.dir/"exam"
