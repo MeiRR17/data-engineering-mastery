@@ -38,7 +38,7 @@ try {
         & powershell -NoProfile -File "$root\scripts\install-vscode-extensions.ps1" -VerifyOnly
         if ($LASTEXITCODE -ne 0) { throw "Required extensions are not installed." }
         if (-not (Test-Path ".venv\Scripts\python.exe")) {
-            throw "Missing .venv — run the setup task first."
+            throw "Missing .venv - run the setup task first."
         }
     }
 
