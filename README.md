@@ -6,7 +6,7 @@
 
 The repository contains **14 stages (00–13)**, guided Jupyter notebooks, graded labs, reference implementations for maintainers, independent learner exercises, and a synthetic end-to-end DataPulse capstone. All exercises use reproducible synthetic datasets; real cloud environments are strictly optional and require separate owner authorization.
 
-[**Start learning**](docs/QUICKSTART.en.md) · [**Visual VS Code setup**](docs/VS-CODE-LEARNING-SETUP.md) · [**Course map**](docs/training-manifest.json) · [**Capstone**](capstone/README.md) · [**Final assessment**](docs/FINAL-ASSESSMENT.md)
+[**Start learning**](docs/QUICKSTART.en.md) · [**Visual VS Code setup**](docs/VS-CODE-LEARNING-SETUP.md) · [**Course map**](docs/training-manifest.json) · [**Capstone**](capstone/README.md) · [**Final assessment**](docs/FINAL-ASSESSMENT.md) · [**Private spaced review**](docs/SPACED-REVIEW.md)
 
 ## Start here: read the lessons visually
 

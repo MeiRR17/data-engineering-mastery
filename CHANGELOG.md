@@ -2,6 +2,8 @@
 
 ## [Unreleased] — English-first educational content and visual editing (pending review)
 
+- Added a private, offline stage-level spaced review CLI with 1/3/7/14/30-day cadence, atomic gitignored local state, guarded updates, and 10 focused unit tests (issue #2).
+
 - Built all 14 stage labs 00–13: onboarding, SQL, Python, batch ETL, PostgreSQL migrations/RLS, SCD2 warehouse modeling, dbt, orchestration, quality contracts, read-only Serving, release engineering, PySpark, Kafka, operations/recovery and integrated Capstone.
 - Added independent learner starters, instructor references, adversarial graders, 14 Jupyter notebooks, a comprehensive teaching plan and prerequisite/exit-gate map.
 - Added a 22-test end-to-end Capstone, reproducible artifact/rollback simulation, SQLite backup/restore and incident drills, evidence reviewer tools, exam rubrics and separately generated transfer-exam materials.
