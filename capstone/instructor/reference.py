@@ -6,6 +6,7 @@ artifact staging, promotion and rollback. Zero external network or cloud writes.
 """
 from __future__ import annotations
 
+from contextlib import closing
 from copy import deepcopy
 from datetime import datetime, timezone
 from hashlib import sha256
@@ -114,7 +115,7 @@ def run_pipeline(workspace,*,inject_bad_batch=True,crash_before_stream_commit=Fa
     streaming=root/"stream.sqlite"
     curated=root/"curated.sqlite"
     records=stage11.read_log(REPO/"labs/11-streaming/data/synthetic_log.jsonl")
-    with sqlite3.connect(streaming) as db:
+    with closing(sqlite3.connect(streaming)) as db, db:
         db.execute("pragma foreign_keys=on")
         stage11.consume(db,records,
                         crash_before_commit=crash_before_stream_commit)
@@ -137,7 +138,7 @@ def run_pipeline(workspace,*,inject_bad_batch=True,crash_before_stream_commit=Fa
          "source_updated_at":row[2],"region_code":row[3],"magnitude":row[4]}
         for row in sink_rows
     ]
-    with sqlite3.connect(curated) as db:
+    with closing(sqlite3.connect(curated)) as db, db:
         db.execute("pragma foreign_keys=on")
         contract=stage07.load_contract()
         good=stage07.process_batch(db,"accepted",upstream,CLOCK,contract)
@@ -157,7 +158,8 @@ def run_pipeline(workspace,*,inject_bad_batch=True,crash_before_stream_commit=Fa
         recovered=stage07.process_batch(db,"accepted-replay",upstream,CLOCK,contract)
         if not recovered["passed"] or recovered["published_rows"]!=0:
             raise RuntimeError("recovery replay was not idempotent")
-        # Close writer before backup; all SQL transactions must be committed.
+        # Commit, then explicitly close the writer before backup and file cleanup.
+        # sqlite3.Connection.__exit__ alone does NOT close the connection on Windows.
     overview=stage08.AnalyticsService(curated,clock=lambda:CLOCK).overview()
     if (overview["total_events"]!=4 or overview["known_magnitude_events"]!=3 or
         overview["average_magnitude"]!=2.7 or overview["last_quality_status"]!="passed"):

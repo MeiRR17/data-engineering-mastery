@@ -13,22 +13,23 @@ The repository contains **14 stages (00–13)**, guided Jupyter notebooks, grade
 Do **not** open a `.ipynb` file as raw JSON. This course is designed for **VS Code with rendered Markdown and visual Jupyter notebooks**.
 
 1. **Clone or open this repository** in Visual Studio Code (**File → Open Folder**).
-2. Install the recommended extensions from the notification or follow the [one-page VS Code setup](docs/VS-CODE-LEARNING-SETUP.md): **Python**, **Jupyter**, **Markdown All in One**, **Markdown Preview Enhanced**.
-3. Open this `README.md` or a stage module; press **Cmd+Shift+V** (macOS) / **Ctrl+Shift+V** (Windows/Linux) to view the formatted Markdown, diagrams and tables. Use **Cmd/Ctrl+K, V** for side-by-side preview.
-4. Open [notebooks/00_data_journey.ipynb](notebooks/00_data_journey.ipynb): it should display notebook **cells**, not JSON. Select a Python kernel when prompted.
-5. Run the reference exercise once to verify that the lab itself works:
+2. **Run the real computer setup and test:** open **Terminal → Run Task → Course: Set up and verify this computer**. This installs the extensions, creates a local Python environment, executes three notebooks through a real Jupyter kernel and runs local CI. No cloud account is needed.
+3. Install the recommended extensions from the notification or follow the [one-page VS Code setup](docs/VS-CODE-LEARNING-SETUP.md): **Python**, **Jupyter**, **Markdown All in One**, **Markdown Preview Enhanced**.
+4. Open this `README.md` or a stage module; press **Cmd+Shift+V** (macOS) / **Ctrl+Shift+V** (Windows/Linux) to view the formatted Markdown, diagrams and tables. Use **Cmd/Ctrl+K, V** for side-by-side preview.
+5. Open [notebooks/00_data_journey.ipynb](notebooks/00_data_journey.ipynb): it should display notebook **cells**, not JSON. Select a Python kernel when prompted.
+6. Run the reference exercise once to verify that the lab itself works:
 
 ~~~bash
 python3 labs/00-onboarding/grade.py --reference
 ~~~
 
-6. Implement the **separate learner starter**, intentionally unfinished at first:
+7. Implement the **separate learner starter**, intentionally unfinished at first:
 
 ~~~bash
 python3 labs/00-onboarding/grade.py
 ~~~
 
-7. Explain the test result, add a new failure case, and submit evidence in your own branch. Then continue to [Stage 01](curriculum/modules/01.md).
+8. Explain the test result, add a new failure case, and submit evidence in your own branch. Then continue to [Stage 01](curriculum/modules/01.md).
 
 **Easiest inside VS Code:** open **Terminal → Run Task → Course: Install VS Code Markdown and Jupyter extensions**. The task uses PowerShell on Windows and Bash on macOS/Linux.
 

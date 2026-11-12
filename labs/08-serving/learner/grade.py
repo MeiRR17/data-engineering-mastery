@@ -4,6 +4,7 @@
 before implementing the starter is expected to fail.
 """
 from __future__ import annotations
+from contextlib import closing
 
 import argparse
 import hashlib
@@ -36,7 +37,7 @@ class RegionMetricsTests(unittest.TestCase):
         self.temp.cleanup()
 
     def _insert(self, event_id, magnitude):
-        with sqlite3.connect(self.database) as conn:
+        with closing(sqlite3.connect(self.database)) as conn, conn:
             conn.execute("""
                 INSERT INTO curated_events
                   (event_id, observed_at, source_updated_at, region_code,

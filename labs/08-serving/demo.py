@@ -1,6 +1,7 @@
 """Create a disposable, synthetic Stage 08 database from the Stage 07 oracle."""
 from __future__ import annotations
 
+from contextlib import closing
 from copy import deepcopy
 from datetime import datetime, timezone
 from importlib.util import module_from_spec, spec_from_file_location
@@ -29,7 +30,8 @@ def create_demo_database(path: Path):
     oracle = load_stage07()
     rows = json.loads((STAGE07 / "data/synthetic_events.json").read_text(encoding="utf8"))
     contract = oracle.load_contract()
-    with sqlite3.connect(path) as db:
+    # Commit the fixture and close the SQLite handle before Windows cleanup.
+    with closing(sqlite3.connect(path)) as db, db:
         db.execute("PRAGMA foreign_keys=ON")
         accepted = oracle.process_batch(db, "accepted-demo", rows, LAB_CLOCK, contract)
         if not accepted["passed"] or accepted["published_rows"] != 4:
