@@ -1,0 +1,5 @@
+event_id,event_date,magnitude,quality_band
+synthetic-001,2026-01-01,2.4,reviewed
+synthetic-002,2026-01-01,3.1,reviewed
+synthetic-003,2026-01-02,4.2,pending
+synthetic-004,2026-01-02,2.9,pending
