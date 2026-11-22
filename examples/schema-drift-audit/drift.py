@@ -81,6 +81,7 @@ def profile_csv(path: Path) -> dict:
     rows = 0
     try:
         with path.open("r", encoding="utf-8-sig", newline="") as handle:
+            csv.field_size_limit(MAX_FIELD_BYTES)
             reader = csv.reader(handle, strict=True)
             header = next(reader, None)
             if not header:
@@ -173,6 +174,12 @@ def compare(baseline: dict, candidate: dict, threshold: float,
             add("breaking" if strict_additions else "warning", "added_column", column,
                 "Candidate contains a column not in the baseline")
 
+    shared_old_order = [name for name in baseline["column_order"] if name in new]
+    shared_new_order = [name for name in candidate["column_order"] if name in old]
+    if shared_old_order != shared_new_order:
+        add("warning", "column_order_change", "(shared columns)",
+            "Shared columns changed order; position-based CSV readers may break")
+
     count = Counter(entry["severity"] for entry in findings)
     return {
         "schema_version": 1,
@@ -210,7 +217,9 @@ def markdown(report: dict) -> str:
     ]
     for f in report["findings"]:
         description = f["description"].replace("|", r"\|")
-        column = f["column"].replace("|", r"\|").replace("\n", " ")
+        column = (f["column"].replace("&", "&amp;").replace("<", "&lt;")
+                  .replace(">", "&gt;").replace("|", r"\|")
+                  .replace("\n", " "))
         lines.append(
             f"| {f['severity']} | {f['rule']} | {column} | {description} |"
         )
