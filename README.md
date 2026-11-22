@@ -78,6 +78,10 @@ The progression is **competency-based, not time-based**. The [teaching plan](doc
 
 Each major topic includes a bridge back to computer science: [algorithms](curriculum/cs-bridges/algorithms.md), [databases](curriculum/cs-bridges/databases.md), [networking](curriculum/cs-bridges/networking.md), [operating systems](curriculum/cs-bridges/operating-systems.md), [distributed systems](curriculum/cs-bridges/distributed-systems.md), [security](curriculum/cs-bridges/security.md), [statistics](curriculum/cs-bridges/statistics.md) and [architecture](curriculum/cs-bridges/architecture.md). Optional [breadth quests](docs/BREADTH-FOUNDATIONS.md) build confidence beyond any individual tool.
 
+## Optional offline CSV schema-drift audit
+
+The separate [Stage 07 transfer project](examples/schema-drift-audit/README.md) compares two local CSV files, reports changes to inferred types, missingness and column order, and provides synthetic warning/breaking fixtures. It uses only the Python standard library, prints aggregate results, and does not affect any graded learner exercises or production data.
+
 ## Running the code
 
 The **Light path** requires Python 3.11+ and the standard library; begin here on any ordinary computer. The **full local path** adds Docker/PostgreSQL, dbt, Java 17/PySpark and single-broker Kafka exercises when your machine supports them. No GPU is required.

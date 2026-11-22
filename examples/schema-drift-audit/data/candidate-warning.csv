@@ -1,0 +1,5 @@
+event_id,event_date,magnitude,quality_band,source_batch
+synthetic-001,2026-01-01,2.4,reviewed,fixture-B
+synthetic-002,2026-01-01,,reviewed,fixture-B
+synthetic-003,2026-01-02,4.2,pending,fixture-B
+synthetic-004,2026-01-02,2.9,pending,fixture-B
